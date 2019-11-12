@@ -29,11 +29,11 @@ const init = async () => {
   // 注册路由
   server.route([
     // 创建一个简单的hello hapi接口
-    ...routesHelloHapi,
-    ...routesShops,
+    // ...routesHelloHapi,
+    // ...routesShops,
     ...routesOrders,
     ...routesUsers,
-    ...routesGoods
+    // ...routesGoods
   ]);
   // 启动服务
   await server.start();
