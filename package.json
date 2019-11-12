@@ -15,6 +15,7 @@
     "axios": "^0.19.0",
     "cheerio": "^1.0.0-rc.3",
     "env2": "^2.2.2",
+    "express": "^4.17.1",
     "hapi": "^16.6.3",
     "hapi-auth-jwt2": "^7.4.1",
     "hapi-pagination": "^1.22.0",
