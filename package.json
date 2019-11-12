@@ -2,8 +2,8 @@
   "name": "vote",
   "version": "1.0.0",
   "description": "",
-  // "github": "https://github.com/yeshengfei/hapi-tutorial.git",
-  // "email": "ye.shengfei@qq.com",
+  "github": "",
+  "email": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
