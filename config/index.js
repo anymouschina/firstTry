@@ -4,7 +4,7 @@ const config = {
   // host: env.HOST,
   // port: env.PORT,
   // host:'127.0.0.1',
-  port:80,
+  port:3000,
   jwtSecret:process.env.JWT_SECRET,
   wxSecret:'ca008a164dfa01913a6ec8edbcbe2cf7',
   wxAppid:'wx536dfc5d38954079'
