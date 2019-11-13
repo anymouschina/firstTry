@@ -27,6 +27,7 @@ const decryptData = (encryptedData, iv, sessionKey, appid) => {
   }
 
   // 返回解密后的用户数据
+  console.log(decoded,'解密后数据')
   return decoded;
 };
 

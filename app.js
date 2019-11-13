@@ -2,11 +2,8 @@ const Hapi = require('hapi');
 const hapiAuthJWT2 = require('hapi-auth-jwt2');
 require('env2')('./.env');
 const config = require('./config');
-const routesHelloHapi = require('./routes/hello-hapi');
-const routesShops = require('./routes/shops');
-const routesOrders = require('./routes/orders');
 const routesUsers = require('./routes/users');
-const routesGoods = require('./routes/goods')
+const routesVotings = require('./routes/votings');
 const pluginHapiSwagger = require('./plugins/hapi-swagger');
 const pluginHapiPagination = require('./plugins/hapi-pagination');
 const pluginHapiAuthJWT2 = require('./plugins/hapi-auth-jwt2');
@@ -29,11 +26,8 @@ const init = async () => {
   // 注册路由
   server.route([
     // 创建一个简单的hello hapi接口
-    // ...routesHelloHapi,
-    // ...routesShops,
-    ...routesOrders,
     ...routesUsers,
-    // ...routesGoods
+    ...routesVotings
   ]);
   // 启动服务
   await server.start();

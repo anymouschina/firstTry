@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const Sequelize = require('sequelize');
+// const Sequelize = require('sequelize');
+const mongoose = require('mongoose')
 const configs = require('../config/config.js');
 
 const basename = path.basename(__filename);
@@ -11,15 +12,14 @@ const config = {
     underscored: true,
   },
 };
+mongoose.connect('mongodb://localhost:27017/junmoxiao');
+const con = mongoose.connection;
+con.on('error', console.error.bind(console, '连接数据库失败'));
+con.once('open',()=>{
+    //成功连接
+    console.log('连接成功')
+})
 const db = {};
-let sequelize = null;
-
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-
 fs
   .readdirSync(__dirname)
   .filter((file) => {
@@ -27,17 +27,11 @@ fs
     return result;
   })
   .forEach((file) => {
-    const model = sequelize.import(path.join(__dirname, file));
-    db[model.name] = model;
+    const model = require(path.join(__dirname, file))(mongoose)
+    console.log(file.slice(0,file.length-3),'载入成功')
+    db[file.slice(0,file.length-3)] = model;
   });
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);//如果定义了关联关系则使用该方法
-  }
-});
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+db.mongoose = mongoose;
 
 module.exports = db;

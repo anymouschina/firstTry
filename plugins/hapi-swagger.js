@@ -16,10 +16,11 @@ module.exports = [
       // 定义接口以tags属性定义为分组
       grouping: 'tags',
       tags: [
-        { name: 'tests', description: '测试相关' },
+        // { name: 'tests', description: '测试相关' },
         // { name: 'shops', description: '店铺、商品相关' },
-        { name: 'orders', description: '操作命令相关' },
+        // { name: 'orders', description: '操作命令相关' },
         { name: 'users', description:'用户'},
+        { name: 'votings', description:'投票相关'},
         // { name: 'goods', description:'商品操作相关'}
       ],
     },

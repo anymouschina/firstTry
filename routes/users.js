@@ -33,7 +33,7 @@ module.exports = [{
     const appid = config.wxAppid; // 你的小程序 appid
     const secret = config.wxSecret; // 你的小程序 appsecret
     const { code, encryptedData, iv } = req.payload;
-    
+    console.log(req.payload,'用户登录了')
     const response = await axios({
       url: 'https://api.weixin.qq.com/sns/jscode2session',
       method: 'GET',
@@ -47,22 +47,38 @@ module.exports = [{
     // response 中返回 openid 与 session_key
     const { openid, session_key: sessionKey } = response.data;
     // 基于 openid 查找或创建一个用户
-  const user = await models.users.findOrCreate({
-    where: { open_id: openid },
-  });
+  const user = await models.users.find(
+     { open_id: openid },
+  );
+  
   // decrypt 解码用户信息
+  
   const userInfo = decryptData(encryptedData, iv, sessionKey, appid);
-  // 更新 user 表中的用户的资料信息
-  await models.users.update({
-    nick_name: userInfo.nickName,
-    gender: userInfo.gender,
-    avatar_url: userInfo.avatarUrl,
-    open_id: openid,
-    session_key: sessionKey,
-  }, {
-    where: { open_id: openid },
-  });
-
+  if(user.length===0){
+    console.log('???走到这里了')
+    const userModel = new models.users({
+      nick_name: userInfo.nickName,
+      gender: userInfo.gender,
+      avatar_url: userInfo.avatarUrl,
+      open_id: openid,
+      session_key: sessionKey,
+    })
+    console.log('???')
+    userModel.save(function (err) {
+      if (err) console.log(err)
+      // saved!
+      else console.log('用户未在库中找到，新建成功')
+    })
+  }else{
+    // 更新 user 表中的用户的资料信息
+    models.users.findOneAndUpdate({open_id:user[0].open_id},{
+      nick_name: userInfo.nickName,
+      gender: userInfo.gender,
+      avatar_url: userInfo.avatarUrl,
+      open_id: openid,
+      session_key: sessionKey,
+    })
+  }
   // 签发 jwt
   const generateJWT = (jwtInfo) => {
     const payload = {
