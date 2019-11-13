@@ -10,19 +10,20 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
         console.log(request.query)
-     const list = await models.votings.find()
-     reply({status:200,data:list})
-    //   const { rows: results, count: totalCount } = await models.votings.
-    //   findAndCountAll({
-    //     attributes: [
-    //       'id',
-    //       'name',
-    //     ],
-    //     limit: request.query.limit,
-    //     offset: (request.query.page - 1) * request.query.limit,
-    //   });
-      // 开启分页的插件，返回的数据结构里，需要带上result与totalCount两个字段
-    //   reply({ results, totalCount });
+     const list = await models.votings.find().skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     if(request.query.open_id){
+        const userOrderList = await models.votingOrders.find({open_id:request.query.open_id})
+        const orderNameList = userOrderList.map(item=>item.name)
+        const newMap = list.map(item=>{ 
+            return {
+                ...item._doc,
+                state:orderNameList.indexOf(item.name)>-1
+            }
+         })
+         reply({status:200,data:newMap})
+     }else{
+        reply({status:200,data:list})
+     }
     },
     config: {
       tags: ['api', GROUP_NAME],
@@ -30,6 +31,7 @@ module.exports = [
       description: '获取列表',
       validate: {
         query: {
+          open_id:Joi.string().description('用户唯一标识/暂非必填'),
           ...paginationDefine,
         },
       },
@@ -40,13 +42,18 @@ module.exports = [
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
      const {name,left,right} = request.payload;
-     const voting = new models.votings({
-        name,left,right
-     })
-     voting.save((err)=>{
-         if(err)reply({status:500,error:err})
-         else reply({status:200,message:'新建主题成功'})
-     })
+     const list = await models.votings.find({name})
+     if(list.length>0){
+        reply({status:201,message:'已存在该类投票'}) 
+     }else{
+        const voting = new models.votings({
+            name,left,right
+         })
+         voting.save((err)=>{
+             if(err)reply({status:500,error:err})
+             else reply({status:200,message:'新建主题成功'})
+         })
+     }
     },
     config: {
       tags: ['api', GROUP_NAME],
@@ -66,7 +73,7 @@ module.exports = [
     path: `/${GROUP_NAME}/choosed`,
     handler: async (request, reply) => {
      const {user,open_id,choosed,name} = request.payload
-     const voting = new models.voting({
+     const voting = await new models.votingOrders({
         user,//用户名
         open_id,//openid
         choosed,//选择 0 1
@@ -76,7 +83,7 @@ module.exports = [
      voting.save((err)=>{
          if(err)reply({status:500,error:err})
          else {
-             models.votings.findOneAndUpdate({name}, {$inc:{left:choosed===0?1:0,right:choosed===1?1:0}},(err)=>{
+             models.votings.where({name}).updateOne({$inc:{left:choosed===0?1:0,right:choosed===1?1:0}},(err)=>{
                  if(err)reply({status:500,error:err})
                  else reply({status:200,message:'投票成功'})
              })
@@ -91,7 +98,7 @@ module.exports = [
         payload: {
             user: Joi.string().required().description('用户名'),//用户名
             open_id:Joi.string().required().description('用户open_id'),//openid
-            choosed: Joi.string().required().description('选择'),//选择 0 1
+            choosed: Joi.number().required().description('选择'),//选择 0 1
             name:Joi.string().required().description('主题'),//投票主题
         },
       },

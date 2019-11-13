@@ -1,6 +1,6 @@
 //投票
 module.exports = (mongoose) => mongoose.model(
-    'voting',
+    'votingOrder',
     mongoose.Schema({
       user: String,//用户名
       open_id:String,//openid
