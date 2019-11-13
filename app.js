@@ -11,10 +11,9 @@ const pluginHapiAuthJWT2 = require('./plugins/hapi-auth-jwt2');
 const server = new Hapi.Server();
 // 配置服务器启动host与端口
 server.connection({
-  port: config.port,
+  port: 80,
   host: config.host,
 });
-
 const init = async () => {
   // 注册插件
   await server.register([

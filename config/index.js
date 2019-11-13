@@ -3,7 +3,7 @@ const { env } = process;
 const config = {
   // host: env.HOST,
   // port: env.PORT,
-  host:'0.0.0.0',
+  host:'127.0.0.1',
   port:3000,
   // jwtSecret:process.env.JWT_SECRET,
   jwtSecret:'junmoxiao',
