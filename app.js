@@ -12,7 +12,7 @@ const server = new Hapi.Server();
 // 配置服务器启动host与端口
 server.connection({
   port: 80,
-  host: config.host,
+  host: '0.0.0.0',
 });
 const init = async () => {
   // 注册插件
