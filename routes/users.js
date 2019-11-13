@@ -30,9 +30,9 @@ module.exports = [{
   method: 'POST',
   path: `/${GROUP_NAME}/wxLogin`,
   handler: async (req, reply) => {
-    const appid = config.wxAppid; // 你的小程序 appid
-    const secret = config.wxSecret; // 你的小程序 appsecret
-    const { code, encryptedData, iv } = req.payload;
+    // const appid = config.wxAppid; // 你的小程序 appid
+    // const secret = config.wxSecret; // 你的小程序 appsecret
+    const { code, encryptedData, iv ,appid,secret} = req.payload;
     console.log(req.payload,'用户登录了')
     const response = await axios({
       url: 'https://api.weixin.qq.com/sns/jscode2session',
@@ -99,6 +99,8 @@ module.exports = [{
         code: Joi.string().required().description('微信用户登录的临时code'),
         encryptedData: Joi.string().required().description('微信用户信息encryptedData'),
         iv: Joi.string().required().description('微信用户信息iv'),
+        appid:Joi.string().required().description('你的小程序appid'),
+        secret:Joi.string().required().description('你的小程序secret')
       },
     },
   },
