@@ -11,11 +11,7 @@ const pluginHapiAuthJWT2 = require('./plugins/hapi-auth-jwt2');
 const server = new Hapi.Server();
 // 配置服务器启动host与端口
 server.connection({
-  port: 80,
-  host: '127.0.0.1',
-});
-server.connection({
-  port: 443,
+  port: 3000,
   host: '127.0.0.1',
 });
 const init = async () => {
