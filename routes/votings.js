@@ -19,7 +19,7 @@ module.exports = [
             return {
                 ...item._doc,
                 state:choosedIndex > -1,
-                choosed:choosedIndex >-1?userOrderList[choosedIndex]:null
+                choosed:choosedIndex >-1?userOrderList[choosedIndex].choosed:null
             }
          })
          reply({status:200,data:newMap})
