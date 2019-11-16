@@ -9,6 +9,7 @@ module.exports = [
   {
     register: hapiSwagger,
     options: {
+      'schemes': ['https'],
       info: {
         title: '接口文档',
         version: packageModule.version,
