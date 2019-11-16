@@ -5,5 +5,6 @@ module.exports = (mongoose) => mongoose.model(
       name:String,//主题分类
       left:{type: Number, default: 0},//支持0的总数
       right:{type: Number, default: 0},//支持1的总数
+      create_data:{type:Date,default:new Date().now}
     })
   );

@@ -15,9 +15,11 @@ module.exports = [
         const userOrderList = await models.votingOrders.find({open_id:request.query.open_id})
         const orderNameList = userOrderList.map(item=>item.name)
         const newMap = list.map(item=>{ 
+          let choosedIndex = orderNameList.indexOf(item.name)
             return {
                 ...item._doc,
-                state:orderNameList.indexOf(item.name)>-1
+                state:choosedIndex > -1,
+                choosed:choosedIndex >-1?userOrderList[choosedIndex]:null
             }
          })
          reply({status:200,data:newMap})
@@ -58,7 +60,7 @@ module.exports = [
     config: {
       tags: ['api', GROUP_NAME],
       auth:false,
-      description: '发起投票',
+      description: '新建投票主题',
       validate: {
         payload: {
             name: Joi.string().required().description('投票主题名'),
@@ -93,7 +95,7 @@ module.exports = [
     config: {
       tags: ['api', GROUP_NAME],
       auth:false,
-      description: '新建投票主题',
+      description: '选择其中一方',
       validate: {
         payload: {
             user: Joi.string().required().description('用户名'),//用户名
