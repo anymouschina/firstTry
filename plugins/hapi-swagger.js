@@ -10,7 +10,7 @@ module.exports = [
     register: hapiSwagger,
     options: {
       'schemes': ['https'],
-      'host': 'saberc8.cn',
+      'host': 'www.saberc8.cn',
       info: {
         title: '接口文档',
         version: packageModule.version,
