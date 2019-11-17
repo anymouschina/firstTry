@@ -10,7 +10,7 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
         console.log(request.query)
-     const list = await models.votings.find().skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     const list = await models.votings.find().sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(request.query.open_id&&request.query.open_id!==""&&(await models.votingOrders.find({open_id:request.query.open_id})).length>0){
         const userOrderList = await models.votingOrders.find({open_id:request.query.open_id})
         const orderNameList = userOrderList.map(item=>item.name)
