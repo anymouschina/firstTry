@@ -18,12 +18,29 @@ module.exports = [
           let choosedIndex = orderNameList.indexOf(item.name)
             return {
                 ...item._doc,
-                choosed:choosedIndex >-1?userOrderList[choosedIndex].choosed:null
+                choosed:choosedIndex >-1?userOrderList[choosedIndex].choosed:null,
+                percent:((left,right)=>{
+                  if(left===0&&right!==0)return 0;
+                  else if(left===0&&right===0) return 50;
+                  else if(left!==0&&right===0)return 100;
+                  else return Number(left/(left+right)).toFixed(1);
+                })(item._doc.left,item._doc.right)
             }
          })
          reply({status:200,data:newMap})
      }else{
-        reply({status:200,data:list})
+        const newMap = list.map(item=>{ 
+            return {
+                ...item._doc,
+                percent:((left,right)=>{
+                  if(left===0&&right!==0)return 0;
+                  else if(left===0&&right===0) return 50;
+                  else if(left!==0&&right===0)return 100;
+                  else return Number(left/(left+right)).toFixed(1);
+                })(item._doc.left,item._doc.right)
+            }
+         })
+        reply({status:200,data:newMap})
      }
     },
     config: {
