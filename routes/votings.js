@@ -18,7 +18,6 @@ module.exports = [
           let choosedIndex = orderNameList.indexOf(item.name)
             return {
                 ...item._doc,
-                state:choosedIndex > -1,
                 choosed:choosedIndex >-1?userOrderList[choosedIndex].choosed:null
             }
          })
