@@ -57,10 +57,13 @@ module.exports = [{
     };
     return JWT.sign(payload, config.jwtSecret);
   };
-  const replyJWT = (userId)=>{
-    reply(generateJWT({
-      userId: userId,
-    }))
+  const replyJWT = (userId,OPEN_ID)=>{
+    reply({SESSION_KEY:generateJWT({
+      userId: userId
+    }),
+    OPEN_ID:OPEN_ID
+  }
+    )
   }
   await models.users.find(
      { open_id: openid },
@@ -80,7 +83,7 @@ module.exports = [{
         // saved!
         else {
           console.log('用户未在库中找到，新建成功',res)
-          replyJWT(res._id)
+          replyJWT(res._id,openid)
       }
       })
     }else{
@@ -92,7 +95,7 @@ module.exports = [{
         session_key: sessionKey,
       })
       console.log('用户在库中找到，登录',userResponse)
-      replyJWT(userResponse[0]._id);
+      replyJWT(userResponse[0]._id,openid);
     }
   })
  

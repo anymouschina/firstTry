@@ -93,9 +93,9 @@ module.exports = [
     method: 'POST',
     path: `/${GROUP_NAME}/choosed`,
     handler: async (request, reply) => {
-     const {user,open_id,choosed,name} = request.payload
+     const {open_id,choosed,name} = request.payload
      const voting = await new models.votingOrders({
-        user,//用户名
+        // user,//用户名
         open_id,//openid
         choosed,//选择 0 1
         name,//投票主题
@@ -117,7 +117,7 @@ module.exports = [
       description: '选择其中一方',
       validate: {
         payload: {
-            user: Joi.string().required().description('用户名'),//用户名
+            // user: Joi.string().required().description('用户名'),//用户名
             open_id:Joi.string().required().description('用户open_id'),//openid
             choosed: Joi.number().required().description('选择'),//选择 0 1
             name:Joi.string().required().description('主题'),//投票主题
