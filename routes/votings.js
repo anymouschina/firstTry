@@ -32,6 +32,7 @@ module.exports = [
         const newMap = list.map(item=>{ 
             return {
                 ...item._doc,
+                choosed:null,
                 percent:((left,right)=>{
                   if(left===0&&right!==0)return 0;
                   else if(left===0&&right===0) return 50;
