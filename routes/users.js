@@ -47,49 +47,55 @@ module.exports = [{
     // response 中返回 openid 与 session_key
     const { openid, session_key: sessionKey } = response.data;
     // 基于 openid 查找或创建一个用户
-  const user = await models.users.find(
-     { open_id: openid },
-  );
-  
-  // decrypt 解码用户信息
-  
+  let user = [] ;
   const userInfo = decryptData(encryptedData, iv, sessionKey, appid);
-  if(user.length===0){
-    console.log('???走到这里了')
-    const userModel = new models.users({
-      nick_name: userInfo.nickName,
-      gender: userInfo.gender,
-      avatar_url: userInfo.avatarUrl,
-      open_id: openid,
-      session_key: sessionKey,
-    })
-    console.log('???')
-    userModel.save(function (err) {
-      if (err) console.log(err)
-      // saved!
-      else console.log('用户未在库中找到，新建成功')
-    })
-  }else{
-    // 更新 user 表中的用户的资料信息
-    models.users.findOneAndUpdate({open_id:user[0].open_id},{
-      nick_name: userInfo.nickName,
-      gender: userInfo.gender,
-      avatar_url: userInfo.avatarUrl,
-      open_id: openid,
-      session_key: sessionKey,
-    })
-  }
-  // 签发 jwt
-  const generateJWT = (jwtInfo) => {
+   // 签发 jwt
+   const generateJWT = (jwtInfo) => {
     const payload = {
       userId: jwtInfo.userId,
       exp: Math.floor(new Date().getTime() / 1000) + 7 * 24 * 60 * 60,
     };
     return JWT.sign(payload, config.jwtSecret);
   };
-  reply(generateJWT({
-    userId: user[0].id,
-  }));
+  const replyJWT = (userId)=>{
+    reply(generateJWT({
+      userId: userId,
+    }))
+  }
+  await models.users.find(
+     { open_id: openid },
+  ).then(userResponse=>{
+    if(userResponse.length===0){
+      console.log('???走到这里了')
+      const userModel = new models.users({
+        nick_name: userInfo.nickName,
+        gender: userInfo.gender,
+        avatar_url: userInfo.avatarUrl,
+        open_id: openid,
+        session_key: sessionKey,
+      })
+      console.log('???')
+    userModel.save(function (err,res) {
+        if (err) console.log(err)
+        // saved!
+        else {
+          console.log('用户未在库中找到，新建成功',res)
+          replyJWT(res._id)
+      }
+      })
+    }else{
+      models.users.findOneAndUpdate({open_id:openid},{
+        nick_name: userInfo.nickName,
+        gender: userInfo.gender,
+        avatar_url: userInfo.avatarUrl,
+        open_id: openid,
+        session_key: sessionKey,
+      })
+      console.log('用户在库中找到，登录',userResponse)
+      replyJWT(userResponse[0]._id);
+    }
+  })
+ 
 },
   config: {
     auth: false, // 不需要用户验证
