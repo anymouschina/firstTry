@@ -42,13 +42,13 @@ module.exports = [
     method: 'POST',
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
-     const {name,left,right} = request.payload;
+     const {name,left,right,leftName,rightName} = request.payload;
      const list = await models.votings.find({name})
      if(list.length>0){
         reply({status:201,message:'已存在该类投票'}) 
      }else{
         const voting = new models.votings({
-            name,left,right
+            name,left,right,leftName,rightName
          })
          voting.save((err)=>{
              if(err)reply({status:500,error:err})
@@ -64,7 +64,9 @@ module.exports = [
         payload: {
             name: Joi.string().required().description('投票主题名'),
             left:Joi.number().description('赞成左方的数量,默认为0'),
-            right:Joi.number().description('赞成右方的数量,默认为0')
+            right:Joi.number().description('赞成右方的数量,默认为0'),
+            leftName:Joi.string().required().description('左侧选项名'),
+            rightName:Joi.string().required().description('右侧选项名')
         },
       },
     },
