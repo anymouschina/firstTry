@@ -23,7 +23,7 @@ module.exports = [
                   if(left===0&&right!==0)return 0;
                   else if(left===0&&right===0) return 50;
                   else if(left!==0&&right===0)return 100;
-                  else return Number(left/(left+right)).toFixed(1);
+                  else return Number(left*100/(left+right)).toFixed(1);
                 })(item._doc.left,item._doc.right)
             }
          })
