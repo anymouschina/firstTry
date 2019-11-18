@@ -89,7 +89,7 @@ module.exports = [{
         appid,
         secret,
         js_code: code,
-        grant_type: 'authorization_code',
+        // grant_type: 'authorization_code',
       }
     });
     console.log(response,'???')
