@@ -1,11 +1,29 @@
 const JWT = require('jsonwebtoken');
 const config = require('../config');
+const { paginationDefine } = require('../utils/router-helper');
 const axios = require('axios');
 const GROUP_NAME = 'users';
 const Joi = require('joi')
 const models = require('../models')
 const decryptData = require('../utils/decrypt-data');
 module.exports = [{
+  method: 'GET',
+  path: `/${GROUP_NAME}/findUserList`,
+  handler: async (request, reply) => {
+    const list = await models.users.find().sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+    reply({status:200,data:list});
+  },
+  config: {
+    tags: ['api', GROUP_NAME],
+    description: '获取用户列表',
+    auth: false, // 约定此接口不参与 JWT 的用户验证，会结合下面的 hapi-auth-jwt 来使用
+    validate: {
+      query: {
+        ...paginationDefine,
+      },
+    }
+  },
+},{
   method: 'POST',
   path: `/${GROUP_NAME}/createJWT`,
   handler: async (request, reply) => {

@@ -6,5 +6,8 @@ module.exports = (mongoose) => mongoose.model(
       gender:Number,
       open_id: String,
       session_key: String,
-    })
+    },{timestamps: {
+      createdAt: 'created',
+      updatedAt: 'updated'
+  }})
   );
