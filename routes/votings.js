@@ -26,7 +26,7 @@ module.exports = [
                 ...item._doc,
                 choosed:choosedIndex >-1?userOrderList[choosedIndex].choosed:null,
                 leftPercent:leftPercenter,
-                rightPercent:Number(100-leftPercenter).toFixed(1)
+                rightPercent:100-leftPercenter
             }
          })
          reply({status:200,data:newMap})
@@ -42,7 +42,7 @@ module.exports = [
                 ...item._doc,
                 choosed:null,
                 leftPercent:leftPercenter,
-                rightPercent:Number(100-leftPercenter).toFixed(1)
+                rightPercent:100-leftPercenter
             }
          })
         reply({status:200,data:newMap})
