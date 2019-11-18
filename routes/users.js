@@ -95,6 +95,7 @@ module.exports = [{
     console.log(response,'???')
     // response 中返回 openid 与 session_key
     const { openid, session_key: sessionKey } = response.data;
+    console.log(openid,sessionKey,'返回的数据')
     // 基于 openid 查找或创建一个用户
   const userInfo = decryptData(encryptedData, iv, sessionKey, appid);
    // 签发 jwt
@@ -135,6 +136,7 @@ module.exports = [{
       }
       })
     }else{
+      console.log('用户找到了',openid)
       models.users.findOneAndUpdate({open_id:openid},{
         nick_name: userInfo.nickName,
         gender: userInfo.gender,
