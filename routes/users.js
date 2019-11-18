@@ -18,8 +18,9 @@ module.exports = [{
     limit(request.query.limit);
     reply({
       status:200,
-      data:data,
-      total:total})
+      total:total,
+      data:data
+      })
   },
   config: {
     tags: ['api', GROUP_NAME],
