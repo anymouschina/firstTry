@@ -10,6 +10,7 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
         console.log(request.query)
+     const total = await models.votings.find().count();
      const list = await models.votings.find().sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(request.query.open_id&&request.query.open_id!==""&&(await models.votingOrders.find({open_id:request.query.open_id})).length>0){
         const userOrderList = await models.votingOrders.find({open_id:request.query.open_id})
@@ -29,7 +30,10 @@ module.exports = [
                 rightPercent:100-leftPercenter
             }
          })
-         reply({status:200,data:newMap})
+         reply({
+          status:200,
+          total:total,
+          data:newMap})
      }else{
         const newMap = list.map(item=>{ 
           let leftPercenter = ((left,right)=>{
@@ -45,7 +49,7 @@ module.exports = [
                 rightPercent:100-leftPercenter
             }
          })
-        reply({status:200,data:newMap})
+        reply({status:200,total:total,data:newMap})
      }
     },
     config: {
