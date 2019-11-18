@@ -12,8 +12,8 @@ module.exports = [{
   handler: async (request, reply) => {
     const list = await models.users.find()
     reply({status:200,
-      data:list.sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit),
-      total:list.count()});
+      data:await list.sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit),
+      total:await list.find().count()});
   },
   config: {
     tags: ['api', GROUP_NAME],
