@@ -31,16 +31,18 @@ module.exports = [
          })
          reply({status:200,data:newMap})
      }else{
+      let leftPercenter = ((left,right)=>{
+        if(left===0&&right!==0)return 0;
+        else if(left===0&&right===0) return 50;
+        else if(left!==0&&right===0)return 100;
+        else return Number(left*100/(left+right)).toFixed(1);
+      })(item._doc.left,item._doc.right)
         const newMap = list.map(item=>{ 
             return {
                 ...item._doc,
                 choosed:null,
-                percent:((left,right)=>{
-                  if(left===0&&right!==0)return 0;
-                  else if(left===0&&right===0) return 50;
-                  else if(left!==0&&right===0)return 100;
-                  else return Number(left*100/(left+right)).toFixed(1);
-                })(item._doc.left,item._doc.right)
+                leftPercent:leftPercenter,
+                rightPercent:Number(100-leftPercenter).toFixed(1)
             }
          })
         reply({status:200,data:newMap})
