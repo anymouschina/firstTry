@@ -81,7 +81,7 @@ module.exports = [{
     // const secret = config.wxSecret; // 你的小程序 appsecret
     const {appid,secret} = sercretObj[req.payload.from];
     const { code, encryptedData, iv } = req.payload;
-    console.log(req.payload,'用户登录了')
+    console.log(req.payload,appid,secret,'用户登录了')
     const response = await axios({
       url: 'https://api.weixin.qq.com/sns/jscode2session',
       method: 'GET',
@@ -92,6 +92,7 @@ module.exports = [{
         grant_type: 'authorization_code',
       }
     });
+    console.log(response,'???')
     // response 中返回 openid 与 session_key
     const { openid, session_key: sessionKey } = response.data;
     // 基于 openid 查找或创建一个用户
