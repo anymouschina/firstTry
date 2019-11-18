@@ -10,8 +10,10 @@ module.exports = [{
   method: 'GET',
   path: `/${GROUP_NAME}/findUserList`,
   handler: async (request, reply) => {
-    const list = await models.users.find().sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
-    reply({status:200,data:list});
+    const list = await models.users.find()
+    reply({status:200,
+      data:list.sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit),
+      total:list.count()});
   },
   config: {
     tags: ['api', GROUP_NAME],
