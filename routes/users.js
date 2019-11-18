@@ -97,6 +97,7 @@ module.exports = [{
     const { openid, session_key: sessionKey } = response.data;
     console.log(openid,sessionKey,'返回的数据')
     // 基于 openid 查找或创建一个用户
+  if(encryptedData&&iv){
   const userInfo = decryptData(encryptedData, iv, sessionKey, appid);
    // 签发 jwt
    const generateJWT = (jwtInfo) => {
@@ -136,7 +137,7 @@ module.exports = [{
       }
       })
     }else{
-      console.log('用户找到了',openid)
+      console.log('用户找到了')
       models.users.findOneAndUpdate({open_id:openid},{
         nick_name: userInfo.nickName,
         gender: userInfo.gender,
@@ -148,7 +149,9 @@ module.exports = [{
       replyJWT(userResponse[0]._id,openid);
     }
   })
- 
+  }else{
+    reply({OPEN_ID:openid})
+  }
 },
   config: {
     auth: false, // 不需要用户验证
@@ -156,8 +159,8 @@ module.exports = [{
     validate: {
       payload: {
         code: Joi.string().required().description('微信用户登录的临时code'),
-        encryptedData: Joi.string().required().description('微信用户信息encryptedData'),
-        iv: Joi.string().required().description('微信用户信息iv'),
+        encryptedData: Joi.string().description('微信用户信息encryptedData'),
+        iv: Joi.string().description('微信用户信息iv'),
         // appid:Joi.string().required().description('你的小程序appid'),
         // secret:Joi.string().required().description('你的小程序secret')
         from: Joi.number().required().description('小程序标识')
