@@ -89,14 +89,13 @@ module.exports = [{
         appid,
         secret,
         js_code: code,
-        // grant_type: 'authorization_code',
+        grant_type: 'authorization_code',
       }
     });
     console.log(response,'???')
     // response 中返回 openid 与 session_key
     const { openid, session_key: sessionKey } = response.data;
     // 基于 openid 查找或创建一个用户
-  let user = [] ;
   const userInfo = decryptData(encryptedData, iv, sessionKey, appid);
    // 签发 jwt
    const generateJWT = (jwtInfo) => {
