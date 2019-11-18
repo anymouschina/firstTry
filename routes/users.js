@@ -10,10 +10,16 @@ module.exports = [{
   method: 'GET',
   path: `/${GROUP_NAME}/findUserList`,
   handler: async (request, reply) => {
-    const list = await models.users.find()
-    reply({status:200,
-      data:await list.sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit),
-      total:await list.find().count()});
+    const query = models.users.find();
+    const total = await query.count();
+    const data = await query.find()
+    .sort({'created':-1})
+    .skip((request.query.page - 1) * request.query.limit).
+    limit(request.query.limit);
+    reply({
+      status:200,
+      data:data,
+      total:total})
   },
   config: {
     tags: ['api', GROUP_NAME],
