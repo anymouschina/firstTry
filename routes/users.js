@@ -23,7 +23,26 @@ module.exports = [{
       },
     }
   },
-},{
+},
+{
+  method: 'GET',
+  path: `/${GROUP_NAME}/userInfo`,
+  handler: async (request, reply) => {
+    const list = await models.users.find({open_id:request.query.open_id})
+    reply({status:200,data:list[0]||'无此用户数据'});
+  },
+  config: {
+    tags: ['api', GROUP_NAME],
+    description: '获取用户列表',
+    auth: false, // 约定此接口不参与 JWT 的用户验证，会结合下面的 hapi-auth-jwt 来使用
+    validate: {
+      query: {
+        open_id:Joi.string().required().description('用户唯一标识'),
+      },
+    }
+  },
+},
+{
   method: 'POST',
   path: `/${GROUP_NAME}/createJWT`,
   handler: async (request, reply) => {
