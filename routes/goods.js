@@ -79,7 +79,8 @@ module.exports = [
       description: '获取商品信息',
       validate: {
         query: {
-          open_id:Joi.string().description('用户唯一标识/暂非必填')
+          open_id:Joi.string().description('用户唯一标识/暂非必填'),
+          barcode:Joi.number().description('条形码数据')
         },
       },
     },
