@@ -5,7 +5,7 @@ module.exports = (barcode,reply)=>request(`https://www.mxnzp.com/api/barcode/goo
     else {
         reply({
             status:200,
-            data:res.body.data
+            data:JSON.parse(res.body).data
         })
         // console.log(res.body)
     }
