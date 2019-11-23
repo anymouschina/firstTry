@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost:27017/test');
-const con = mongoose.connection;
-con.on('error', console.error.bind(console, '连接数据库失败'));
-con.once('open',()=>{
-    //成功连接
-})
+const request = require('request')
+request(`https://www.mxnzp.com/api/barcode/goods/details?barcode=${barcode}&appid=wx536dfc5d38954079&secret=ca008a164dfa01913a6ec8edbcbe2cf7`,((err,res)=>{
+    if(err)throw err
+    else {
+        // reply(res.body)
+        console.log(res.body)
+    }
+}))

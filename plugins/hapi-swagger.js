@@ -23,7 +23,7 @@ module.exports = [
         // { name: 'orders', description: '操作命令相关' },
         { name: 'users', description:'用户'},
         { name: 'votings', description:'投票相关'},
-        // { name: 'goods', description:'商品操作相关'}
+        { name: 'goods', description:'商品相关'}
       ],
     },
   },
