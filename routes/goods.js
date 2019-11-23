@@ -9,48 +9,11 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
-        console.log(request.query)
-     const total = await models.votings.find().count();
-     const list = await models.votings.find().sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
-     if(request.query.open_id&&request.query.open_id!==""&&(await models.votingOrders.find({open_id:request.query.open_id})).length>0){
-        const userOrderList = await models.votingOrders.find({open_id:request.query.open_id})
-        const orderNameList = userOrderList.map(item=>item.name)
-        const newMap = list.map(item=>{ 
-          let choosedIndex = orderNameList.indexOf(item.name)
-          let leftPercenter = ((left,right)=>{
-            if(left===0&&right!==0)return 0;
-            else if(left===0&&right===0) return 50;
-            else if(left!==0&&right===0)return 100;
-            else return Number(left*100/(left+right)).toFixed(1);
-          })(item._doc.left,item._doc.right)
-            return {
-                ...item._doc,
-                choosed:choosedIndex >-1?userOrderList[choosedIndex].choosed:null,
-                leftPercent:leftPercenter,
-                rightPercent:Number(100-leftPercenter).toFixed(1)
-            }
-         })
-         reply({
-          status:200,
-          total:total,
-          data:newMap})
-     }else{
-        const newMap = list.map(item=>{ 
-          let leftPercenter = ((left,right)=>{
-            if(left===0&&right!==0)return 0;
-            else if(left===0&&right===0) return 50;
-            else if(left!==0&&right===0)return 100;
-            else return Number(left*100/(left+right)).toFixed(1);
-          })(item._doc.left,item._doc.right)
-            return {
-                ...item._doc,
-                choosed:null,
-                leftPercent:leftPercenter,
-                rightPercent:Number(100-leftPercenter).toFixed(1)
-            }
-         })
-        reply({status:200,total:total,data:newMap})
-     }
+     const {open_id} = request.query
+     const total = await models[GROUP_NAME].find({open_id}).count();
+     const list = await models[GROUP_NAME].find({open_id})
+    //  .sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     reply({status:200,data:list,total})
     },
     config: {
       tags: ['api', GROUP_NAME],
@@ -58,7 +21,7 @@ module.exports = [
       description: '获取列表',
       validate: {
         query: {
-          open_id:Joi.string().description('用户唯一标识/暂非必填'),
+          open_id:Joi.string().required().description('用户唯一标识/暂非必填'),
           ...paginationDefine,
         },
       },
@@ -68,10 +31,10 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPageByBarcode`,
     handler: async (request, reply) => {
-        let {barcode} = request.query
-        let list = await models.goods.find({barcode})
+        let {barcode,open_id} = request.query
+        let list = await models.goods.find({barcode,open_id})
         if(list.length>0){reply({status:200,data:list[0],msg:'库中查到了数据'})}
-        else getgoodsInfo(barcode,reply,models)
+        else getgoodsInfo(barcode,reply,models,open_id)
     },
     config: {
       tags: ['api', GROUP_NAME],

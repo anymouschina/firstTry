@@ -3,6 +3,6 @@ request(`https://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=20132
     if(err)throw err
     else {
         // reply(res.body)
-        console.log(JSON.parse(res.body).data[0])
+        console.log(JSON.parse(res.body).data[0].middleURL)
     }
 }))

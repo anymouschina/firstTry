@@ -7,7 +7,8 @@ module.exports = (mongoose) => mongoose.model(
         brand:String,
         supplier:String,
         standard:String,
-        imgUrl:String
+        imgUrl:String,
+        open_id:String
     },{timestamps: {
       createdAt: 'created',
       updatedAt: 'updated'
