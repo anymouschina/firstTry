@@ -71,7 +71,7 @@ module.exports = [
         let {barcode} = request.query
         let list = await models.goods.find({barcode})
         if(list.length>0){reply({status:200,data:list[0],msg:'库中查到了数据'})}
-        else getgoodsInfo(barcode,reply)
+        else getgoodsInfo(barcode,reply,models)
     },
     config: {
       tags: ['api', GROUP_NAME],
