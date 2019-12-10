@@ -8,7 +8,8 @@ const routesGoods = require('./routes/goods')
 const pluginHapiSwagger = require('./plugins/hapi-swagger');
 const pluginHapiPagination = require('./plugins/hapi-pagination');
 const pluginHapiAuthJWT2 = require('./plugins/hapi-auth-jwt2');
-
+const Koa = require('koa')
+const app = new Koa()
 const server = new Hapi.Server();
 // 配置服务器启动host与端口
 server.connection({
@@ -32,7 +33,6 @@ const init = async () => {
   ]);
   // 启动服务
   await server.start();
-
   console.log(`Server running at: ${server.info.uri}`);
 };
 
