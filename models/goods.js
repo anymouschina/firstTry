@@ -9,7 +9,7 @@ module.exports = (mongoose) => mongoose.model(
         origin_title:String,
         image:String,
         binding:String,
-        translator:String,//翻译
+        translator:Array,//翻译
         catalog:String,//目录
         pages:String,//页数
         images:Object,
@@ -26,7 +26,6 @@ module.exports = (mongoose) => mongoose.model(
         price:String,
         goodsName:String,
         barcode:Number,
-        price:Number,
         brand:String,
         supplier:String,
         standard:String,
