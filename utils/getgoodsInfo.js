@@ -9,6 +9,7 @@ module.exports = (barcode,reply,models,open_id)=>request(`https://www.mxnzp.com/
                 let imgUrl = JSON.parse(urlRes.body).books[0].images.small
                 let obj = {...JSON.parse(res.body).data,...JSON.parse(urlRes.body).books[0],imgUrl,open_id}
                 let model = new models.goods(obj);
+                console.log(model,'??')
                 model.save()
                 reply({
                     status:200,
