@@ -12,7 +12,7 @@ module.exports = [
      const {open_id} = request.query
      const total = await models[GROUP_NAME].find({open_id}).count();
      const list = await models[GROUP_NAME].find({open_id})
-    //  .sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     .sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      reply({status:200,data:list,total})
     },
     config: {
