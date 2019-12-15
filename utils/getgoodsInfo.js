@@ -8,7 +8,7 @@ module.exports = (barcode,reply,models,open_id)=>request(`https://www.mxnzp.com/
             else {
                 let imgUrl = JSON.parse(urlRes.body).books[0].images.small
                 let obj = {...JSON.parse(res.body).data,...JSON.parse(urlRes.body).books[0],imgUrl,open_id}
-                if(obj.goodsName==='Undefined'){
+                if(obj.title==='Undefined'){
                     reply({
                         status:200,
                         error:'暂时找不到有关数据，已记录',
