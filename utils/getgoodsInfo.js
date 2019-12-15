@@ -8,14 +8,23 @@ module.exports = (barcode,reply,models,open_id)=>request(`https://www.mxnzp.com/
             else {
                 let imgUrl = JSON.parse(urlRes.body).books[0].images.small
                 let obj = {...JSON.parse(res.body).data,...JSON.parse(urlRes.body).books[0],imgUrl,open_id}
-                let model = new models.goods(obj);
-                console.log(model,'??')
-                model.save()
-                reply({
-                    status:200,
-                    data:obj,
-                    msg:'通过外部接口查询并存入数据库'
-                })
+                if(obj.goodsName==='Undefined'){
+                    reply({
+                        status:200,
+                        error:'暂时找不到有关数据，已记录',
+                        msg:'通过外部接口查询并存入数据库'
+                    })
+                }else{
+                    let model = new models.goods(obj);
+                    console.log(model,'??')
+                    model.save()
+                    reply({
+                        status:200,
+                        data:obj,
+                        msg:'通过外部接口查询并存入数据库'
+                    })
+                }
+                
             }
         }))
     }
