@@ -8,6 +8,7 @@ module.exports = (barcode,reply,models,open_id)=>request(`https://www.mxnzp.com/
             else {
                 let imgUrl = JSON.parse(urlRes.body).books[0].images.small
                 let obj = {...JSON.parse(res.body).data,...JSON.parse(urlRes.body).books[0],imgUrl,open_id}
+                console.log(obj,'??数据内容')
                 if(obj.title==='Undefined'){
                     reply({
                         status:200,
