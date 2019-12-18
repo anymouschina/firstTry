@@ -1,6 +1,6 @@
 const request = require('request')
 
-module.exports = (barcode,reply,models,open_id)=>request(`https://api.douban.com/v2/book/isbn/:${barcode}?apikey=0df993c66c0c636e29ecbb5344252a4a`,((urlErr,urlRes)=>{
+let test = (barcode,reply,models,open_id)=>request(`https://api.douban.com/v2/book/isbn/:${barcode}?apikey=0df993c66c0c636e29ecbb5344252a4a`,((urlErr,urlRes)=>{
         // request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${Number.parseInt(Math.random()*1000%200)}&count=3&tag=${encodeURI('前端')}`,((urlErr,urlRes)=>{
         //     if(urlErr)throw urlErr
         //     else {
@@ -10,9 +10,10 @@ module.exports = (barcode,reply,models,open_id)=>request(`https://api.douban.com
         // }))
         if(urlErr)throw urlErr
             else {
-                let imgUrl = JSON.parse(urlRes.body).books[0].images.small
-                let obj = {...JSON.parse(res.body).data,...JSON.parse(urlRes.body).books[0],imgUrl,open_id}
-                console.log(obj,'??数据内容',JSON.parse(res.body))
+                // console.log(JSON.parse(urlRes.body))
+                let imgUrl = JSON.parse(urlRes.body).images.small
+                let obj = {...JSON.parse(urlRes.body),imgUrl,open_id}
+                // console.log(obj)
                 if(obj.title==='Undefined'){
                     reply({
                         status:200,
@@ -31,3 +32,4 @@ module.exports = (barcode,reply,models,open_id)=>request(`https://api.douban.com
                 }   
         }
 }))
+test(9787121177408)
