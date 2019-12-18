@@ -1,6 +1,6 @@
 const request = require('request')
 
-let test = (barcode,reply,models,open_id)=>request(`https://api.douban.com/v2/book/isbn/:${barcode}?apikey=0df993c66c0c636e29ecbb5344252a4a`,((urlErr,urlRes)=>{
+module.exports = (barcode,reply,models,open_id)=>request(`https://api.douban.com/v2/book/isbn/:${barcode}?apikey=0df993c66c0c636e29ecbb5344252a4a`,((urlErr,urlRes)=>{
         // request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${Number.parseInt(Math.random()*1000%200)}&count=3&tag=${encodeURI('前端')}`,((urlErr,urlRes)=>{
         //     if(urlErr)throw urlErr
         //     else {
@@ -32,4 +32,3 @@ let test = (barcode,reply,models,open_id)=>request(`https://api.douban.com/v2/bo
                 }   
         }
 }))
-test(9787121177408)
