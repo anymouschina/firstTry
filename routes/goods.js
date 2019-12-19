@@ -28,13 +28,36 @@ module.exports = [
     },
   },
   {
+    method: 'POST',
+    path: `/${GROUP_NAME}/findListPageByTags`,
+    handler: async (request, reply) => {
+     const {tags,count} = request.payload;
+     let defaultTags = ['语文','文学','数学','物理','计算机','小说','玄幻','前端','化学','历史','高科技','奇异','灵异','军事','商业','提升','管理']
+      if(tags){
+        defaultTags = tags;
+      }
+      getgoodsInfo.dealBooks(defaultTags[Number.parseInt(Math.random()*100000%(defaultTags.length))],count,reply)
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '随机获取列表',
+      validate: {
+       payload:{
+        tags:Joi.array().description('随机范围标签'),
+        count:Joi.number().description('随机得到的数量'),
+       }
+      },
+    },
+  },
+  {
     method: 'GET',
     path: `/${GROUP_NAME}/findListPageByBarcode`,
     handler: async (request, reply) => {
         let {barcode,open_id} = request.query
         let list = await models.goods.find({barcode,open_id})
         if(list.length>0){reply({status:200,data:list[0],msg:'库中查到了数据'})}
-        else getgoodsInfo(barcode,reply,models,open_id)
+        else getgoodsInfo.dealBarcode(barcode,reply,models,open_id)
     },
     config: {
       tags: ['api', GROUP_NAME],

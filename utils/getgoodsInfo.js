@@ -1,6 +1,6 @@
 const request = require('request')
-
-module.exports = (barcode,reply,models,open_id)=>request(`https://api.douban.com/v2/book/isbn/:${barcode}?apikey=0df993c66c0c636e29ecbb5344252a4a`,((urlErr,urlRes)=>{
+let total = 200
+const dealBarcode = (barcode,reply,models,open_id)=>request(`https://api.douban.com/v2/book/isbn/:${barcode}?apikey=0df993c66c0c636e29ecbb5344252a4a`,((urlErr,urlRes)=>{
         // request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${Number.parseInt(Math.random()*1000%200)}&count=3&tag=${encodeURI('前端')}`,((urlErr,urlRes)=>{
         //     if(urlErr)throw urlErr
         //     else {
@@ -32,3 +32,20 @@ module.exports = (barcode,reply,models,open_id)=>request(`https://api.douban.com
                 }   
         }
 }))
+const dealBooks = (tags,count,reply)=>request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${Number.parseInt(Math.random()*100000%total)}&count=${count}&tag=${encodeURI(tags)}`,(urlErr,urlRes)=>{
+        if(urlErr)throw urlErr
+        else {
+           let resBody = JSON.parse(urlRes.body);
+           total = resBody.total;
+           console.log(resBody.books,'???')
+           reply({
+            status:200,
+            data:resBody.books,
+            msg:'通过外部接口查询并存入数据库'
+        })
+        }
+    })
+module.exports = {
+    dealBarcode,
+    dealBooks
+}
