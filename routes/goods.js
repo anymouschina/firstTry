@@ -46,6 +46,7 @@ module.exports = [
        payload:{
         tags:Joi.array().description('随机范围标签'),
         count:Joi.number().description('随机得到的数量'),
+        open_id:Joi.string().description('用户唯一标识/暂非必填'),
        }
       },
     },
