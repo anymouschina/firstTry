@@ -56,7 +56,7 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPageByBarcode`,
     handler: async (request, reply) => {
         let {barcode,open_id} = request.query
-        let list = await models.goods.find({barcode,open_id})
+        let list = await models.goods.find({barcode})
         if(list.length>0){reply({status:200,data:list[0],msg:'库中查到了数据'})}
         else getgoodsInfo.dealBarcode(barcode,reply,models,open_id)
     },
