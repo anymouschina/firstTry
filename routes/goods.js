@@ -80,10 +80,10 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPageByBarcode`,
     handler: async (request, reply) => {
-        let {barcode,open_id} = request.query
-        let list = await models.goods.find({barcode})
+        let {barcode,open_id,join} = request.query
+        let list = await models.goods.find({barcode,open_id})
         if(list.length>0){reply({status:200,data:list[0],msg:'库中查到了数据'})}
-        else getgoodsInfo.dealBarcode(barcode,reply,models,open_id)
+        else getgoodsInfo.dealBarcode(barcode,reply,models,open_id,join)
     },
     config: {
       tags: ['api', GROUP_NAME],
@@ -92,7 +92,8 @@ module.exports = [
       validate: {
         query: {
           open_id:Joi.string().description('用户唯一标识/暂非必填'),
-          barcode:Joi.number().description('条形码数据')
+          barcode:Joi.number().description('条形码数据'),
+          join:Joi.boolean().description('是否加入书架')
         },
       },
     },
