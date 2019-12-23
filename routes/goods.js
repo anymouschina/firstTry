@@ -70,8 +70,8 @@ module.exports = [
       description: '移出书架',
       validate: {
         query: {
-          open_id:Joi.required().string().description('用户唯一标识/暂非必填'),
-          barcode:Joi.required().number().description('条形码数据')
+          open_id:Joi.string().required().description('用户唯一标识/暂非必填'),
+          barcode:Joi.number().required().description('条形码数据')
         },
       },
     },
