@@ -34,7 +34,7 @@ module.exports = [
      const {tags,count} = request.payload;
      let defaultTags = ['语文','文学','数学','物理','计算机','小说','玄幻','前端','化学','历史','高科技','奇异','灵异','军事','商业','提升','管理']
       if(tags){
-        defaultTags = tags;
+        defaultTags = [...defaultTags,...tags];
       }
       getgoodsInfo.dealBooks(defaultTags[Number.parseInt(Math.random()*100000%(defaultTags.length))],count,reply)
     },
