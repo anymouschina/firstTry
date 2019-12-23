@@ -56,12 +56,8 @@ module.exports = [
     path: `/${GROUP_NAME}/deleteByBarcode`,
     handler: async (request, reply) => {
         let {barcode,open_id} = request.query
-        models.goods.deleteMany({isbn13:barcode,open_id}).then((err,res)=>{
-          if(err){
-            throw err 
-          }else{
-            reply(res)
-          }
+        models.goods.deleteMany({isbn13:barcode,open_id}).then((res)=>{
+            reply({statu:200,data:res})
         })
     },
     config: {
