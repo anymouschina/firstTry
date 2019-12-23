@@ -17,6 +17,7 @@ module.exports = (mongoose) => mongoose.model(
         publisher:String,//发布
         isbn10:String,
         isbn11:String,
+        isbn13:String,
         title:String,
         url:String,
         alt_title:String,
