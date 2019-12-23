@@ -53,6 +53,31 @@ module.exports = [
   },
   {
     method: 'GET',
+    path: `/${GROUP_NAME}/deleteByBarcode`,
+    handler: async (request, reply) => {
+        let {barcode,open_id} = request.query
+        models.goods.deleteMany({barcode,open_id}).then((err,res)=>{
+          if(err){
+            console.log(err)
+          }else{
+            console.log(res)
+          }
+        })
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '移出书架',
+      validate: {
+        query: {
+          open_id:Joi.required().string().description('用户唯一标识/暂非必填'),
+          barcode:Joi.required().number().description('条形码数据')
+        },
+      },
+    },
+  },
+  {
+    method: 'GET',
     path: `/${GROUP_NAME}/findListPageByBarcode`,
     handler: async (request, reply) => {
         let {barcode,open_id} = request.query

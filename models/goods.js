@@ -30,7 +30,8 @@ module.exports = (mongoose) => mongoose.model(
         supplier:String,
         standard:String,
         imgUrl:String,
-        open_id:String
+        open_id:String,
+        collected:Boolean
     },{timestamps: {
       createdAt: 'created',
       updatedAt: 'updated'
