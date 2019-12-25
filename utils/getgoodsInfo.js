@@ -32,7 +32,7 @@ const dealBarcode = (barcode,reply,models,open_id,join)=>request(`https://api.do
                 }   
         }
 }))
-const dealBooks = (tags,count,reply)=>request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${Number.parseInt(Math.random()*100000%total)}&count=${count}&tag=${encodeURI(tags)}`,(urlErr,urlRes)=>{
+const dealBooks = (tags,count,reply)=>request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${Number.parseInt(Math.random()*100000%(total-count))}&count=${count}&tag=${encodeURI(tags)}`,(urlErr,urlRes)=>{
         if(urlErr)throw urlErr
         else {
            let resBody = JSON.parse(urlRes.body);
@@ -45,7 +45,20 @@ const dealBooks = (tags,count,reply)=>request(`https://api.douban.com/v2/book/se
         })
         }
     })
+const searchBooks = (q,count,reply)=>request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${Number.parseInt(Math.random()*100000%(total-count))}&count=${count}&q=${encodeURI(q)}`,(urlErr,urlRes)=>{
+    if(urlErr)throw urlErr
+    else {
+        let resBody = JSON.parse(urlRes.body);
+        total = resBody.total;
+        reply({
+        status:200,
+        data:resBody.books,
+        msg:'通过外部接口查询并存入数据库'
+    })
+    }
+})
 module.exports = {
     dealBarcode,
-    dealBooks
+    dealBooks,
+    searchBooks
 }

@@ -37,12 +37,15 @@ module.exports = [
     method: 'POST',
     path: `/${GROUP_NAME}/findListPageByTags`,
     handler: async (request, reply) => {
-     const {tags,count} = request.payload;
+     const {tags,count,title} = request.payload;
      let defaultTags = ['语文','文学','数学','物理','计算机','小说','玄幻','前端','化学','历史','高科技','奇异','灵异','军事','商业','提升','管理']
       if(tags){
         defaultTags = [...defaultTags,...tags];
       }
-      getgoodsInfo.dealBooks(defaultTags[Number.parseInt(Math.random()*100000%(defaultTags.length))],count,reply)
+      if(title==='')getgoodsInfo.dealBooks(defaultTags[Number.parseInt(Math.random()*100000%(defaultTags.length))],count,reply)
+      else{
+        getgoodsInfo.searchBooks(title,count,reply)
+      }
     },
     config: {
       tags: ['api', GROUP_NAME],
@@ -53,6 +56,7 @@ module.exports = [
         tags:Joi.array().description('随机范围标签'),
         count:Joi.number().description('随机得到的数量'),
         open_id:Joi.string().description('用户唯一标识/暂非必填'),
+        title:Joi.string().description('精确搜索')
        }
       },
     },
@@ -75,6 +79,27 @@ module.exports = [
           open_id:Joi.string().required().description('用户唯一标识/暂非必填'),
           barcode:Joi.number().required().description('条形码数据')
         },
+      },
+    },
+  },
+  {
+    method: 'POST',
+    path: `/${GROUP_NAME}/deleteByBatch`,
+    handler: async (request, reply) => {
+        let {ids,open_id} = request.payload
+        models.goods.deleteMany({ isbn13: { $in: ids } , open_id}).then((res)=>{
+            reply({statu:200,data:res})
+        })
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '批量移出书架',
+      validate: {
+       payload:{
+         ids:Joi.array().required().description('需要删除的书籍的code码集合'),
+         open_id:Joi.string().required().description('用户标识')
+       }
       },
     },
   },
