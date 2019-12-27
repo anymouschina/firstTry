@@ -40,6 +40,7 @@ const dealBooks = (tags,count,reply)=>request(`https://api.douban.com/v2/book/se
            console.log(resBody.books,'???')
            reply({
             status:200,
+            total,
             data:resBody.books,
             msg:'通过外部接口查询并存入数据库'
         })
@@ -52,6 +53,7 @@ const searchBooks = (q,count,reply,pageNo)=>request(`https://api.douban.com/v2/b
         total = resBody.total;
         reply({
         status:200,
+        total,
         data:resBody.books,
         msg:'通过外部接口查询并存入数据库'
     })
