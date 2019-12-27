@@ -42,7 +42,7 @@ module.exports = [
       if(tags){
         defaultTags = [...defaultTags,...tags];
       }
-      if(!title)getgoodsInfo.dealBooks(defaultTags[Number.parseInt(Math.random()*100000%(defaultTags.length))],count,reply)
+      if(!title)getgoodsInfo.dealBooks(defaultTags[Number.parseInt(Math.random()*100000%(defaultTags.length))],count,reply,pageNo)
       else{
         getgoodsInfo.searchBooks(title,count,reply,pageNo)
       }
