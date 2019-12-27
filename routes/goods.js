@@ -37,14 +37,14 @@ module.exports = [
     method: 'POST',
     path: `/${GROUP_NAME}/findListPageByTags`,
     handler: async (request, reply) => {
-     const {tags,count,title} = request.payload;
+     const {tags,count,title,pageNo} = request.payload;
      let defaultTags = ['语文','文学','数学','物理','计算机','小说','玄幻','前端','化学','历史','高科技','奇异','灵异','军事','商业','提升','管理']
       if(tags){
         defaultTags = [...defaultTags,...tags];
       }
       if(!title)getgoodsInfo.dealBooks(defaultTags[Number.parseInt(Math.random()*100000%(defaultTags.length))],count,reply)
       else{
-        getgoodsInfo.searchBooks(title,count,reply)
+        getgoodsInfo.searchBooks(title,count,reply,pageNo)
       }
     },
     config: {
@@ -56,7 +56,8 @@ module.exports = [
         tags:Joi.array().description('随机范围标签'),
         count:Joi.number().description('随机得到的数量'),
         open_id:Joi.string().description('用户唯一标识/暂非必填'),
-        title:Joi.string().description('精确搜索')
+        title:Joi.string().description('精确搜索'),
+        pageNo:Joi.number().description('分页')
        }
       },
     },

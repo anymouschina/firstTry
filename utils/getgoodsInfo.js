@@ -45,7 +45,7 @@ const dealBooks = (tags,count,reply)=>request(`https://api.douban.com/v2/book/se
         })
         }
     })
-const searchBooks = (q,count,reply)=>request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${Number.parseInt(Math.random()*100000%(total-count))}&count=${count}&q=${encodeURI(q)}`,(urlErr,urlRes)=>{
+const searchBooks = (q,count,reply,pageNo)=>request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${pageNo}&count=${count}&q=${encodeURI(q)}`,(urlErr,urlRes)=>{
     if(urlErr)throw urlErr
     else {
         let resBody = JSON.parse(urlRes.body);
