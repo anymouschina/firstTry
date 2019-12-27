@@ -32,7 +32,7 @@ const dealBarcode = (barcode,reply,models,open_id,join)=>request(`https://api.do
                 }   
         }
 }))
-const dealBooks = (tags,count,reply)=>request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${Number.parseInt(Math.random()*100000%(total-count))}&count=${count}&tag=${encodeURI(tags)}`,(urlErr,urlRes)=>{
+const dealBooks = (tags,count,reply,pageNo)=>request(`https://api.douban.com/v2/book/search?apikey=0df993c66c0c636e29ecbb5344252a4a&start=${(pageNo-1)*count}&count=${count}&tag=${encodeURI(tags)}`,(urlErr,urlRes)=>{
         if(urlErr)throw urlErr
         else {
            let resBody = JSON.parse(urlRes.body);
