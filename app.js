@@ -27,40 +27,7 @@ const init = async () => {
     // 创建一个简单的hello hapi接口
     ...routesUsers,
     ...routesVotings,
-    ...routesGoods,
-    {
-      method: 'GET',
-      path: '/wxserver/{name}',
-      handler: {
-        proxy: {
-          mapUri: function(request,callback){
-              callback(null,'https://amlie.oicp.vip/'+request.params.name);
-          },
-          onResponse: function(err, res, request, reply, settings, ttl){
-             console.log(res); 
-             reply(res);
-          },
-          passThrough: true,
-          xforward: true
-        }
-      }
-  },{
-    method: 'POST',
-    path: '/wxserver/{name}',
-    handler: {
-      proxy: {
-        mapUri: function(request,callback){
-            callback(null,'https://amlie.oicp.vip/'+request.params.name);
-        },
-        onResponse: function(err, res, request, reply, settings, ttl){
-           console.log(res); 
-           reply(res);
-        },
-        passThrough: true,
-        xforward: true
-      }
-    }
-},
+    ...routesGoods
   ]);
   // 启动服务
   await server.start();
