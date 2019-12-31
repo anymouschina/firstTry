@@ -1,5 +1,6 @@
 const Hapi = require('hapi');
 const hapiAuthJWT2 = require('hapi-auth-jwt2');
+const H2o2 = require('h2o2');
 require('env2')('./.env');
 const config = require('./config');
 const routesUsers = require('./routes/users');
@@ -20,6 +21,7 @@ const init = async () => {
     ...pluginHapiSwagger,
     pluginHapiPagination,
     hapiAuthJWT2,
+    H2o2
   ]);
   pluginHapiAuthJWT2(server);
   // 注册路由
