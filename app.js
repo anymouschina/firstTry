@@ -1,6 +1,6 @@
 const Hapi = require('hapi');
 const hapiAuthJWT2 = require('hapi-auth-jwt2');
-const H2o2 = require('h2o2');
+const H2o2 = require('@hapi/h2o2');
 require('env2')('./.env');
 const config = require('./config');
 const routesUsers = require('./routes/users');
@@ -20,47 +20,30 @@ const init = async () => {
   await server.register([
     ...pluginHapiSwagger,
     pluginHapiPagination,
-    hapiAuthJWT2,
-    H2o2
+    hapiAuthJWT2
   ]);
+  await server.register(H2o2);
   pluginHapiAuthJWT2(server);
   // 注册路由
   server.route([
     // 创建一个简单的hello hapi接口
     ...routesUsers,
     ...routesVotings,
-    ...routesGoods,
-    {
+    ...routesGoods,{
       method: 'GET',
       path: '/wxserver/{name}',
       handler: {
-        proxy: {
-          mapUri: function(request,callback){
-              callback(null,'https://amlie.oicp.vip/'+request.params.name);
-          },
-          onResponse: function(err, res, request, reply, settings, ttl){
-             console.log(res); 
-             reply(res);
-          },
-          passThrough: true,
-          xforward: true
-        }
+          proxy: {
+              uri: 'https://amlie.oicp.vip/{name}'
+          }
       }
   },{
     method: 'POST',
     path: '/wxserver/{name}',
     handler: {
-      proxy: {
-        mapUri: function(request,callback){
-            callback(null,'https://amlie.oicp.vip/'+request.params.name);
-        },
-        onResponse: function(err, res, request, reply, settings, ttl){
-           console.log(res); 
-           reply(res);
-        },
-        passThrough: true,
-        xforward: true
-      }
+        proxy: {
+            uri: 'https://amlie.oicp.vip/{name}'
+        }
     }
 },
   ]);
