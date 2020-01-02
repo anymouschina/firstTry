@@ -7,6 +7,20 @@ const getgoodsInfo = require('../utils/getgoodsInfo')
 module.exports = [
   {
     method: 'GET',
+    path: `/${GROUP_NAME}/wbbq/{name}`,
+    handler: async (request, reply) => {
+      console.log(request.query,request.payload)
+      reply({query:request.query,payload:request.payload})
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '获取列表',
+      
+    },
+  },
+  {
+    method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
      const {open_id,pagination} = request.query
