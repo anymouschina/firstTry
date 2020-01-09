@@ -3,15 +3,6 @@ const path = require('path');
 // const Sequelize = require('sequelize');
 const mongoose = require('mongoose')
 const configs = require('../config/config.js');
-mongoose.Schema.static('random', function (callback) {
-  this.count(function(err,count){
-    if(err){
-      return callback(err)
-    }
-    const rand = Math.floor(Math.random()*count)
-    this.findOne().skip(rand).exec(callback)
-  }).bind(this)
-});
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = {
