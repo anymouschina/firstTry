@@ -3,7 +3,7 @@ const cheerio = require('cheerio')
 const models = require('../models')
 function getHotComment(models,page,callback,size){
   superagent
-  .get('https://www.musicbooks.cn/page/2')
+  .get(`https://www.musicbooks.cn/page/${page}`)
   .end((err,res) => {
     const $ = cheerio.load(res.text);
     let list = []
