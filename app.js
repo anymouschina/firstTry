@@ -5,6 +5,7 @@ const config = require('./config');
 const routesUsers = require('./routes/users');
 const routesVotings = require('./routes/votings');
 const routesGoods = require('./routes/goods')
+const routeComments = require('./routes/hotComments')
 const pluginHapiSwagger = require('./plugins/hapi-swagger');
 const pluginHapiPagination = require('./plugins/hapi-pagination');
 const pluginHapiAuthJWT2 = require('./plugins/hapi-auth-jwt2');
@@ -27,7 +28,8 @@ const init = async () => {
     // 创建一个简单的hello hapi接口
     ...routesUsers,
     ...routesVotings,
-    ...routesGoods
+    ...routesGoods,
+    ...routeComments
   ]);
   // 启动服务
   await server.start();
