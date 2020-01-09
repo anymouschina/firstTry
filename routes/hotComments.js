@@ -36,7 +36,7 @@ module.exports = [
     path: `/${GROUP_NAME}/findById`,
     handler: async (request, reply) => {
     const {id} = request.query;
-    const list = await models.hotComments.find({_id:id})
+    const list = await models.hotComments.findById(id)
       reply({
         status:200,
         data:list
@@ -57,11 +57,13 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/random`,
     handler: async (request, reply) => {
-    const list = await models.hotComments.findOne(null)
-      reply({
-        status:200,
-        data:list
-      })
+        models.hotComments.random((err,list)=>{
+          reply({
+            status:200,
+            data:list,
+            err:err
+          })
+        })
     },
     config: {
       tags: ['api', GROUP_NAME],
