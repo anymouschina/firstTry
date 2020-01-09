@@ -36,7 +36,7 @@ module.exports = [
     path: `/${GROUP_NAME}/findById`,
     handler: async (request, reply) => {
     const {id} = request.query;
-    const list = await models.hotComments.find({id})
+    const list = await models.hotComments.find({_id:id})
       reply({
         status:200,
         data:list
