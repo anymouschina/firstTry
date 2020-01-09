@@ -54,6 +54,22 @@ module.exports = [
     },
   },
   {
+    method: 'GET',
+    path: `/${GROUP_NAME}/random`,
+    handler: async (request, reply) => {
+    const list = await models.hotComments.sample(1)
+      reply({
+        status:200,
+        data:list
+      })
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '查询内容'
+    },
+  },
+  {
     method: 'POST',
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
