@@ -57,7 +57,7 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/random`,
     handler: async (request, reply) => {
-    const list = await models.hotComments.findOne()
+    const list = await models.hotComments.findOne(null)
       reply({
         status:200,
         data:list
