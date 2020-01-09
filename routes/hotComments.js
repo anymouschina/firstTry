@@ -57,7 +57,7 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/random`,
     handler: async (request, reply) => {
-        models.hotComments.random((err,list)=>{
+        models.hotComments.random(function(err,list){
           reply({
             status:200,
             data:list,
