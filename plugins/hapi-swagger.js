@@ -24,6 +24,7 @@ module.exports = [
         { name: 'users', description:'用户'},
         { name: 'votings', description:'投票相关'},
         { name: 'goods', description:'商品相关'}
+        {name:'hotComments',description:'热评相关'}
       ],
     },
   },
