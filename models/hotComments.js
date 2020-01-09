@@ -6,7 +6,8 @@ module.exports = (mongoose) => mongoose.model(
       content:String,//内容
       comment:String,//评论数目
       type:String,//类型
-      from:String//来源
+      from:String,//来源
+      image:String,//图片
      },{timestamps: {
       createdAt: 'created',
       updatedAt: 'updated'

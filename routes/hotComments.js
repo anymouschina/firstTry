@@ -95,6 +95,7 @@ module.exports = [
             comment: Joi.string().required().description('时间/评论数目'),
             type:Joi.string().required().description('内容类型'),
             from:Joi.string().required().description('内容来源'),
+            image:Joi.string().required().description('图片'),
         },
       },
     },
