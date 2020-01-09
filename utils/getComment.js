@@ -2,6 +2,7 @@ const superagent = require('superagent')
 const cheerio = require('cheerio')
 const models = require('../models')
 function getHotComment(models,page,callback,size){
+  console.time('开始访问')
   superagent
   .get(`https://www.musicbooks.cn/page/${page}`)
   .end((err,res) => {
@@ -24,15 +25,21 @@ function getHotComment(models,page,callback,size){
             if (err) console.log(err)
             // saved!
             else {
-            console.log('新建成功',res)
+            console.log('新建成功',res,page)
         }
         })
        list.push(result)
      })
      page++;
-     if(page<=size)getHotComment(models,page,callback,size)
-     callback(list)
+     if(page<=size)setTimeout(()=>{
+        console.timeEnd('访问网站时间统计')
+        getHotComment(models,page,callback,size)
+     },5000) 
+     else{
+        callback(list)
+     }
+     
   })
   
 }
-getHotComment(models,1,(list)=>{console.log(`入库${list.length}个`)},166)
+getHotComment(models,1,(list)=>{console.log(`结束`)},150)
