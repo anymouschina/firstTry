@@ -75,9 +75,9 @@ module.exports = [
     method: 'POST',
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
-    const {title,content,comment} = request.payload;
+    const {title,content,comment,type,image,from} = request.payload;
     const hotComment = new models.hotComments({
-      title,content,comment
+      title,content,comment,type,image,from
       })
       hotComment.save((err)=>{
           if(err)reply({status:500,error:err})
