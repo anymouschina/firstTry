@@ -57,7 +57,10 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/random`,
     handler: async (request, reply) => {
-        models.commentType.find(request.query).random(function(err,list){
+        const {type} = request.query
+        let obj = {}
+        if(type)obj.type = type
+        models.commentType.find(obj).random(function(err,list){
           reply({
             status:200,
             data:list,
