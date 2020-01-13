@@ -11,7 +11,8 @@ module.exports = [
     handler: async (request, reply) => {
      const {type} = request.query
      const total = await models.hotComments.find().count();
-     const list = (await type?models.hotComments.find({type}):models.hotComments.find({type})).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     const list = await (type?models.hotComments.find({type}):models.hotComments.find({type})).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     console.log(list)
      if(list.length>0){
        reply({
          status:200,
