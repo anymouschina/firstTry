@@ -11,7 +11,15 @@ module.exports = (mongoose) => mongoose.model(
      },{timestamps: {
       createdAt: 'created',
       updatedAt: 'updated'
-  }}).static('random', function(callback){
+  }}).static('random', function(callback,config){
+    if(config)this.find(config).count(function(err,count){
+      if(err){
+        return callback(err)
+      }
+      const rand = Math.floor(Math.random()*count)
+      this.findOne().skip(rand).exec(callback)
+    }.bind(this))
+  else{
     this.count(function(err,count){
       if(err){
         return callback(err)
@@ -19,5 +27,6 @@ module.exports = (mongoose) => mongoose.model(
       const rand = Math.floor(Math.random()*count)
       this.findOne().skip(rand).exec(callback)
     }.bind(this))
+  }
   })
   );

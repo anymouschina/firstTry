@@ -10,16 +10,20 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
      const {type} = request.query
-     let obj = {}
-     if(type)obj.type = type
      const total = await models.hotComments.find().count();
-     const list = await models.hotComments.find(obj).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     const list = (await type?models.hotComments.find({type}):models.hotComments.find({type})).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(list.length>0){
        reply({
          status:200,
          data:list,
          total
        })
+     }else{
+      reply({
+        status:200,
+        data:[],
+        total
+      })
      }
     },
     config: {
@@ -62,15 +66,13 @@ module.exports = [
     path: `/${GROUP_NAME}/random`,
     handler: async (request, reply) => {
       const {type} = request.query
-        let obj = {}
-        if(type)obj.type = type
-        models.hotComments.find(obj).random(function(err,list){
+        models.hotComments.random(function(err,list){
           reply({
             status:200,
             data:list,
             err:err
           })
-        })
+        },{type})
     },
     config: {
       tags: ['api', GROUP_NAME],
