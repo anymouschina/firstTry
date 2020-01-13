@@ -2,16 +2,15 @@ const Joi = require('joi');
 const { paginationDefine } = require('../utils/router-helper');
 const models = require('../models');
 const { env } = process;
-const GROUP_NAME = 'hotComments';
+const GROUP_NAME = 'commentType';
 
 module.exports = [
   {
     method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
-     const type = request.query
-     const total = await models.hotComments.find(type?{type}:null).count();
-     const list = await models.hotComments.find(type?{type}:null).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     const total = await models.commentType.find().count();
+     const list = await models.commentType.find().sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(list.length>0){
        reply({
          status:200,
@@ -27,7 +26,6 @@ module.exports = [
       validate: {
         query: {
           open_id:Joi.string().description('用户唯一标识/暂非必填'),
-          type:Joi.string().description('类型'),
           ...paginationDefine,
         },
       },
@@ -38,7 +36,7 @@ module.exports = [
     path: `/${GROUP_NAME}/findById`,
     handler: async (request, reply) => {
     const {id} = request.query;
-    const list = await models.hotComments.findById(id)
+    const list = await models.commentType.findById(id)
       reply({
         status:200,
         data:list
@@ -59,8 +57,7 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/random`,
     handler: async (request, reply) => {
-      let {type} = request.query
-        models.hotComments.find(type?{type}:null).random(function(err,list){
+        models.commentType.random(function(err,list){
           reply({
             status:200,
             data:list,
@@ -71,21 +68,16 @@ module.exports = [
     config: {
       tags: ['api', GROUP_NAME],
       auth:false,
-      description: '查询内容',
-      validate:{
-        query: {
-          type:Joi.string().description('类型')
-        },
-      }
+      description: '查询内容'
     },
   },
   {
     method: 'POST',
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
-    const {title,content,comment,type,image,from} = request.payload;
-    const hotComment = new models.hotComments({
-      title,content,comment,type,image,from
+    const {title,content,type,image} = request.payload;
+    const hotComment = new models.commentType({
+      title,content,type,image
       })
       hotComment.save((err)=>{
           if(err)reply({status:500,error:err})
@@ -100,9 +92,7 @@ module.exports = [
         payload: {
             title: Joi.string().required().description('标题'),
             content: Joi.string().required().description('内容'),
-            comment: Joi.string().required().description('时间/评论数目'),
             type:Joi.string().required().description('内容类型'),
-            from:Joi.string().required().description('内容来源'),
             image:Joi.string().required().description('图片'),
         },
       },
