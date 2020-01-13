@@ -9,9 +9,8 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
-     const {type} = request.query
-     const total = await models.hotComments.find({type}).count();
-     const list = await models.hotComments.find({type}).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     const total = await models.hotComments.find(request.query).count();
+     const list = await models.hotComments.find(request.query).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(list.length>0){
        reply({
          status:200,
@@ -59,8 +58,7 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/random`,
     handler: async (request, reply) => {
-      let {type} = request.query
-        models.hotComments.find({type}).random(function(err,list){
+        models.hotComments.find(request.query).random(function(err,list){
           reply({
             status:200,
             data:list,
