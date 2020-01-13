@@ -72,7 +72,7 @@ module.exports = [
             data:list,
             err:err
           })
-        },{type})
+        },type?{type}:false)
     },
     config: {
       tags: ['api', GROUP_NAME],
