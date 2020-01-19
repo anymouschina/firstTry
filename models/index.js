@@ -12,7 +12,7 @@ const config = {
     underscored: true,
   },
 };
-mongoose.connect('mongodb://admin:junmoxiao@localhost/junmoxiao');
+mongoose.connect('mongodb://junmoxiao:junmoxiao@localhost/junmoxiao');
 const con = mongoose.connection;
 con.on('error', console.error.bind(console, '连接数据库失败'));
 con.once('open',()=>{
