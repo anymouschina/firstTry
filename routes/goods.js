@@ -2,6 +2,7 @@ const Joi = require('joi');
 const { paginationDefine } = require('../utils/router-helper');
 const models = require('../models');
 const { env } = process;
+const {getApiFile} = require('../utils/getApiFile')
 const GROUP_NAME = 'goods';
 const getgoodsInfo = require('../utils/getgoodsInfo')
 module.exports = [
@@ -17,6 +18,23 @@ module.exports = [
       auth:false,
       description: '获取列表',
       
+    },
+  },
+  {
+    method: 'GET',
+    path: `/${GROUP_NAME}/api/getFile`,
+    handler: async (request, reply) => {
+      getApiFile(request.baseUrl,'json',reply)
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '获取api文件',
+      validate: {
+        query: {
+          baseUrl:Joi.string().required().description('swagger.json地址')
+        },
+      },
     },
   },
   {
