@@ -16,6 +16,11 @@ const server = new Hapi.Server();
 server.connection({
   port: 3000,
   host: '127.0.0.1',
+  routes: {
+    cors: {
+        origin: '*'
+    }
+}
 });
 const init = async () => {
   // 注册插件
