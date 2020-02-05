@@ -21,17 +21,17 @@ module.exports = [
     },
   },
   {
-    method: 'GET',
+    method: 'POST',
     path: `/${GROUP_NAME}/api/getFile`,
     handler: async (request, reply) => {
-      getApiFile(request.baseUrl,'json',reply)
+      getApiFile(request.payload.baseUrl,'json',reply)
     },
     config: {
       tags: ['api', GROUP_NAME],
       auth:false,
       description: '获取api文件',
       validate: {
-        query: {
+        payload: {
           baseUrl:Joi.string().required().description('swagger.json地址')
         },
       },

@@ -47,6 +47,7 @@ const fs = require('fs')
     }
 }
 function getApiFile(baseUrl,type,callback){
+    
 //   const baseUrl = "https://petstore.swagger.io/v2/swagger.json"
 //请求swagger服务
 const writeApi = new WriteApiToFile()
@@ -141,8 +142,8 @@ if(type!=='json'){writeApi.requestToSwagger(`${baseUrl}/swagger-resources`,(erro
 })
 }
 else {
+    console.log(baseUrl,'!!!')
   writeApi.requestToSwagger(`${baseUrl}`,(err,res,responseUrl)=>{
-    try {
       let json = JSON.parse(responseUrl)
       let currentFileApiStr = ''
       let apiNameList = []
@@ -174,16 +175,17 @@ else {
                       currentFileApiStr += rowData
                     //   console.log(rowData)
                       apiNameList.push(apiName)
-                      let exportContent = `export {${apiNameList.join(',')}}`
-                      callback(defaultText + currentFileApiStr +exportContent)
+                     
+                      
                     //   writeApi.createFile('default.js',defaultText + currentFileApiStr +exportContent,'utf8',(err)=>{
                     //     console.log(err)
                     //   })
                     }
+                    
                 }
-    } catch (error) {
-      console.log(error)
-    }
+                let exportContent = `export {${apiNameList.join(',')}}`
+                 callback(defaultText + currentFileApiStr +exportContent)
+
   })
 }
 }
