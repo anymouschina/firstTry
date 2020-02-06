@@ -1,11 +1,11 @@
 const GROUP_NAME = 'system';
-const {gitUpdate} = require('../utils/gitUpdate')
+const {updateGit} = require('../utils/gitUpdate')
 module.exports = [
     {
         method: 'GET',
         path: `/${GROUP_NAME}`,
         handler: async (request, reply) => {
-            gitUpdate(0,reply)
+            updateGit(0,reply)
         },
         config: {
           tags: ['api', GROUP_NAME],
