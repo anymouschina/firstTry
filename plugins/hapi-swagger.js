@@ -27,6 +27,7 @@ module.exports = [
         {name:'hotComments',description:'热评相关'},
         {name:'commentType',description:'热评类型'},
         {name:'descs',description:'粘贴板'},
+        {name:'system',description:'系统管理'},
       ],
     },
   },

@@ -8,6 +8,7 @@ const routesGoods = require('./routes/goods')
 const routeComments = require('./routes/hotComments')
 const routeType = require('./routes/commentType')
 const routeDesc = require('./routes/descs')
+const routeSystem = require('./routes/systemManege')
 const pluginHapiSwagger = require('./plugins/hapi-swagger');
 const pluginHapiPagination = require('./plugins/hapi-pagination');
 const pluginHapiAuthJWT2 = require('./plugins/hapi-auth-jwt2');
@@ -38,7 +39,8 @@ const init = async () => {
     ...routesGoods,
     ...routeComments,
     ...routeType,
-    ...routeDesc
+    ...routeDesc,
+    ...routeSystem
   ]);
   // 启动服务
   await server.start();
