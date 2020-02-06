@@ -11,7 +11,7 @@ function  updateGit(step = 0,callback){
                 result:error.stack
             })
         }
-        if(len-1>step)updateGit(++step)
+        if(len-1>step)updateGit(++step,callback)
         else callback({
             result:stdout
         })
