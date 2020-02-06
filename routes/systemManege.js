@@ -3,7 +3,7 @@ const {updateGit} = require('../utils/gitUpdate')
 module.exports = [
     {
         method: 'GET',
-        path: `/${GROUP_NAME}`,
+        path: `/${GROUP_NAME}/gitUpdate`,
         handler: async (request, reply) => {
             updateGit(0,reply)
         },
