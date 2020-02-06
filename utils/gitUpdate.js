@@ -1,5 +1,5 @@
 const child_process = require('child_process');
-const commandList = ['git pull','pm2 stop app.js','pm2 start ../app.js']
+const commandList = ['git pull','pm2 stop app.js','pm2 start app.js']
 const len = commandList.length
 function  updateGit(step = 0,callback){
     child_process.exec(commandList[step],(error,stdout)=>{
