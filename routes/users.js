@@ -68,7 +68,7 @@ module.exports = [{
       }
     });
     const list = await models.users.find({open_id:response.openid})
-    console.log(list,'???')
+    console.log(response.openid,'???')
     reply({status:200,data:list[0]||'无此用户数据'});
   },
   config: {
