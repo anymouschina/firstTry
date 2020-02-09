@@ -125,7 +125,7 @@ module.exports = [{
         session_key: sessionKey,
       })
       console.log('用户在库中找到，登录',userResponse)
-      reply({user:userResponse,openid});
+      reply({user:userResponse[0],openid});
     }
   })
 },
