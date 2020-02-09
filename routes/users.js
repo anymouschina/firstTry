@@ -7,7 +7,7 @@ const Joi = require('joi')
 const models = require('../models')
 const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
-function userLogin(reply,from = 0,result = []){
+async function userLogin(reply,from = 0,result = []){
   if(from === 1){
     const luckDraws = await models.luckDraws.find({isFinish:false})
     result(result,luckDraws)
