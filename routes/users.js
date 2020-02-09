@@ -67,8 +67,7 @@ module.exports = [{
         grant_type: 'authorization_code',
       }
     });
-    const list = await models.users.find({open_id:response.openid})
-    console.log(response.openid,'???')
+    const list = await models.users.find({open_id:response.data.openid})
     reply({status:200,data:list[0]||'无此用户数据'});
   },
   config: {
