@@ -113,7 +113,7 @@ module.exports = [{
         // saved!
         else {
           console.log('用户未在库中找到，新建成功',res)
-          reply(res._id,openid)
+          reply({user:res[0],openid})
       }
       })
     }else{
@@ -125,7 +125,7 @@ module.exports = [{
         session_key: sessionKey,
       })
       console.log('用户在库中找到，登录',userResponse)
-      reply(userResponse[0]._id,openid);
+      reply({user:userResponse,openid});
     }
   })
 },
