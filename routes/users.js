@@ -7,6 +7,14 @@ const Joi = require('joi')
 const models = require('../models')
 const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
+function userLogin(reply,from = 0,result = []){
+  if(from === 1){
+    const luckDraws = await models.luckDraws.find({isFinish:false})
+    result(result,luckDraws)
+  }else{
+    reply(result)
+  }
+}
 module.exports = [{
   method: 'GET',
   path: `/${GROUP_NAME}/findUserList`,
@@ -110,6 +118,7 @@ module.exports = [{
     // const appid = config.wxAppid; // 你的小程序 appid
     // const secret = config.wxSecret; // 你的小程序 appsecret
     const userInfo = req.payload.updateData
+    const from = req.payload.from;
     const {appid,secret} = sercretObj[req.payload.from];
     const { code } = req.payload;
     console.log(req.payload,appid,secret,'用户登录了')
@@ -143,7 +152,7 @@ module.exports = [{
         // saved!
         else {
           console.log('用户未在库中找到，新建成功',res)
-          reply({user:res[0],openid})
+          userLogin(reply,from,{user:res[0],openid})
       }
       })
     }else{
@@ -155,7 +164,7 @@ module.exports = [{
         session_key: sessionKey,
       })
       console.log('用户在库中找到，登录',userResponse)
-      reply({user:userResponse[0],openid});
+      userLogin(reply,from,{user:userResponse[0],openid})
     }
   })
 },
