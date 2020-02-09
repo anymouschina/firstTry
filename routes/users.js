@@ -75,6 +75,74 @@ module.exports = [{
 },
 {
   method: 'POST',
+  path: `/${GROUP_NAME}/login`,
+  handler: async (req, reply) => {
+    // const appid = config.wxAppid; // 你的小程序 appid
+    // const secret = config.wxSecret; // 你的小程序 appsecret
+    const userInfo = req.payload.updateData
+    const {appid,secret} = sercretObj[req.payload.from];
+    const { code } = req.payload;
+    console.log(req.payload,appid,secret,'用户登录了')
+    const response = await axios({
+      url: 'https://api.weixin.qq.com/sns/jscode2session',
+      method: 'GET',
+      params: {
+        appid,
+        secret,
+        js_code: code,
+        grant_type: 'authorization_code',
+      }
+    });
+    // response 中返回 openid 与 session_key
+    const { openid, session_key: sessionKey } = response.data;
+    // 基于 openid 查找或创建一个用户
+  await models.users.find(
+     { open_id: openid },
+  ).then(userResponse=>{
+    if(userResponse.length===0){
+      console.log('???走到这里了')
+      const userModel = new models.users({
+        nick_name: userInfo.nickName,
+        avatar_url: userInfo.avatarUrl,
+        open_id: openid,
+        session_key: sessionKey,
+      })
+      console.log('???')
+    userModel.save(function (err,res) {
+        if (err) console.log(err)
+        // saved!
+        else {
+          console.log('用户未在库中找到，新建成功',res)
+          reply(res._id,openid)
+      }
+      })
+    }else{
+      console.log('用户找到了')
+      models.users.findOneAndUpdate({open_id:openid},{
+        nick_name: userInfo.nickName,
+        avatar_url: userInfo.avatarUrl,
+        open_id: openid,
+        session_key: sessionKey,
+      })
+      console.log('用户在库中找到，登录',userResponse)
+      reply(userResponse[0]._id,openid);
+    }
+  })
+},
+  config: {
+    auth: false, // 不需要用户验证
+    tags: ['api', GROUP_NAME], // 注册 swagger 文档
+    validate: {
+      payload: {
+        code: Joi.string().required().description('微信用户登录的临时code'),
+        from: Joi.number().required().description('小程序标识'),
+        updateData:Joi.object().required().description('用户名称以及头像')
+      },
+    },
+  },
+},
+{
+  method: 'POST',
   path: `/${GROUP_NAME}/wxLogin`,
   handler: async (req, reply) => {
     // const appid = config.wxAppid; // 你的小程序 appid
