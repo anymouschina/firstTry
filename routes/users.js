@@ -152,7 +152,7 @@ module.exports = [{
         if (err) console.log(err)
         // saved!
         else {
-          console.log('用户未在库中找到，新建成功',res)
+          // console.log('用户未在库中找到，新建成功',from)
           userLogin(reply,from,{user:res[0],openid})
       }
       })
@@ -164,7 +164,7 @@ module.exports = [{
         open_id: openid,
         session_key: sessionKey,
       })
-      console.log('用户在库中找到，登录',userResponse)
+      // console.log('用户在库中找到，登录',userResponse)
       userLogin(reply,from,{user:userResponse[0],openid})
     }
   })
