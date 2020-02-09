@@ -10,7 +10,7 @@ const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from === 1){
     const luckDraws = await models.luckDraws.find({isFinish:false})
-    result(result,luckDraws)
+    reply(result,luckDraws)
   }else{
     reply(result)
   }
