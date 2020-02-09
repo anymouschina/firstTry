@@ -54,7 +54,7 @@ module.exports = [{
 },
 {
   method: 'GET',
-  path: `/${GROUP_NAME}/userInfo`,
+  path: `/${GROUP_NAME}/getUserInfo`,
   handler: async (request, reply) => {
     const {appid,secret} = sercretObj[req.query.from];
     const response = await axios({
