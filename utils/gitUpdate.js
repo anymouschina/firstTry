@@ -11,10 +11,14 @@ function  updateGit(step = 0,callback){
                 result:error.stack
             })
         }
-        if(len-1>step)updateGit(++step,callback)
-        else callback({
-            result:stdout
-        })
+        if(step===0){
+            callback({
+                result:stdout
+            })
+        }
+        if(len-1>step){
+            updateGit(++step,callback)
+        }
     })
 }
 module.exports = {
