@@ -8,7 +8,7 @@ const models = require('../models')
 const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
-  console.log(from,'???')
+  console.log(from,'???',from == '1')
   if(from == '1'){
     const luckDraws = await models.luckDraws.find({isFinish:false})
     reply(result,luckDraws)
