@@ -25,6 +25,7 @@ module.exports = [
         { name: 'votings', description:'投票相关'},
         { name: 'goods', description:'商品相关'},
         {name:'hotComments',description:'热评相关'},
+        {name:'luckDraws',description:'王者抽奖相关'},
         {name:'commentType',description:'热评类型'},
         {name:'descs',description:'粘贴板'},
         {name:'system',description:'系统管理'},
