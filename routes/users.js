@@ -56,7 +56,7 @@ module.exports = [{
   method: 'GET',
   path: `/${GROUP_NAME}/getUserInfo`,
   handler: async (request, reply) => {
-    const {appid,secret} = sercretObj[req.query.from];
+    const {appid,secret} = sercretObj[request.query.from];
     const response = await axios({
       url: 'https://api.weixin.qq.com/sns/jscode2session',
       method: 'GET',
