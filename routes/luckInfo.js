@@ -2,7 +2,7 @@ const Joi = require('joi');
 const { paginationDefine } = require('../utils/router-helper');
 const models = require('../models');
 const { env } = process;
-const GROUP_NAME = 'luckDraws';
+const GROUP_NAME = 'luckInfo';
 
 module.exports = [
   {
