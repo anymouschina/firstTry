@@ -11,9 +11,9 @@ async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
     const luckDraws = await models.luckDraws.find({isFinish:false}).map(item=>{
       if(item.some(n=>n.open_id === result.openid)){
-        item.userJoin = true
+        item._doc.userJoin = true
       }
-      return item
+      return item._doc
     })
     reply({result,luckDraws})
   }else{
