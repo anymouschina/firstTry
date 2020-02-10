@@ -65,13 +65,15 @@ module.exports = [
         reply(err)
       }
       doc.luckDrawPeople.push(user);
-      let obj = doc.luckDraw;
+      let obj = {};
+      Object.keys(doc.luckDraw).map(item=>{
+        obj[item] = doc.luckDraw[item]
+      })
       obj.userNum++;
-      // doc.luckDraw = 1;
-      console.log(Object.keys(doc.luckDraw),'!!!')
       // if(doc.luckDraw.userNum>=doc.luckDraw.openNum){
       //   doc.luckDraw.isFinish = true;
       // }
+      doc.luckDraw = obj
       doc.save(reply({
         status:200,
         data:'更新成功'
