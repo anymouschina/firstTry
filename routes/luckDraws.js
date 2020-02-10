@@ -109,18 +109,8 @@ module.exports = [
       luckDraw.save((err,res)=>{
           if(err)reply({status:500,error:err})
           else {
-            console.log({
-              "luckDraw":{...res,userNum:0},
-              "luckDrawPeople": [
-              ],
-              "luckers": [
-               
-              ],
-              "userLuckDraw": "你可以参与抽奖",
-              "_id": res._id
-            },'?????SSSSS')
             const luckInfo = new models.luckInfo({
-              "luckDraw":res,
+              "luckDraw":{...res,userNum:0},
               "luckDrawPeople": [
               ],
               "luckers": [
