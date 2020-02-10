@@ -79,6 +79,28 @@ module.exports = [
   },
   {
     method: 'GET',
+    path: `/${GROUP_NAME}/findById`,
+    handler: async (request, reply) => {
+    const {id} = request.query;
+    const list = await models[GROUP_NAME].findById(id)
+      reply({
+        status:200,
+        data:list
+      })
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '查询内容',
+      validate: {
+        query:{
+          id:Joi.string().required().description('唯一标识'),
+        }
+      },
+    },
+  },
+  {
+    method: 'GET',
     path: `/${GROUP_NAME}/random`,
     handler: async (request, reply) => {
       const {type} = request.query
