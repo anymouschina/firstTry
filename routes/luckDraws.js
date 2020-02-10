@@ -110,7 +110,7 @@ module.exports = [
           if(err)reply({status:500,error:err})
           else {
             const luckInfo = new models.luckInfo({
-              "luckDraw":{...res,userNum:0},
+              "luckDraw":{userNum:0},
               "luckDrawPeople": [
               ],
               "luckers": [
