@@ -10,8 +10,9 @@ const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
     const luckDraws = await models.luckDraws.find({isFinish:false}).map(item=>{
-      console.log(item.some(n=>n.open_id === result.openid))
-      if(item.some(n=>n.open_id === result.openid)){
+      if(item.some(n=>{
+        console.log(n.open_id,result)
+        return n.open_id === result.openid})){
         return {
           ...n,
           userJoin:true
