@@ -3,7 +3,7 @@ const path = require('path');
 // const Sequelize = require('sequelize');
 const mongoose = require('mongoose')
 const configs = require('../config/config.js');
-
+mongoose.set('useFindAndModify', false)
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = {
