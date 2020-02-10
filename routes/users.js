@@ -175,7 +175,7 @@ module.exports = [{
       console.log('???走到这里了')
       const userModel = new models.users({
         nick_name: userInfo.nickName,
-        avatar_url: userInfo.avatarUrl,
+        avatar_url: userInfo.pic,
         open_id: openid,
         skinChipNum:0,
         session_key: sessionKey,
@@ -193,7 +193,7 @@ module.exports = [{
       console.log('用户找到了')
       models.users.findOneAndUpdate({open_id:openid},{
         nick_name: userInfo.nickName,
-        avatar_url: userInfo.avatarUrl,
+        avatar_url: userInfo.pic,
         open_id: openid,
         session_key: sessionKey,
       })
