@@ -110,6 +110,7 @@ module.exports = [
           if(err)reply({status:500,error:err})
           else {
             const obj = {...res,userNum:0}
+            console.log(obj,'???')
             const luckInfo = new models.luckInfo({
               "luckDraw":obj,
               "luckDrawPeople": [
