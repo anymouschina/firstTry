@@ -11,8 +11,7 @@ async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
     const luckDraws = await models.luckDraws.find({isFinish:false}).map(item=>{
       if(item.some(n=>{
-        console.log(n,result)
-        return n.open_id === result.openid})){
+        return n.peopleGroup.some(h=>h.open_id === result.openid)})){
         return {
           ...n,
           userJoin:true
