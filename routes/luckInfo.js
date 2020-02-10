@@ -62,9 +62,7 @@ module.exports = [
     const {luckDrawId,user} = request.payload;
     const list = await models[GROUP_NAME].findByIdAndUpdate(luckDrawId,{
       $push:{'luckDrawPeople':user},
-      luckDraw:{
-        $inc:{'userNum':1}
-      }
+        $inc:{luckDraw:{'userNum':1}}
     })
       reply({
         status:200,
