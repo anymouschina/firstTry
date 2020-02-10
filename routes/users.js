@@ -11,7 +11,7 @@ async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
     const luckDraws = await models.luckDraws.find({isFinish:false}).map(item=>{
       if(item.some(n=>{
-        console.log(n.open_id,result)
+        console.log(n,result)
         return n.open_id === result.openid})){
         return {
           ...n,
