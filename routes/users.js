@@ -9,7 +9,10 @@ const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
-    const luckDraws = await models.luckDraws.find({isFinish:false})
+    const luckDraws = await models.luckDraws.find({isFinish:false}).map(item=>{
+      console.log(item,'数据')
+      return item
+    })
     reply({result,luckDraws})
   }else{
     reply(result)
