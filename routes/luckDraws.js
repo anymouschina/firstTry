@@ -109,7 +109,7 @@ module.exports = [
       luckDraw.save((err,res)=>{
           if(err)reply({status:500,error:err})
           else {
-            const obj = {...res,userNum:0}
+            const obj = {...res._doc,userNum:0}
             console.log(obj,'???')
             const luckInfo = new models.luckInfo({
               "luckDraw":obj,
