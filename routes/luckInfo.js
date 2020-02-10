@@ -41,6 +41,22 @@ module.exports = [
   },
   {
     method: 'GET',
+    path: `/${GROUP_NAME}/deleteMany`,
+    handler: async (request, reply) => {
+    const list = await models[GROUP_NAME].deleteMany()
+      reply({
+        status:200,
+        data:list
+      })
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '查询内容',
+    },
+  },
+  {
+    method: 'GET',
     path: `/${GROUP_NAME}/findById`,
     handler: async (request, reply) => {
     const {id} = request.query;
