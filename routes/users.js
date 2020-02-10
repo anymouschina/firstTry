@@ -9,9 +9,8 @@ const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
-    const luckDraws = await models.luckDraws.find({isFinish:false}).map(async item=>{
-      console.log(item,'!!!!')
-      if(item.peopleGroup.filter(item=>item.open_id === result.open_id).length>0){
+    const luckDraws = await models.luckDraws.find({isFinish:false}).map(item=>{
+      if(item.some(n=>n.open_id === result.open_id)){
         item.userJoin = true
       }
       return item
