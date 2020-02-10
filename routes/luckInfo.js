@@ -56,6 +56,34 @@ module.exports = [
     },
   },
   {
+    method: 'POST',
+    path: `/${GROUP_NAME}/luckJoin`,
+    handler: async (request, reply) => {
+    const {luckDrawId,user} = request.payload;
+    const list = await models[GROUP_NAME].findByIdAndUpdate(luckDrawId,{
+      $push:{'luckDrawPeople':user},
+      luckDraw:{
+        $inc:{'userNum':1}
+      }
+    })
+      reply({
+        status:200,
+        data:list
+      })
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '查询内容',
+      validate: {
+        payload:{
+          luckDrawId:Joi.string().required().description('唯一标识'),
+          user:Joi.object().required().description('用户信息')
+        }
+      },
+    },
+  },
+  {
     method: 'GET',
     path: `/${GROUP_NAME}/findById`,
     handler: async (request, reply) => {
