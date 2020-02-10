@@ -70,6 +70,10 @@ module.exports = [
         obj[item] = doc.luckDraw[item]
       })
       obj.userNum++;
+      await models.luckDraws.findById(luckDrawId,function(err,doc1){
+        doc1.peopleGroup.push(user);
+        doc1.save();
+      })
       // if(doc.luckDraw.userNum>=doc.luckDraw.openNum){
       //   doc.luckDraw.isFinish = true;
       // }
