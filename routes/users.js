@@ -156,6 +156,7 @@ module.exports = [{
         nick_name: userInfo.nickName,
         avatar_url: userInfo.avatarUrl,
         open_id: openid,
+        skinChipNum:0,
         session_key: sessionKey,
       })
       console.log('???')
@@ -187,7 +188,8 @@ module.exports = [{
       payload: {
         code: Joi.string().required().description('微信用户登录的临时code'),
         from: Joi.number().required().description('小程序标识'),
-        updateData:Joi.object().required().description('用户名称以及头像')
+        updateData:Joi.object().required().description('用户名称以及头像'),
+        skinChipNum:Joi.number().description('微信用户登录的临时code')
       },
     },
   },
