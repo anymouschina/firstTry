@@ -13,7 +13,7 @@ async function userLogin(reply,from = 0,result = []){
      return item.map(n=>{
        if(n.peopleGroup.some(h=>h.open_id === result.openid)){
          return {
-          ...n,
+          ...n._doc,
           userJoin:true
         }
        }else{
