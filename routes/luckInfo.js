@@ -65,7 +65,7 @@ module.exports = [
         reply(err)
       }
       doc.luckDrawPeople.push(user);
-      doc.luckDraw.userNum++;
+      ++doc.luckDraw.userNum;
       // if(doc.luckDraw.userNum>=doc.luckDraw.openNum){
       //   doc.luckDraw.isFinish = true;
       // }
