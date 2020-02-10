@@ -68,7 +68,7 @@ module.exports = [
       let obj = doc.luckDraw;
       obj.userNum++;
       doc.luckDraw = 1;
-      console.log(doc.luckDraw,'!!!')
+      console.log(Object.keys(doc.luckDraw),'!!!')
       // if(doc.luckDraw.userNum>=doc.luckDraw.openNum){
       //   doc.luckDraw.isFinish = true;
       // }
