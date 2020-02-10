@@ -60,7 +60,7 @@ module.exports = [
     path: `/${GROUP_NAME}/luckJoin`,
     handler: async (request, reply) => {
     const {luckDrawId,user} = request.payload;
-    await models[GROUP_NAME].findById(luckDrawId, function (err, doc) {
+    await models[GROUP_NAME].findById(luckDrawId,async function (err, doc) {
       if (err) {
         reply(err)
       }
