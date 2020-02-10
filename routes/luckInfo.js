@@ -60,14 +60,21 @@ module.exports = [
     path: `/${GROUP_NAME}/luckJoin`,
     handler: async (request, reply) => {
     const {luckDrawId,user} = request.payload;
-    const list = await models[GROUP_NAME].findByIdAndUpdate(luckDrawId,{
-      $push:{'luckDrawPeople':user},
-        $inc:{luckDraw:{'userNum':1}}
-    })
-      reply({
+    await models[GROUP_NAME].findById(luckDrawId, function (err, doc) {
+      if (err) {
+        reply(err)
+      }
+      doc.luckDrawPeople.push(user);
+      doc.luckDraw.userNum++;
+      // if(doc.luckDraw.userNum>=doc.luckDraw.openNum){
+      //   doc.luckDraw.isFinish = true;
+      // }
+      doc.save(reply({
         status:200,
-        data:list
-      })
+        data:'更新成功'
+      }));
+    });
+     
     },
     config: {
       tags: ['api', GROUP_NAME],
