@@ -74,6 +74,27 @@ module.exports = [{
 },
 {
   method: 'GET',
+  path: `/${GROUP_NAME}/deleteUser`,
+  handler: async (request, reply) => {
+    const list = await models.users.deleteOne({open_id:request.query.openid}, function (err,res) {
+      if(err)reply({status:200,data:'无此用户数据'});
+      reply({status:200,data:res||'无此用户数据'});
+    })
+    
+  },
+  config: {
+    tags: ['api', GROUP_NAME],
+    description: '获取用户列表',
+    auth: false, // 约定此接口不参与 JWT 的用户验证，会结合下面的 hapi-auth-jwt 来使用
+    validate: {
+      query: {
+        openid:Joi.string().required().description('openid')
+      },
+    }
+  },
+},
+{
+  method: 'GET',
   path: `/${GROUP_NAME}/getUserInfo`,
   handler: async (request, reply) => {
     const {appid,secret} = sercretObj[request.query.from];
