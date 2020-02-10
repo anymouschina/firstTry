@@ -110,7 +110,7 @@ module.exports = [
           if(err)reply({status:500,error:err})
           else {
             console.log({
-              "luckDraw":res,
+              "luckDraw":{...res,userNum:0},
               "luckDrawPeople": [
               ],
               "luckers": [
