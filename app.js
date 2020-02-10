@@ -10,6 +10,7 @@ const routeType = require('./routes/commentType')
 const routeDesc = require('./routes/descs')
 const routeSystem = require('./routes/systemManege')
 const routesLuck = require('./routes/luckDraws')
+const routesLuckInfo = require('./routes/luckInfo')
 const pluginHapiSwagger = require('./plugins/hapi-swagger');
 const pluginHapiPagination = require('./plugins/hapi-pagination');
 const pluginHapiAuthJWT2 = require('./plugins/hapi-auth-jwt2');
@@ -38,6 +39,7 @@ const init = async () => {
     ...routesUsers,
     ...routesVotings,
     ...routesGoods,
+    ...routesLuckInfo,
     ...routesLuck,
     ...routeComments,
     ...routeType,

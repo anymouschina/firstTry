@@ -1,16 +1,12 @@
 //热评
 module.exports = (mongoose) => mongoose.model(
-    'luckDraws',
+    'luckInfo',
     mongoose.Schema({
-      title:String,//标题
-      conditionType:String,//1皮肤,2碎片
-      isFinish:Boolean,//是否结束
-      openNum:Number,//开奖需要人数
-      openTime:Date,//开奖时间
-      userNum:Number,//当前人数
-      pic:String,//图片
-      prize:Object,//奖品信息
-      peopleGroup:Array,//参与人列表
+      luckDraw:Object,//抽奖详情
+      luckDrawPeople:Array,//参与人
+      luckers:Array,//中奖人
+      userLuckDraw:String,//文字提示
+      _id:String
      },{timestamps: {
       createdAt: 'created',
       updatedAt: 'updated'
