@@ -19,7 +19,7 @@ module.exports = [
          status:200,
          data:list,
          total,
-         pages:pages+addNum
+         pages:parseInt(pages)+parseInt(addNum)
        })
     },
     config: {
