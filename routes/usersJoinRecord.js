@@ -13,11 +13,13 @@ module.exports = [
      const total = await models[GROUP_NAME].find({luckDrawId}).countDocuments();
      const list = models[GROUP_NAME].find({luckDrawId}).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
     
+    const pages = total/request.query.limit+total%request.query.limit===0?0:1
+    console.log(list,total,'!!!',pages)
        reply({
          status:200,
          data:list,
-         total:total,
-         pages:total/request.query.limit+total%request.query.limit===0?0:1
+         total,
+         pages
        })
     },
     config: {
