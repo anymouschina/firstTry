@@ -6,10 +6,11 @@ async function updateUser(models,content){
             content,
             open_id:content.open_id,
         })
-        userChangeRecord.save(
-            models.users.findOneAndUpdate({open_id:content.open_id},
-                 { $inc:{skinChipNum:content.num}} )
-        )
+      const res =   await models.users.findOneAndUpdate({open_id:content.open_id,from:'1'},{
+             $inc:{skinChipNum:content.num}
+        })
+        console.log(res,'更新')
+        userChangeRecord.save()
         
     }else{
 
