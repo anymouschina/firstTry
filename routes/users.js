@@ -9,18 +9,18 @@ const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
+    const userJoin = await models.usersJoinRecord.find({open_id:result.open_id})
     const luckDraws = await models.luckDraws.find({isFinish:false}).map(item=>{
-     return item.map(async n=>{
-       const userJoin = await models.usersJoinRecord.find({luckDrawId:n._id,open_id:result.open_id}).countDocuments()
-       console.log(userJoin,n,'11')
-       if(userJoin>0){
-        return {
+     return item.map(n=>{
+      //  if(n.peopleGroup.some(h=>h.open_id === result.openid)){
+        console.log(user[0],'0')
+         return {
           ...n._doc,
-          userJoin:userJoin>0
+          userJoin:userJoin.some(a=>n._id===a.luckDrawId)
         }
-       }else{
-         return n
-       }
+      //  }else{
+      //    return n
+      //  }
      })
       
     })
