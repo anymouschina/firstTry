@@ -12,17 +12,10 @@ async function userLogin(reply,from = 0,result = []){
     const userJoin = await models.usersJoinRecord.find({open_id:result.openid})
     const luckDraws = await models.luckDraws.find({isFinish:false}).map(item=>{
      return item.map(n=>{
-      //  if(n.peopleGroup.some(h=>h.open_id === result.openid)){
-        userJoin.some(a=>{
-          console.log(n._doc._id==a.luckDrawId,'??',n._id,a.luckDrawId)
-        })
          return {
           ...n._doc,
           userJoin:userJoin.some(a=>n._doc._id==a.luckDrawId)
         }
-      //  }else{
-      //    return n
-      //  }
      })
       
     })

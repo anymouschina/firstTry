@@ -89,8 +89,12 @@ module.exports = [
     path: `/${GROUP_NAME}/findById`,
     handler: async (request, reply) => {
     const {id} = request.query;
-    const list = await models[GROUP_NAME].findById(id,async (err,doc)=>{
-      const userRecord = await models.usersJoinRecord.find({luckDrawId:id}).skip(0).limit(10)
+    await models[GROUP_NAME].findById(id,async (err,doc)=>{
+      const arr = await models.usersJoinRecord.find({luckDrawId:id})
+      const len = arr.countDocuments()
+      const userRecord = arr.skip(0).limit(10)
+      console.log(len,userRecord)
+      doc.luckDraw.userNum = len;
       doc.luckDrawPeople = userRecord;
       doc.save(reply({
         status:200,
