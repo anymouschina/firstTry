@@ -3,7 +3,7 @@ const { paginationDefine } = require('../utils/router-helper');
 const models = require('../models');
 const { env } = process;
 const GROUP_NAME = 'luckInfo';
-
+const {updateUser} = require('../utils/dealUser')
 module.exports = [
   {
     method: 'GET',
@@ -60,12 +60,18 @@ module.exports = [
     path: `/${GROUP_NAME}/luckJoin`,
     handler: async (request, reply) => {
     const {luckDrawId,user} = request.payload;
-      const {nick_name,avatar_url,open_id} = user
+      const {nick_name,avatar_url,open_id} = user;
       const joinRecord= new models.usersJoinRecord({
         nick_name,
         avatar_url,
         open_id,
         luckDrawId
+      })
+      updateUser(models,{
+        title:'参与抽奖 +1',
+        type:1,
+        num:1,
+        open_id:user.open_id
       })
       joinRecord.save(reply({
         status:200,
