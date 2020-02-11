@@ -90,13 +90,14 @@ module.exports = [
     handler: async (request, reply) => {
     const {id} = request.query;
     const list = await models[GROUP_NAME].findById(id,async (err,doc)=>{
-      const userRecord = await models.usersJoinRecord.find({luckDrawId:id})
-      console.log(doc,userRecord,'数据')
-    })
-      reply({
+      const userRecord = await models.usersJoinRecord.find({luckDrawId:id}).skip(0).limit(10)
+      doc.luckDrawPeople = userRecord;
+      doc.save(reply({
         status:200,
-        data:list
-      })
+        data:doc
+      }))
+    })
+      
     },
     config: {
       tags: ['api', GROUP_NAME],

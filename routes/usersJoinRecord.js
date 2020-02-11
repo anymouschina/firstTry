@@ -56,6 +56,28 @@ module.exports = [
     },
   },
   {
+    method: 'GET',
+    path: `/${GROUP_NAME}/isJoined`,
+    handler: async (request, reply) => {
+        const {luckDrawId,open_id} = request.query
+    const list = await models[GROUP_NAME].find({luckDrawId,open_id})
+      reply({
+        status:200,
+        data:list
+      })
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '查询内容',
+      validate:{
+          query:{
+          luckDrawId:Joi.string().required().description('唯一标识'),
+          open_id:Joi.string().required().description('用户信息')}
+      }
+    },
+  },
+  {
     method: 'POST',
     path: `/${GROUP_NAME}/luckJoin`,
     handler: async (request, reply) => {
