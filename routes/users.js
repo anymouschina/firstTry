@@ -13,11 +13,14 @@ async function userLogin(reply,from = 0,result = []){
      return item.map(async n=>{
        const userJoin = await models.usersJoinRecord.find({luckDrawId:n._id,open_id:result.open_id}).countDocuments()
        console.log(userJoin,n,'11')
-         return {
-          data:n,
+       if(userJoin>0){
+        return {
+          ...n._doc,
           userJoin:userJoin>0
         }
-      
+       }else{
+         return n
+       }
      })
       
     })
