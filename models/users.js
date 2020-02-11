@@ -5,6 +5,7 @@ module.exports = (mongoose) => mongoose.model(
       avatar_url: String,
       gender:Number,
       open_id: String,
+      from:String,//来源
       skinChipNum:Number,//积分数
       session_key: String,
     },{timestamps: {

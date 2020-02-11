@@ -34,7 +34,7 @@ module.exports = [{
   path: `/${GROUP_NAME}/findUserList`,
   handler: async (request, reply) => {
     const query = models.users.find();
-    const total = await query.count();
+    const total = await query.countDocuments();
     const data = await query.find()
     .sort({'created':-1})
     .skip((request.query.page - 1) * request.query.limit).
