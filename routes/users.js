@@ -14,11 +14,11 @@ async function userLogin(reply,from = 0,result = []){
      return item.map(n=>{
       //  if(n.peopleGroup.some(h=>h.open_id === result.openid)){
         userJoin.some(a=>{
-          console.log(new String(n._id)===a.luckDrawId,'??',n._id,a.luckDrawId)
+          console.log(n._doc._id==a.luckDrawId,'??',n._id,a.luckDrawId)
         })
          return {
           ...n._doc,
-          userJoin:userJoin.some(a=>new String(n._id)===a.luckDrawId)
+          userJoin:userJoin.some(a=>n._doc._id==a.luckDrawId)
         }
       //  }else{
       //    return n
