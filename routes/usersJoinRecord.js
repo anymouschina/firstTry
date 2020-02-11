@@ -10,7 +10,7 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
      const {luckDrawId} = request.query
-     const total = await models[GROUP_NAME].find({luckDrawId}).count();
+     const total = await models[GROUP_NAME].find({luckDrawId}).countDocuments();
      const list = models[GROUP_NAME].find({luckDrawId}).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
     
        reply({
@@ -18,8 +18,6 @@ module.exports = [
          data:list,
          pages:total/request.query.limit+total%request.query.limit===0?0:1
        })
-    
-     }
     },
     config: {
       tags: ['api', GROUP_NAME],
