@@ -2,10 +2,11 @@
 const models = require('../models')
 function updateUser(models,content){
     if(content.type===1){
-        new models.userChangeRecord({type:content.type,
+      const userChangeRecord =  new models.userChangeRecord({type:content.type,
             content,
             open_id:content.open_id,
-        }).save()
+        })
+        userChangeRecord.save()
         updateUserInfo(content.open_id,{skinChipNum:(num)=>{return num + content.num}})
     }else{
 
