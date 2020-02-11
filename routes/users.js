@@ -11,7 +11,7 @@ async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
     const luckDraws = await models.luckDraws.find({isFinish:false}).map(item=>{
      return item.map(async n=>{
-       const userJoin = await models.usersJoinRecord.find({luckDrawId:_id,open_id:result.open_id}).count()>0
+       const userJoin = (await models.usersJoinRecord.find({luckDrawId:n._id,open_id:result.open_id}).count())>0
          return {
           ...n._doc,
           userJoin
