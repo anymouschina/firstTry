@@ -16,6 +16,7 @@ module.exports = [
        reply({
          status:200,
          data:list,
+         total:total,
          pages:total/request.query.limit+total%request.query.limit===0?0:1
        })
     },
