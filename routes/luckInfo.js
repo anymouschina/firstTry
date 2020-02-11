@@ -89,7 +89,10 @@ module.exports = [
     path: `/${GROUP_NAME}/findById`,
     handler: async (request, reply) => {
     const {id} = request.query;
-    const list = await models[GROUP_NAME].findById(id)
+    const list = await models[GROUP_NAME].findById(id,async (err,doc)=>{
+      const userRecord = await models.usersJoinRecord.find({luckDrawId:id})
+      console.log(doc,userRecord,'数据')
+    })
       reply({
         status:200,
         data:list
