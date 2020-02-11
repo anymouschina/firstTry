@@ -9,14 +9,14 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
-     const {type} = request.query
-     const total = await models[GROUP_NAME].find(type?{type}:null).count();
-     const list = await (type?models[GROUP_NAME].find({type}):models[GROUP_NAME].find()).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     const {luckDrawId} = request.query
+     const total = await models[GROUP_NAME].find({luckDrawId}).count();
+     const list = models[GROUP_NAME].find({luckDrawId}).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(list.length>0){
        reply({
          status:200,
          data:list,
-         total
+         pages:total/request.query.limit+total%request.query.limit===0?0:1
        })
      }else{
       reply({
@@ -34,6 +34,7 @@ module.exports = [
         query: {
           open_id:Joi.string().description('用户唯一标识/暂非必填'),
           type:Joi.string().description('类型'),
+          luckDrawId:Joi.string().required().description('唯一标识'),
           ...paginationDefine,
         },
       },
