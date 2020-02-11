@@ -2,15 +2,16 @@ const Hapi = require('hapi');
 const hapiAuthJWT2 = require('hapi-auth-jwt2');
 require('env2')('./.env');
 const config = require('./config');
-const routesUsers = require('./routes/users');
-const routesVotings = require('./routes/votings');
-const routesGoods = require('./routes/goods')
-const routeComments = require('./routes/hotComments')
-const routeType = require('./routes/commentType')
-const routeDesc = require('./routes/descs')
-const routeSystem = require('./routes/systemManege')
-const routesLuck = require('./routes/luckDraws')
-const routesLuckInfo = require('./routes/luckInfo')
+// const routesUsers = require('./routes/users');
+// const routesVotings = require('./routes/votings');
+// const routesGoods = require('./routes/goods')
+// const routeComments = require('./routes/hotComments')
+// const routeType = require('./routes/commentType')
+// const routeDesc = require('./routes/descs')
+// const routeSystem = require('./routes/systemManege')
+// const routesLuck = require('./routes/luckDraws')
+// const routesLuckInfo = require('./routes/luckInfo')
+const {outRoutes} = require('./routes/index')
 const pluginHapiSwagger = require('./plugins/hapi-swagger');
 const pluginHapiPagination = require('./plugins/hapi-pagination');
 const pluginHapiAuthJWT2 = require('./plugins/hapi-auth-jwt2');
@@ -36,15 +37,16 @@ const init = async () => {
   // 注册路由
   server.route([
     // 创建一个简单的hello hapi接口
-    ...routesUsers,
-    ...routesVotings,
-    ...routesGoods,
-    ...routesLuckInfo,
-    ...routesLuck,
-    ...routeComments,
-    ...routeType,
-    ...routeDesc,
-    ...routeSystem
+    // ...routesUsers,
+    // ...routesVotings,
+    // ...routesGoods,
+    // ...routesLuckInfo,
+    // ...routesLuck,
+    // ...routeComments,
+    // ...routeType,
+    // ...routeDesc,
+    // ...routeSystem
+    ...outRoutes
   ]);
   // 启动服务
   await server.start();

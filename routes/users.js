@@ -169,7 +169,7 @@ module.exports = [{
     const { openid, session_key: sessionKey } = response.data;
     // 基于 openid 查找或创建一个用户
   await models.users.find(
-     { open_id: openid },
+     { open_id: openid,from },
   ).then(userResponse=>{
     if(userResponse.length===0){
       console.log('???走到这里了')
@@ -177,7 +177,9 @@ module.exports = [{
         nick_name: userInfo.nickName,
         avatar_url: userInfo.pic,
         open_id: openid,
+        from,
         skinChipNum:0,
+        useSkinChipNum:0,
         session_key: sessionKey,
       })
       console.log('???')
@@ -191,7 +193,7 @@ module.exports = [{
       })
     }else{
       console.log('用户找到了')
-      models.users.findOneAndUpdate({open_id:openid},{
+      models.users.findOneAndUpdate({open_id:openid,from},{
         nick_name: userInfo.nickName,
         avatar_url: userInfo.pic,
         open_id: openid,
@@ -210,7 +212,7 @@ module.exports = [{
         code: Joi.string().required().description('微信用户登录的临时code'),
         from: Joi.number().required().description('小程序标识'),
         updateData:Joi.object().required().description('用户名称以及头像'),
-        skinChipNum:Joi.number().description('微信用户登录的临时code')
+        skinChipNum:Joi.number().description('皮肤碎片数目')
       },
     },
   },

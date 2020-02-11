@@ -27,6 +27,8 @@ module.exports = [
         { name: 'goods', description:'商品相关'},
         {name:'hotComments',description:'热评相关'},
         {name:'luckInfo',description:'抽奖信息'},
+        {name:'usersJoinRecord',description:'参与抽奖记录'},
+        {name:'userChangeRecord',description:'用户状态变更'},
         {name:'luckDraws',description:'王者抽奖相关'},
         {name:'commentType',description:'热评类型'},
         {name:'descs',description:'粘贴板'},
