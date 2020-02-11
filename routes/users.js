@@ -14,7 +14,7 @@ async function userLogin(reply,from = 0,result = []){
        const userJoin = (await models.usersJoinRecord.find({luckDrawId:n._id,open_id:result.open_id}).countDocuments())>0
        console.log(userJoin,'11')
          return {
-          ...n._doc,
+          ...n,
           userJoin
         }
       
