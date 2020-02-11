@@ -14,7 +14,7 @@ module.exports = [
      const list = await models[GROUP_NAME].find({luckDrawId}).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
     
     const pages = (total/request.query.limit)+(total%request.query.limit===0)?0:1
-    console.log(list,total,'!!!',pages)
+    console.log(total/request.query.limit,(total%request.query.limit===0)?0:1)
        reply({
          status:200,
          data:list,
