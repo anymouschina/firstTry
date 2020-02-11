@@ -60,30 +60,17 @@ module.exports = [
     path: `/${GROUP_NAME}/luckJoin`,
     handler: async (request, reply) => {
     const {luckDrawId,user} = request.payload;
-    await models[GROUP_NAME].findById(luckDrawId,async function (err, doc) {
-      if (err) {
-        reply(err)
-      }
-      doc.luckDrawPeople.push(user);
-      let obj = {};
-      Object.keys(doc.luckDraw).map(item=>{
-        obj[item] = doc.luckDraw[item]
+      const {nick_name,avatar_url,open_id} = user
+      const joinRecord= new models.usersJoinRecord({
+        nick_name,
+        avatar_url,
+        open_id,
+        luckDrawId
       })
-      obj.userNum++;
-      await models.luckDraws.findById(luckDrawId,async function(err,doc1){
-        doc1.peopleGroup.push(user);
-        doc1.save();
-      })
-      // if(doc.luckDraw.userNum>=doc.luckDraw.openNum){
-      //   doc.luckDraw.isFinish = true;
-      // }
-      doc.luckDraw = obj
-      doc.save(reply({
+      joinRecord.save(reply({
         status:200,
         data:'更新成功'
-      }));
-    });
-     
+      }))
     },
     config: {
       tags: ['api', GROUP_NAME],
