@@ -16,25 +16,25 @@ module.exports = [
      })
      let total,list,pages,addNum
     if(Object.keys(params).indexOf('isFinish')>-1){
-      let isFinish = params.isFinish
       delete params.isFinish
-      total = await models[GROUP_NAME].find(params).countDocuments();
+      total = await models[GROUP_NAME].find(params).populate({
+        path: 'luckDrawId'
+      , select: 'isFinish -_id',
+      model: models.luckDraws
+      , options: { sort: { created: 1 }}
+    }).countDocuments();
       list = await models[GROUP_NAME].find(params).populate({
         path: 'luckDrawId'
       , select: 'isFinish -_id',
       model: models.luckDraws
-      , match:{isFinish},options: { sort: { created: 1 }}
-    }).exec(function (err, kittens) {
-      console.log(kittens,'??') // Zoopa
-    })
-    // .sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
-      // pages = total/request.query.limit
-      // addNum = (total%request.query.limit===0)?0:1
+      , options: { sort: { created: 1 }}
+    }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
+      pages = total/request.query.limit
+      addNum = (total%request.query.limit===0)?0:1
       reply({
         status:200,
         data:list,
         total,
-        isFinish,
         pages:parseInt(pages)+parseInt(addNum)
       })
     }else{
