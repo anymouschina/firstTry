@@ -1,6 +1,5 @@
 
-const models = require('../models')
-async function updateUser(models,content){
+async function updateUser(models,content,callback=()=>{}){
     if(content.type===1){
       const userChangeRecord = await  new models.userChangeRecord({type:content.type,
             content,
@@ -9,9 +8,8 @@ async function updateUser(models,content){
       const res =   await models.users.findOneAndUpdate({open_id:content.open_id,from:'1'},{
              $inc:{skinChipNum:content.num}
         })
-        console.log(res,'更新')
         userChangeRecord.save()
-        
+        callback(res)
     }else{
 
     }

@@ -2,6 +2,7 @@ const Joi = require('joi');
 const { paginationDefine } = require('../utils/router-helper');
 const models = require('../models');
 const { env } = process;
+const {updateUser} = require('../utils/dealUser')
 const GROUP_NAME = 'userChangeRecord';
 
 module.exports = [
@@ -146,9 +147,17 @@ module.exports = [
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
     const luckDraw = new models[GROUP_NAME](request.payload)
+     
       luckDraw.save((err)=>{
           if(err)reply({status:500,error:err})
-          else reply({status:200,message:'新建成功'})
+          else {
+            updateUser(models,request.payload,(res)=>{
+              reply({
+                status:200,
+                data:res
+              })
+            })
+          }
       })
     },
     config: {
