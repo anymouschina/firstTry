@@ -1,7 +1,8 @@
 //热评
 module.exports = (mongoose) => mongoose.model(
     'luckDraws',
-    mongoose.Schema({
+    (()=>{
+   let  Schema = new mongoose.Schema({
       title:String,//标题
       conditionType:String,//1皮肤,2碎片
       isFinish:Boolean,//是否结束
@@ -30,7 +31,8 @@ module.exports = (mongoose) => mongoose.model(
       this.findOne().skip(rand).exec(callback)
     }.bind(this))
   }
-  }).virtual('waitFinish', {
+  })
+  Schema.virtual('waitFinish', {
     ref: 'usersJoinRecord', // The model to use
     localField: '_id', // Find people where `localField`
     foreignField: 'luckDrawId', // is equal to `foreignField`
@@ -38,4 +40,6 @@ module.exports = (mongoose) => mongoose.model(
     // an array. `justOne` is false by default.
     justOne: false
   })
+  return Schema
+})()
   );
