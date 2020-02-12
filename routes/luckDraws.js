@@ -133,6 +133,7 @@ module.exports = [
       validate: {
         payload: {
             title: Joi.string().required().description('标题'),
+            prize:Joi.object().required().description('奖品内容'),
             conditionType:Joi.string().required().description('类型'),//1皮肤,2碎片
             isFinish:Joi.boolean().required().description('是否结束').default(false),//是否结束
             openNum:Joi.number().description('开奖人数'),//开奖需要人数
