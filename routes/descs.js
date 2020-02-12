@@ -9,7 +9,7 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
-     const total = await models.descs.find().count();
+     const total = await models.descs.find().countDocuments();
      const list = await models.descs.find().sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(list.length>0){
        reply({

@@ -10,7 +10,7 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
      const {type} = request.query
-     const total = await models.hotComments.find(type?{type}:null).count();
+     const total = await models.hotComments.find(type?{type}:null).countDocuments();
      const list = await (type?models.hotComments.find({type}):models.hotComments.find()).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(list.length>0){
        reply({

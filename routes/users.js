@@ -18,7 +18,7 @@ async function userLogin(reply,from = 0,result = []){
           localField: "_id",
           foreignField: "luckDrawId",
           as: "userJoin"
-        },
+        }
         
       },
       {$sort:{'created':-1}},

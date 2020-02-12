@@ -14,7 +14,7 @@ module.exports = [
      Object.keys(request.query).map(item=>{
        if(deleteKeys.indexOf(item)===-1)params[item] = request.query[item]
      })
-     const total = await models[GROUP_NAME].find(params).count();
+     const total = await models[GROUP_NAME].find(params).countDocuments();
      const list = await models[GROUP_NAME].find(params).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(list.length>0){
        reply({

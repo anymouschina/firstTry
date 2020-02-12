@@ -42,7 +42,7 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
      const {open_id,pagination} = request.query
-     const total = await models[GROUP_NAME].find({open_id}).count();
+     const total = await models[GROUP_NAME].find({open_id}).countDocuments();
      let list ;
      if(pagination){
       list= await models[GROUP_NAME].find({open_id})
