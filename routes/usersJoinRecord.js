@@ -24,13 +24,17 @@ module.exports = [
       , select: 'isFinish -_id',
       model: models.luckDraws
       , match:{isFinish},options: { sort: { created: 1 }}
-    }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
-      pages = total/request.query.limit
-      addNum = (total%request.query.limit===0)?0:1
+    }).exec(function (err, kittens) {
+      console.log(kittens,'??') // Zoopa
+    })
+    // .sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
+      // pages = total/request.query.limit
+      // addNum = (total%request.query.limit===0)?0:1
       reply({
         status:200,
         data:list,
         total,
+        isFinish,
         pages:parseInt(pages)+parseInt(addNum)
       })
     }else{
