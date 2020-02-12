@@ -14,7 +14,7 @@ module.exports = [
      Object.keys(params).map(item=>{
        if(deleteKeys.indexOf(item)>-1)delete params[item]
      })
-     let total,list
+     let total,list,pages,addNum
     if(Object.keys(params).indexOf('isFinish')>-1){
       total = await models[GROUP_NAME].find(params).countDocuments();
       list = await models[GROUP_NAME].find(params).populate({
@@ -22,20 +22,27 @@ module.exports = [
       , select: 'isFinish -_id'
       , options: { sort: { created: 1 }}
     }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
-  
+      pages = total/request.query.limit
+      addNum = (total%request.query.limit===0)?0:1
+      reply({
+        status:200,
+        data:list,
+        total,
+        pages:parseInt(pages)+parseInt(addNum)
+      })
     }else{
       total = await models[GROUP_NAME].find(params).countDocuments();
       list = await models[GROUP_NAME].find(params).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
-   
+      pages = total/request.query.limit
+      addNum = (total%request.query.limit===0)?0:1
+      reply({
+        status:200,
+        data:list,
+        total,
+        pages:parseInt(pages)+parseInt(addNum)
+      })
     }
-    const pages = total/request.query.limit
-    const addNum = (total%request.query.limit===0)?0:1
-       reply({
-         status:200,
-         data:list,
-         total,
-         pages:parseInt(pages)+parseInt(addNum)
-       })
+       
     },
     config: {
       tags: ['api', GROUP_NAME],
