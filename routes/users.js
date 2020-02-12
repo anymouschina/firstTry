@@ -10,10 +10,7 @@ const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
   let luckDraws =  await models.luckDraws.
-  aggregate([{
-    $lookup:{ from: 'usersJoinRecord', localField: '_id', foreignField: 'luckDrawId', as: 'userJoin' }
-  }])
-    // find({isFinish:false})
+    find({isFinish:false}).project('_id')
     // .populate({
     //   path:''
     // })
