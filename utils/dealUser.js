@@ -1,6 +1,6 @@
 
 async function updateUser(models,content,callback=()=>{}){
-    if(content.type===1){
+    if(content.type==1){
         console.log(1)
       const userChangeRecord = await  new models.userChangeRecord({
             type:content.type,
