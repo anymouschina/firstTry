@@ -148,7 +148,10 @@ module.exports = [
     handler: async (request, reply) => {
             console.log(0)
             const params = {...request.payload,...request.payload.content}
-            updateUser(models,params,(res)=>{
+            updateUser(models,params,async (res)=>{
+              await models.users.findOneAndUpdate({open_id:content.open_id,from:'1'},{
+                $inc:{registerNum:1}
+           })
               reply({
                 status:200,
                 data:res
