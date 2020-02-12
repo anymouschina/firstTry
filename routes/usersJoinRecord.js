@@ -10,12 +10,12 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
      let params = request.query;
-     const deleteKeys = ['page','limit','pagination']
+     const deleteKeys = ['page','limit','pagination','isFinish']
      Object.keys(params).map(item=>{
        if(deleteKeys.indexOf(item)>-1)delete params[item]
      })
      let total,list,pages,addNum
-    if(Object.keys(params).indexOf('isFinish')>-1){
+    if(Object.keys(request.query).indexOf('isFinish')>-1){
       total = await models[GROUP_NAME].find(params).countDocuments();
       list = await models[GROUP_NAME].find(params).populate({
         path: 'luckDraws'
