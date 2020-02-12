@@ -30,5 +30,12 @@ module.exports = (mongoose) => mongoose.model(
       this.findOne().skip(rand).exec(callback)
     }.bind(this))
   }
+  }).virtual('waitFinish', {
+    ref: 'usersJoinRecord', // The model to use
+    localField: '_id', // Find people where `localField`
+    foreignField: 'luckDrawId', // is equal to `foreignField`
+    // If `justOne` is true, 'members' will be a single doc as opposed to
+    // an array. `justOne` is false by default.
+    justOne: false
   })
   );

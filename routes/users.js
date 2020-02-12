@@ -9,24 +9,9 @@ const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
-    // const userJoin = await models.usersJoinRecord.find({open_id:result.openid})
-   let luckDraws = await models.luckDraws
-    .aggregate.lookup({
-      from: "usersJoinRecord",
-      localField: "_id",
-      foreignField: "luckDrawId",
-      as: "userJoin"
-    }).match({ isFinish: false}).sort({'created':-1})
-    reply({result,luckDraws}
-    // .map(item=>{
-    //  return item.map(n=>{
-    //      return {
-    //       ...n._doc,
-    //       userJoin:userJoin.some(a=>n._doc._id==a.luckDrawId)
-    //     }
-    //  })
-      
-    // })
+  let luckDraws =  await models.luckDraws
+    populate({ path: 'waitFinish', select: 'luckDrawId open_id' })
+    reply({result,luckDraws})
     
   }else{
     reply(result)
