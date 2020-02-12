@@ -68,7 +68,7 @@ module.exports = [
         luckDrawId
       })
       updateUser(models,{
-        title:'参与抽奖 +1',
+        title:'参与抽奖',
         type:1,
         num:1,
         open_id:user.open_id

@@ -9,12 +9,9 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
-     let params = {}
-     Object.keys(request.query).map(item=>{
-         if(request.query[item])params[item] = request.query[item]
-     })
-     const total = await models[GROUP_NAME].find({open_id:params.open_id}).count();
-     const list = await models[GROUP_NAME].find({open_id:params.open_id}).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     const {open_id,type} = request.query
+     const total = await models[GROUP_NAME].find({open_id,type}).countDocuments();
+     const list = await models[GROUP_NAME].find({open_id,type}).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      const pages = total/request.query.limit
      const addNum = (total%request.query.limit===0)?0:1
       reply({
