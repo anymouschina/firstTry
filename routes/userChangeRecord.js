@@ -147,8 +147,8 @@ module.exports = [
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
             console.log(0)
-            updateUser(models,request.payload,(res)=>{
-              console.log(111,'??')
+            const params = {...request.payload,...request.payload.content}
+            updateUser(models,params,(res)=>{
               reply({
                 status:200,
                 data:res
