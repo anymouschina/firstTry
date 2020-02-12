@@ -148,10 +148,10 @@ module.exports = [
     handler: async (request, reply) => {
             console.log(0)
             const params = {...request.payload,...request.payload.content}
-            updateUser(models,params,async (res)=>{
-              await models.users.findOneAndUpdate({open_id:request.payload.open_id,from:'1'},{
+            updateUser(models,params,async ()=>{
+            let res =  await models.users.findOneAndUpdate({open_id:request.payload.open_id,from:'1'},{
                 $inc:{registerNum:1},
-                $set:{todayRegister:false}
+                $set:{todayRegister:true}
            })
               reply({
                 status:200,
