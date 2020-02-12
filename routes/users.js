@@ -10,22 +10,14 @@ const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
     // const userJoin = await models.usersJoinRecord.find({open_id:result.openid})
-    await models.luckDraws
-    .aggregate([
-      {
-        $lookup: {
-          from: "usersJoinRecord",
-          localField: "_id",
-          foreignField: "luckDrawId",
-          as: "userJoin"
-        }
-        
-      },
-      {$sort:{'created':-1}},
-      { $match: { isFinish: false}}
-    ],function(err,docs){
-      reply({result,luckDraws:JSON.stringify(docs)})
-    })
+   let luckDraws = await models.luckDraws
+    .aggregate.lookup({
+      from: "usersJoinRecord",
+      localField: "_id",
+      foreignField: "luckDrawId",
+      as: "userJoin"
+    }).match({ isFinish: false}).sort({'created':-1})
+    reply({result,luckDraws}
     // .map(item=>{
     //  return item.map(n=>{
     //      return {
