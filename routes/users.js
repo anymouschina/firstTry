@@ -9,17 +9,32 @@ const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
-    const userJoin = await models.usersJoinRecord.find({open_id:result.openid})
-    const luckDraws = await models.luckDraws.find({isFinish:false}).sort({'created':-1}).map(item=>{
-     return item.map(n=>{
-         return {
-          ...n._doc,
-          userJoin:userJoin.some(a=>n._doc._id==a.luckDrawId)
+    // const userJoin = await models.usersJoinRecord.find({open_id:result.openid})
+    await models.luckDraws.find({isFinish:false})
+    .sort({'created':-1})
+    .aggregate([
+      {
+        $lookup: {
+          from: "usersJoinRecord",
+          localField: "_id",
+          foreignField: "luckDrawId",
+          as: "userJoin"
         }
-     })
-      
+      }
+    
+    ],function(err,docs){
+      reply({result,luckDraws:JSON.stringify(docs)})
     })
-    reply({result,luckDraws})
+    // .map(item=>{
+    //  return item.map(n=>{
+    //      return {
+    //       ...n._doc,
+    //       userJoin:userJoin.some(a=>n._doc._id==a.luckDrawId)
+    //     }
+    //  })
+      
+    // })
+    
   }else{
     reply(result)
   }
