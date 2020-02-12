@@ -21,7 +21,10 @@ module.exports = [
         path: 'luckDraws'
       , select: 'isFinish -_id'
       , options: { sort: { created: 1 }}
-    }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
+    }).exec(function (err, data) {
+      console.log(data);
+})
+    // sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
       pages = total/request.query.limit
       addNum = (total%request.query.limit===0)?0:1
       reply({
