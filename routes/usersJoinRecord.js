@@ -73,7 +73,7 @@ module.exports = [
     path: `/${GROUP_NAME}/isJoined`,
     handler: async (request, reply) => {
         const {luckDrawId,open_id} = request.query
-    const list = await models[GROUP_NAME].find({luckDrawId,open_id})
+    const list = await models[GROUP_NAME].find({_id:luckDrawId,open_id})
       reply({
         status:200,
         data:list
