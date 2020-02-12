@@ -76,7 +76,7 @@ module.exports = [
       })
       joinRecord.save(reply({
         status:200,
-        data:'更新成功'
+        data:joinRecord
       }))
     },
     config: {
