@@ -177,6 +177,8 @@ module.exports = [{
         from,
         skinChipNum:0,
         useSkinChipNum:0,
+        registerNum:0,
+        todayRegister:false,
         session_key: sessionKey,
       })
       console.log('???')
