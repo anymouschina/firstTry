@@ -10,21 +10,21 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
      let params = request.query;
-     const deleteKeys = ['page','limit','pagination','isFinish']
+     const deleteKeys = ['page','limit','pagination']
      Object.keys(params).map(item=>{
        if(deleteKeys.indexOf(item)>-1)delete params[item]
      })
      let total,list,pages,addNum
-    if(Object.keys(request.query).indexOf('isFinish')>-1){
+    if(Object.keys(params).indexOf('isFinish')>-1){
+      let isFinish = params.isFinish
+      delete params.isFinish
       total = await models[GROUP_NAME].find(params).countDocuments();
       list = await models[GROUP_NAME].find(params).populate({
-        path: 'luckDraws'
-      , select: 'isFinish -_id'
+        path: 'luckDrawId'
+      , select: 'isFinish -_id',
+      model: models.luckDraws
       , options: { sort: { created: 1 }}
-    }).exec(function (err, data) {
-      console.log(data);
-})
-    // sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
+    }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
       pages = total/request.query.limit
       addNum = (total%request.query.limit===0)?0:1
       reply({

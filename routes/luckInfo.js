@@ -65,8 +65,6 @@ module.exports = [
         nick_name,
         avatar_url,
         open_id,
-        luckDraws:luckDrawId,
-        // _id:luckDrawId,
         luckDrawId
       })
       
