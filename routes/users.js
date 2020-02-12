@@ -10,7 +10,7 @@ const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
   let luckDraws =  await models.luckDraws.
-    find({isFinish:false}).project('_id')
+    find({isFinish:false},'_id')
     // .populate({
     //   path:''
     // })
