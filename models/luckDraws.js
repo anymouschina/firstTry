@@ -34,8 +34,8 @@ module.exports = (mongoose) => mongoose.model(
   })
   Schema.virtual('waitFinish', {
     ref: 'usersJoinRecord', // The model to use
-    localField: '_id', // Find people where `localField`
-    foreignField: 'luckDrawId', // is equal to `foreignField`
+    localField: 'luckDrawId', // Find people where `localField`
+    foreignField: '_id', // is equal to `foreignField`
     // If `justOne` is true, 'members' will be a single doc as opposed to
     // an array. `justOne` is false by default.
     justOne: false
