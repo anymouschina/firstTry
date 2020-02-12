@@ -30,6 +30,7 @@ module.exports = [
       , options: { sort: { created: 1 }}
     }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
       addNum = (total%request.query.limit===0)?0:1
+      console.log(parseInt(total/request.query.limit)+parseInt(addNum),total/request.query.limit,addNum,'??')
       reply({
         status:200,
         data:list,
