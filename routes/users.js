@@ -9,7 +9,7 @@ const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
-    const userJoin = await models.usersJoinRecord.find({open_id:result.openid}).sort({'created':1})
+    const userJoin = await models.usersJoinRecord.find({open_id:result.openid}).sort({'created':-1})
     const luckDraws = await models.luckDraws.find({isFinish:false}).map(item=>{
      return item.map(n=>{
          return {
