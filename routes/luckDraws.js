@@ -11,7 +11,7 @@ module.exports = [
     handler: async (request, reply) => {
      const {type} = request.query
      const total = await models[GROUP_NAME].find(type?{type}:null).count();
-     const list = await (type?models[GROUP_NAME].find({type}):models[GROUP_NAME].find()).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+     const list = await (type?models[GROUP_NAME].find({type}):models[GROUP_NAME].find()).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(list.length>0){
        reply({
          status:200,
