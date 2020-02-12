@@ -14,28 +14,27 @@ module.exports = [
      Object.keys(params).map(item=>{
        if(deleteKeys.indexOf(item)>-1)delete params[item]
      })
-     let total,list,pages,addNum
+     let total,list,pages = 0,addNum = 0
     if(Object.keys(params).indexOf('isFinish')>-1){
       delete params.isFinish
       total = await models[GROUP_NAME].find(params).populate({
         path: 'luckDrawId'
-      , select: 'isFinish -_id',
+      , select: 'isFinish title -_id',
       model: models.luckDraws
       , options: { sort: { created: 1 }}
     }).countDocuments();
       list = await models[GROUP_NAME].find(params).populate({
         path: 'luckDrawId'
-      , select: 'isFinish -_id',
+      , select: 'isFinish title -_id',
       model: models.luckDraws
       , options: { sort: { created: 1 }}
     }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
-      pages = total/request.query.limit
       addNum = (total%request.query.limit===0)?0:1
       reply({
         status:200,
         data:list,
         total,
-        pages:parseInt(pages)+parseInt(addNum)
+        pages:parseInt(total/request.query.limit)+parseInt(addNum)
       })
     }else{
       total = await models[GROUP_NAME].find(params).countDocuments();
