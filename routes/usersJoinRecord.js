@@ -26,7 +26,7 @@ module.exports = [
     }).countDocuments();
       list = await models[GROUP_NAME].find(params).populate({
         path: 'luckDrawId'
-      , select: 'isFinish title -_id',
+      , select: 'isFinish title _id',
       model: models.luckDraws
       , options: { sort: { created: 1 }}
     }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
