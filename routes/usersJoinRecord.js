@@ -9,10 +9,25 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
-     const {luckDrawId} = request.query
-     const total = await models[GROUP_NAME].find({luckDrawId}).countDocuments();
-     const list = await models[GROUP_NAME].find({luckDrawId}).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
-    
+     let params = request.query;
+     const deleteKeys = ['page','limit','pagination']
+     Object.keys(params).map(item=>{
+       if(deleteKeys.indexOf(item)>-1)delete params[item]
+     })
+     let total,list
+    if(Object.keys(params).indexOf('isFinish')>-1){
+      total = await models[GROUP_NAME].find(params).countDocuments();
+      list = await models[GROUP_NAME].find(params).populate({
+        path: 'luckDraws'
+      , select: 'isFinish -_id'
+      , options: { sort: { created: 1 }}
+    }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
+  
+    }else{
+      total = await models[GROUP_NAME].find(params).countDocuments();
+      list = await models[GROUP_NAME].find(params).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
+   
+    }
     const pages = total/request.query.limit
     const addNum = (total%request.query.limit===0)?0:1
        reply({
@@ -30,7 +45,8 @@ module.exports = [
         query: {
           open_id:Joi.string().description('用户唯一标识/暂非必填'),
           type:Joi.string().description('类型'),
-          luckDrawId:Joi.string().required().description('唯一标识'),
+          luckDrawId:Joi.string().description('唯一标识'),
+          isFinish:Joi.boolean().description('是否完成'),
           ...paginationDefine,
         },
       },

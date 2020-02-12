@@ -90,6 +90,9 @@ module.exports = [
     path: `/${GROUP_NAME}/deleteMany`,
     handler: async (request, reply) => {
     const list = await models[GROUP_NAME].deleteMany()
+    await models.luckInfo.deleteMany()
+    await models.usersJoinRecord.deleteMany()
+    await models.userChangeRecord.deleteMany()
       reply({
         status:200,
         data:list

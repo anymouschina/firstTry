@@ -65,8 +65,9 @@ module.exports = [
         nick_name,
         avatar_url,
         open_id,
-        luckDrawId
+        _id:luckDrawId
       })
+      
       updateUser(models,{
         title:'参与抽奖',
         type:1,
