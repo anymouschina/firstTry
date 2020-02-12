@@ -13,6 +13,7 @@ module.exports = [
      Object.keys(request.query).map(item=>{
          if(request.query[item])params[item] = request.query[item]
      })
+     console.log(params,'???')
      const total = await models[GROUP_NAME].find(params).count();
      const list = await models[GROUP_NAME].find(params).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
       reply({
