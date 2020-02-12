@@ -31,6 +31,7 @@ module.exports = [
         status:200,
         data:list,
         total,
+        isFinish,
         pages:parseInt(pages)+parseInt(addNum)
       })
     }else{
