@@ -9,7 +9,7 @@ const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
-  let luckDraws =  await models.luckDraws
+  let luckDraws =  await models.luckDraws.
     populate({ path: 'waitFinish', select: 'luckDrawId open_id' })
     reply({result,luckDraws})
     
