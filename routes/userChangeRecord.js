@@ -146,19 +146,13 @@ module.exports = [
     method: 'POST',
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
-    const luckDraw = new models[GROUP_NAME](request.payload)
-     
-      luckDraw.save((err)=>{
-          if(err)reply({status:500,error:err})
-          else {
+            console.log(0)
             updateUser(models,request.payload,(res)=>{
               console.log(111,'??')
               reply({
                 status:200,
                 data:res
               })
-            })
-          }
       })
     },
     config: {
