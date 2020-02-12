@@ -23,7 +23,7 @@ module.exports = [
         path: 'luckDrawId'
       , select: 'isFinish -_id',
       model: models.luckDraws
-      , options: { sort: { created: 1 }}
+      , match:{isFinish},options: { sort: { created: 1 }}
     }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
       pages = total/request.query.limit
       addNum = (total%request.query.limit===0)?0:1
@@ -31,7 +31,6 @@ module.exports = [
         status:200,
         data:list,
         total,
-        isFinish,
         pages:parseInt(pages)+parseInt(addNum)
       })
     }else{
