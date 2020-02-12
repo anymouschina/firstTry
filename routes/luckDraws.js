@@ -9,9 +9,13 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
-     const {type} = request.query
-     const total = await models[GROUP_NAME].find(type?{type}:null).count();
-     const list = await (type?models[GROUP_NAME].find({type}):models[GROUP_NAME].find()).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
+      let params = {};
+     const deleteKeys = ['page','limit','pagination']
+     Object.keys(request.query).map(item=>{
+       if(deleteKeys.indexOf(item)===-1)params[item] = request.query[item]
+     })
+     const total = await models[GROUP_NAME].find(params).count();
+     const list = await models[GROUP_NAME].find(params).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      if(list.length>0){
        reply({
          status:200,
@@ -34,6 +38,7 @@ module.exports = [
         query: {
           open_id:Joi.string().description('用户唯一标识/暂非必填'),
           type:Joi.string().description('类型'),
+          isFinish:Joi.boolean().description('是否完成'),
           ...paginationDefine,
         },
       },
