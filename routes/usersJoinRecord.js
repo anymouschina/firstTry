@@ -10,6 +10,7 @@ module.exports = [
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
      let params = request.query;
+     const limit = request.query.limit
      const deleteKeys = ['page','limit','pagination']
      Object.keys(params).map(item=>{
        if(deleteKeys.indexOf(item)>-1)delete params[item]
@@ -30,12 +31,11 @@ module.exports = [
       , options: { sort: { created: 1 }}
     }).sort({'created':1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)  
       addNum = (total%request.query.limit===0)?0:1
-      console.log(Math.floor(total/request.query.limit)+parseInt(addNum),total,request.query.limit,total/request.query.limit,addNum,'??')
-      reply({
+        reply({
         status:200,
         data:list,
         total,
-        pages:parseInt(total/request.query.limit)+parseInt(addNum)
+        pages:parseInt(total/limit)+parseInt(addNum)
       })
     }else{
       total = await models[GROUP_NAME].find(params).countDocuments();
