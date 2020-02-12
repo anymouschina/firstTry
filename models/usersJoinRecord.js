@@ -6,6 +6,7 @@ module.exports = (mongoose) => mongoose.model(
       avatar_url: String,//抽奖人头像
       open_id: String,//抽奖人open_id
       luckDrawId:String,//参与抽奖
+      luckDraws:String,//抽奖的id
       title:String,//抽奖主题
      },{timestamps: {
       createdAt: 'created',
