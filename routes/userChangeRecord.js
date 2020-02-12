@@ -152,6 +152,7 @@ module.exports = [
           if(err)reply({status:500,error:err})
           else {
             updateUser(models,request.payload,(res)=>{
+              console.log(111,'??')
               reply({
                 status:200,
                 data:res
