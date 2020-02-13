@@ -15,7 +15,8 @@ async function userLogin(reply,from = 0,result = []){
       userJoinArr.push(item)
     })
     let list = await models.luckDraws.find({isFinish:false}).sort({created:-1}).map(item=>{
-      if(userJoinArr.indexOf(item._doc._id)>-1){
+      console.log(item,'!!')
+      if(userJoinArr.indexOf(item._id)>-1){
         return {
           ...item._doc,
           userJoin:true
