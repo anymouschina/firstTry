@@ -9,13 +9,24 @@ const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'){
-  let luckDraws =  await models.luckDraws.
-    find({isFinish:false},'_id')
-    // .populate({
-    //   path:''
+    const userJoin = await models.usersJoinRecord.find({open_id:result.openid,isFinish:false},'_id')
+    let userJoinArr = []
+    userJoin.map(item=>{
+      userJoinArr.push(item._doc._id)
+    })
+    await models.luckDraws.find({isFinish:false}).then((err,res)=>{
+      console.log(res,userJoinArr,'??')
+    })
+    
+    // .map(item=>{
+    //  return item.map(n=>{
+    //      return {
+    //       ...n._doc,
+    //       userJoin:userJoin.some(a=>n._doc._id==a.luckDrawId)
+    //     }
+    //  })
+      
     // })
-    // .populate({ path: 'waitFinish', select: 'luckDrawId open_id' })
-    reply({result,luckDraws})
     
   }else{
     reply(result)
