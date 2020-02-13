@@ -14,6 +14,7 @@ module.exports = [
     const list = await models[GROUP_NAME].findById(id).updateOne({isFinish:true})
     const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
     let num = 0;
+    console.log(list._doc)
     if(total<list._doc.prize.num){
       num = total
     }else{
@@ -31,15 +32,15 @@ module.exports = [
     console.log(arr,'111')
     const luckerResult = await models.usersJoinRecord.find({open_id:{$in:arr}}).updateMany({isFinish:true})
     console.log(arr,luckerResult,luckers,'???')
-    // const luckerRecord = await models.userChangeRecord.insertMany(arr.map(item=>{
-    //   return {
-    //     type:'2',
-    //     content:{...list._doc,num:list._doc.prize.price},
-    //     open_id:item
-    //   }
-    // })).then((err,res)=>{
-    //   console.log(err,res,'??')
-    // })
+    const luckerRecord = await models.userChangeRecord.insertMany(arr.map(item=>{
+      return {
+        type:'2',
+        content:{...list._doc,num:list._doc.prize.price},
+        open_id:item
+      }
+    })).then((err,res)=>{
+      console.log(err,res,'??')
+    })
     await models.users.find({open_id:{$in:arr},from:'1'}).updateMany({$inc:{skinChipNum:list._doc.prize.price}},(err,res)=>{
       if(err)throw err
       else reply({list,res,luckerResult,luckerRecord})
