@@ -32,7 +32,9 @@ module.exports = [
         content:{...list._doc,num:list._doc.prize.price},
         open_id:item
       }
-    }), function(error, docs) {})
+    }), function(error, docs) {
+      console.log(error,docs,'??')
+    })
     await models.users.find({open_id:{$in:arr},from:'1'}).updateMany({$inc:{skinChipNum:list._doc.prize.price}},(err,res)=>{
       if(err)throw err
       else reply({list,res,luckerResult,luckerRecord})
