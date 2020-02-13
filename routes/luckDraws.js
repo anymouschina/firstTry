@@ -16,14 +16,15 @@ module.exports = [
     if(total<list._doc.prize.num){
       num = total
     }else{
-      num = total - num
+      num = total - list._doc.prize.num
     }
     const random = Math.floor(Math.random()*num%num)
     const luckers = await models.usersJoinRecord.find({luckDrawId:id}).sort({created:-1}).skip(random).limit(list._doc.prize.num)
       reply({
         status:200,
         data:luckers,
-        random
+        random,
+        num:list._doc.prize.num
       })
     },
     config: {
