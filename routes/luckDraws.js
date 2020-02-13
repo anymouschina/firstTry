@@ -181,7 +181,7 @@ module.exports = [
           else {
             const obj = {...res._doc,userNum:0}
             console.log(obj,'???')
-            if(request.payload.type==='2'){
+            if(request.payload.conditionType==='2'){
               console.log(request.payload.openTime.split('-').reverse().join(' '))
               schedule.scheduleJob('0 0 8 '.concat(request.payload.openTime.split('-').reverse().join(' ')), () => {
               
