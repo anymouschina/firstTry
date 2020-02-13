@@ -11,7 +11,7 @@ module.exports = [
     handler: async (request, reply) => {
       try {
         const {id} = request.query;
-    const list = await models[GROUP_NAME].findById(id).updateOne({isFinish:true})
+    const list = await models[GROUP_NAME].findById(id)
     const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
     let num = 0;
     console.log(list._doc)
