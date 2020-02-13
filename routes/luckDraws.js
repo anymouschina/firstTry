@@ -25,16 +25,16 @@ module.exports = [
       arr.push(item._doc.open_id)
       return item
     })
-    await models.usersJoinRecord.find({open_id:{$in:arr}},function(err,doc){
-      doc.isFinish = true;
-      doc.save(console.log(doc,'!!doc'))
+    await models.usersJoinRecord.find({open_id:{$in:arr}}).update({isFinish:true},(err,res)=>{
+      if(err)throw err
+      else reply({res,arr})
     })
-      reply({
-        status:200,
-        data:luckers,
-        random,
-        num:list._doc.prize.num
-      })
+      // reply({
+      //   status:200,
+      //   data:luckers,
+      //   random,
+      //   num:list._doc.prize.num
+      // })
     },
     config: {
       tags: ['api', GROUP_NAME],
