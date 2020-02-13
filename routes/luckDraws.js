@@ -186,9 +186,12 @@ module.exports = [
               let scheduleTime = time.getDate() + ' ' + time.getMonth()+1 + ' ' +time.getFullYear();
               console.log(scheduleTime,'!!');
              const j = schedule.scheduleJob('0 0 8 '+scheduleTime, () => {
-                request('https://www.saberc8.cn/luckDraws/finish?id='+res._doc._id).then(()=>{
-                  j.cancel();
-                })
+                request({
+                  url:'https://www.saberc8.cn/luckDraws/finish?id='+res._doc._id,
+                  method:'GET'
+              },()=>{
+                j.cancel();
+              })
               })
             }
             const luckInfo = new models.luckInfo({

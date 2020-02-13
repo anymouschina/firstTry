@@ -17,6 +17,12 @@ server.connection({
     }
 }
 });
+schedule.scheduleJob('0 3 * * ? ',()=>{
+  request({
+    url:'https://www.saberc8.cn/users/resetRegister',
+    method:'GET'
+  },()=>{console.log('每天0点置空签到时间')})
+})
 const init = async () => {
   // 注册插件
   await server.register([
