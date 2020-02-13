@@ -71,7 +71,7 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPageCount`,
     handler: async (request, reply) => {
-     const total = await models[GROUP_NAME].find(params).countDocuments();
+     const total = await models[GROUP_NAME].find({isFinish:false}).countDocuments();
      reply({status:200,total})
     },
     config: {
