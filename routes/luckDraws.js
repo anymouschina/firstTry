@@ -7,6 +7,36 @@ const GROUP_NAME = 'luckDraws';
 module.exports = [
   {
     method: 'GET',
+    path: `/${GROUP_NAME}/finish`,
+    handler: async (request, reply) => {
+    const {id} = request.query;
+    const list = await models[GROUP_NAME].findById(id)[0]
+    const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
+    let num = 0;
+    if(total<list._doc.prize.num){
+      num = total
+    }else{
+      num = total - num
+    }
+    const luckers = await models.usersJoinRecord.find({luckDrawId:id}).sort({created:-1}).skip(Math.random()*num%num).limit(list._doc.prize.num)
+      reply({
+        status:200,
+        data:luckers
+      })
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '查询内容',
+      validate: {
+        query:{
+          id:Joi.string().required().description('唯一标识'),
+        }
+      },
+    },
+  },
+  {
+    method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
       let params = {};
