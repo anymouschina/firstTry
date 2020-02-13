@@ -9,7 +9,8 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/finish`,
     handler: async (request, reply) => {
-    const {id} = request.query;
+      try {
+        const {id} = request.query;
     const list = await models[GROUP_NAME].findById(id).updateOne({isFinish:true})
     const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
     let num = 0;
@@ -19,7 +20,9 @@ module.exports = [
       num = total - list._doc.prize.num
     }
     const random = Math.floor(Math.random()*num%num)
+    console.log(random,'1')
     const luckers = await models.usersJoinRecord.find({luckDrawId:id}).sort({created:-1}).skip(random).limit(list._doc.prize.num)
+    console.log(luckers,'2')
     let arr = []
     luckers.map(item=>{
       arr.push(item._doc.open_id)
@@ -48,6 +51,10 @@ module.exports = [
       //   random,
       //   num:list._doc.prize.num
       // })
+      } catch (e) {
+        console.log(e)
+      }
+    
     },
     config: {
       tags: ['api', GROUP_NAME],
