@@ -12,9 +12,9 @@ module.exports = [
       try {
         const {id} = request.query;
     const list = await models[GROUP_NAME].findById(id)
+    await models[GROUP_NAME].findById(id).updateOne({isFinish:true})
     const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
     let num = 0;
-    console.log(list._doc)
     if(total<list._doc.prize.num){
       num = total
     }else{
