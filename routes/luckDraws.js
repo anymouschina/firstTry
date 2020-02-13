@@ -10,7 +10,7 @@ module.exports = [
     path: `/${GROUP_NAME}/finish`,
     handler: async (request, reply) => {
     const {id} = request.query;
-    const list = await models[GROUP_NAME].findById(id)
+    const list = await models[GROUP_NAME].findById(id)s
     const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
     let num = 0;
     if(total<list._doc.prize.num){
@@ -19,15 +19,16 @@ module.exports = [
       num = total - list._doc.prize.num
     }
     const random = Math.floor(Math.random()*num%num)
-    const luckers = await models.usersJoinRecord.find({luckDrawId:id}).sort({created:-1}).skip(random).limit(list._doc.prize.num)
+    const luckers = await models.usersJoinRecord.find({luckDrawId:id}).update({isFinish:true}).sort({created:-1}).skip(random).limit(list._doc.prize.num)
     let arr = []
     luckers.map(item=>{
       arr.push(item._doc.open_id)
       return item
     })
-    await models.usersJoinRecord.find({open_id:{$in:arr}}).update({isFinish:true},(err,res)=>{
+    await models.users.find({open_id:{$in:arr}}).update({$inc:{skinChipNum:list._doc.prize.price}},(err,res)=>{
       if(err)throw err
-      else reply({res,arr})
+      else reply({list,res,luckers})
+      
     })
       // reply({
       //   status:200,
