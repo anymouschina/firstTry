@@ -3,7 +3,8 @@ const { paginationDefine } = require('../utils/router-helper');
 const models = require('../models');
 const { env } = process;
 const GROUP_NAME = 'luckDraws';
-
+const request = require('request')
+const schedule = require('node-schedule')
 module.exports = [
   {
     method: 'GET',
@@ -180,6 +181,12 @@ module.exports = [
           else {
             const obj = {...res._doc,userNum:0}
             console.log(obj,'???')
+            if(request.payload.type==='2'){
+              console.log(request.payload.openTime.split('-').reverse().join(' '))
+              schedule.scheduleJob('0 0 8 '.concat(request.payload.openTime.split('-').reverse().join(' ')), () => {
+              
+              })
+            }
             const luckInfo = new models.luckInfo({
               "luckDraw":obj,
               "luckDrawPeople": [
