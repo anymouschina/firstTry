@@ -10,7 +10,7 @@ module.exports = [
     path: `/${GROUP_NAME}/finish`,
     handler: async (request, reply) => {
     const {id} = request.query;
-    const list = await models[GROUP_NAME].findById(id)
+    const list = await models[GROUP_NAME].findById(id).updateOne({isFinish:true})
     const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
     let num = 0;
     if(total<list._doc.prize.num){
@@ -25,6 +25,7 @@ module.exports = [
       arr.push(item._doc.open_id)
       return item
     })
+    console.log(arr,'111')
     const luckerResult = await models.usersJoinRecord.find({open_id:{$in:arr}}).updateMany({isFinish:true})
     console.log(arr,luckerResult,luckers,'???')
     // const luckerRecord = await models.userChangeRecord.insertMany(arr.map(item=>{
