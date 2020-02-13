@@ -12,12 +12,10 @@ async function userLogin(reply,from = 0,result = []){
     const userJoin = await models.usersJoinRecord.find({open_id:result.openid,isFinish:false},'_id')
     let userJoinArr = []
     userJoin.map(item=>{
-      userJoinArr.push(item._doc._id)
+      userJoinArr.push(item)
     })
-    await models.luckDraws.find({isFinish:false}).then((err,res)=>{
-      console.log(res,userJoinArr,'??')
-    })
-    
+    let list = await models.luckDraws.find({isFinish:false}).sort({created:-1})
+    console.log(userJoinArr,list,'??')
     // .map(item=>{
     //  return item.map(n=>{
     //      return {
