@@ -7,6 +7,7 @@ module.exports = (mongoose) => mongoose.model(
       open_id: String,//抽奖人open_id
       luckDrawId:String,//参与抽奖
       title:String,//抽奖主题
+      isFinish:Boolean,//是否完成了
      },{timestamps: {
       createdAt: 'created',
       updatedAt: 'updated'

@@ -65,7 +65,8 @@ module.exports = [
         nick_name,
         avatar_url,
         open_id,
-        luckDrawId
+        luckDrawId,
+        isFinish:false
       })
       
       updateUser(models,{
