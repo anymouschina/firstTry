@@ -22,9 +22,8 @@ module.exports = [
     const luckers = await models.usersJoinRecord.find({luckDrawId:id}).sort({created:-1}).skip(random).limit(list._doc.prize.num)
     let arr = []
     luckers.map(item=>{
-      return item.map(n=>{
-        arr.push(n._doc._id)
-      })
+      arr.push(item)
+      return item
     })
      console.log(arr)
 
