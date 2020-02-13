@@ -25,6 +25,7 @@ module.exports = [
       arr.push(item._doc.open_id)
       return item
     })
+    console.log(luckers,'???')
     await models.users.find({open_id:{$in:arr},from:'1'}).updateMany({$inc:{skinChipNum:list._doc.prize.price}},(err,res)=>{
       if(err)throw err
       else reply({list,res,luckers})
