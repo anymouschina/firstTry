@@ -182,9 +182,13 @@ module.exports = [
             const obj = {...res._doc,userNum:0}
             console.log(obj,'???')
             if(request.payload.conditionType==='2'){
-              console.log(request.payload.openTime.split('-').reverse().join(' '))
-              schedule.scheduleJob('0 0 8 '.concat(request.payload.openTime.split('-').reverse().join(' ')), () => {
-              
+              let time = new Date(request.payload.openTime);
+              let scheduleTime = time.getDate() + ' ' + time.getMonth()+1 + ' ' +time.getFullYear();
+              console.log(scheduleTime,'!!');
+             const j = schedule.scheduleJob('0 0 8 '+scheduleTime, () => {
+                request('https://www.saberc8.cn/luckDraws/finish?id='+res._doc._id).then(()=>{
+                  j.cancel();
+                })
               })
             }
             const luckInfo = new models.luckInfo({
