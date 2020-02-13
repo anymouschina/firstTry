@@ -23,7 +23,7 @@ module.exports = [
     let arr = []
     luckers.map(item=>{
       return item.forEach(element => {
-        arr.push(element._doc._id)
+        arr.push(element._id)
       });
     })
      console.log(arr)
