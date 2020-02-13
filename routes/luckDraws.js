@@ -10,7 +10,7 @@ module.exports = [
     path: `/${GROUP_NAME}/finish`,
     handler: async (request, reply) => {
     const {id} = request.query;
-    const list = await models[GROUP_NAME].findById(id)[0]
+    const list = await models[GROUP_NAME].findById(id)
     const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
     let num = 0;
     console.log(list,total,'???')
