@@ -151,8 +151,12 @@ module.exports = [
               models.users.findOne({open_id:request.payload.open_id,from:'1'},function (err, user) {
                 if (err) reply.status(500).send({status:500,err});
                 else{
-                  user.registerNum ++;
-                  user.todayRegister = true
+                  if(request.payload.content.title.indexOf('签到')>-1){
+                    user.registerNum ++;
+                    user.todayRegister = true
+                  }else if(request.payload.content.num<-1){
+                    user.useSkinChipNum += Math.abs(request.payload.content.num)
+                  }
                   user.save(reply({
                     status:200,
                     data:user
