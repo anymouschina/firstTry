@@ -19,14 +19,15 @@ module.exports = [
       num = total - list._doc.prize.num
     }
     const random = Math.floor(Math.random()*num%num)
-    const luckers = await models.usersJoinRecord.find({luckDrawId:id},(err,doc)=>{
-      doc.isFinish = true
-      doc.save()
-    }).sort({created:-1}).skip(random).limit(list._doc.prize.num)
+    const luckers = await models.usersJoinRecord.find({luckDrawId:id}).sort({created:-1}).skip(random).limit(list._doc.prize.num)
     let arr = []
     luckers.map(item=>{
-      arr.push(item._doc._id)
+      arr.push(item._doc.open_id)
       return item
+    })
+    await models.usersJoinRecord.find({open_id:{$in:arr}},function(err,doc){
+      doc.isFinish = true;
+      doc.save(console.log(doc,'!!doc'))
     })
       reply({
         status:200,
