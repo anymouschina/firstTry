@@ -152,7 +152,7 @@ module.exports = [
                 if (err) reply.status(500).send({status:500,err});
                 else{
                   user.registerNum ++;
-                  user.todayRegister = false
+                  user.todayRegister = true
                   user.save(reply({
                     status:200,
                     data:user
