@@ -13,17 +13,17 @@ module.exports = [
     const list = await models[GROUP_NAME].findById(id)
     const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
     let num = 0;
-    console.log(list,total,'???')
     if(total<list._doc.prize.num){
       num = total
     }else{
       num = total - num
     }
-    console.log(list,total,'???',num)
-    const luckers = await models.usersJoinRecord.find({luckDrawId:id}).sort({created:-1}).skip(Math.random()*num%num).limit(list._doc.prize.num)
+    const random = Math.random()*num%num
+    const luckers = await models.usersJoinRecord.find({luckDrawId:id}).sort({created:-1}).skip(random).limit(list._doc.prize.num)
       reply({
         status:200,
-        data:luckers
+        data:luckers,
+        random
       })
     },
     config: {
