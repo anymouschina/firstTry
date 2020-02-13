@@ -26,6 +26,7 @@ module.exports = [
       return item
     })
     const luckerResult = await models.usersJoinRecord.find({open_id:{$in:arr}}).updateMany({isFinish:true})
+    console.log(arr)
     // const luckerRecord = await models.userChangeRecord.insertMany(arr.map(item=>{
     //   return {
     //     type:'2',
