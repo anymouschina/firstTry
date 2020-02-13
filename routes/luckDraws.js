@@ -69,6 +69,20 @@ module.exports = [
   },
   {
     method: 'GET',
+    path: `/${GROUP_NAME}/findListPageCount`,
+    handler: async (request, reply) => {
+     const total = await models[GROUP_NAME].find(params).countDocuments();
+     reply({status:200,total})
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '获取列表',
+     
+    },
+  },
+  {
+    method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
       let params = {};
