@@ -146,17 +146,24 @@ module.exports = [
     method: 'POST',
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
-            console.log(0)
             const params = {...request.payload,...request.payload.content}
             updateUser(models,params,async ()=>{
-            let res =  await models.users.findOneAndUpdate({open_id:request.payload.open_id,from:'1'},{
-                $inc:{registerNum:1},
-                $set:{todayRegister:true}
-           })
-              reply({
-                status:200,
-                data:res
-              })
+              models.users.findOne({open_id:request.payload.open_id,from:'1'},function (err, user) {
+                if (err) reply.status(500).({status:500,err});
+                else{
+                  user.registerNum ++;
+                  user.todayRegister = false
+                  user.save(reply({
+                    status:200,
+                    data:user
+                  }))
+                }
+              });
+          //   let res =  await models.users.findOneAndUpdate({open_id:request.payload.open_id,from:'1'},{
+          //       $inc:{registerNum:1},
+          //       $set:{todayRegister:true}
+          //  })
+              
       })
     },
     config: {
