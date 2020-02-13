@@ -25,10 +25,10 @@ module.exports = [
       arr.push(item._doc.open_id)
       return item
     })
-    console.log(luckers,'???')
+    const luckerResult = await models.usersJoinRecord.find({open_id:{$in:arr}}).updateMany({isFinish:true})
     await models.users.find({open_id:{$in:arr},from:'1'}).updateMany({$inc:{skinChipNum:list._doc.prize.price}},(err,res)=>{
       if(err)throw err
-      else reply({list,res,luckers})
+      else reply({list,res,luckerResult})
       
     })
       // reply({
