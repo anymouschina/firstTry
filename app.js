@@ -7,6 +7,7 @@ const pluginHapiSwagger = require('./plugins/hapi-swagger');
 const pluginHapiPagination = require('./plugins/hapi-pagination');
 const pluginHapiAuthJWT2 = require('./plugins/hapi-auth-jwt2');
 const server = new Hapi.Server();
+const schedule = require('node-schedule')
 // 配置服务器启动host与端口
 server.connection({
   port: 3000,
