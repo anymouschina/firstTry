@@ -198,7 +198,7 @@ module.exports = [
             if(request.payload.conditionType=='2'){
               console.log('进来了')
               let time = new Date(request.payload.openTime);
-              let scheduleTime = new Date(time.getFullYear(),time.getMonth() - 1, time.getDate(), 8, 0, 0);
+              let scheduleTime = new Date(time.getFullYear(),time.getMonth(), time.getDate(), 8, 0, 0);
               console.log(scheduleTime,'!!');
              const j = schedule.scheduleJob(scheduleTime, () => {
                 request({
