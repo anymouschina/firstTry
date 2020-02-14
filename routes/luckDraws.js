@@ -195,10 +195,11 @@ module.exports = [
           else {
             const obj = {...res._doc,userNum:0}
             console.log(obj,'???')
-            if(request.payload.conditionType==='2'){
+            if(request.payload.conditionType=='2'){
+              console.log('进来了')
               let time = new Date(request.payload.openTime);
               let scheduleTime = new Date(time.getFullYear(),time.getMonth() - 1, time.getDate(), 8, 0, 0);
-              // console.log(scheduleTime,'!!');
+              console.log(scheduleTime,'!!');
              const j = schedule.scheduleJob(scheduleTime, () => {
                 request({
                   url:'https://www.saberc8.cn/luckDraws/finish?id='+res._doc._id,
