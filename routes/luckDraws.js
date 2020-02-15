@@ -3,8 +3,8 @@ const { paginationDefine } = require('../utils/router-helper');
 const models = require('../models');
 const { env } = process;
 const GROUP_NAME = 'luckDraws';
-const request = require('request')
-const schedule = require('node-schedule')
+// const request = require('request')
+// const schedule = require('node-schedule')
 module.exports = [
   {
     method: 'GET',
@@ -112,6 +112,7 @@ module.exports = [
       description: '获取列表',
       validate: {
         query: {
+          openTime:Joi.date().description('时间'),
           open_id:Joi.string().description('用户唯一标识/暂非必填'),
           type:Joi.string().description('类型'),
           isFinish:Joi.boolean().description('是否完成'),
@@ -195,20 +196,20 @@ module.exports = [
           else {
             const obj = {...res._doc,userNum:0}
             console.log(obj,'???')
-            if(request.payload.conditionType=='2'){
-              console.log('进来了')
-              let time = new Date(request.payload.openTime);
-              let scheduleTime = new Date(time.getFullYear(),time.getMonth(), time.getDate(), 8, 0, 0);
-              console.log(scheduleTime,'!!');
-             const j = schedule.scheduleJob(scheduleTime, () => {
-                request({
-                  url:'https://www.saberc8.cn/luckDraws/finish?id='+res._doc._id,
-                  method:'GET'
-              },()=>{
-                // j.cancel();
-              })
-              })
-            }
+            // if(request.payload.conditionType=='2'){
+            //   console.log('进来了')
+            //   let time = new Date(request.payload.openTime);
+            //   let scheduleTime = new Date(time.getFullYear(),time.getMonth(), time.getDate(), 8, 0, 0);
+            //   console.log(scheduleTime,'!!');
+            //  const j = schedule.scheduleJob(scheduleTime, () => {
+            //     request({
+            //       url:'https://www.saberc8.cn/luckDraws/finish?id='+res._doc._id,
+            //       method:'GET'
+            //   },()=>{
+            //     // j.cancel();
+            //   })
+            //   })
+            // }
             const luckInfo = new models.luckInfo({
               "luckDraw":obj,
               "luckDrawPeople": [

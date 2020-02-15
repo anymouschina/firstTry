@@ -7,6 +7,7 @@ const pluginHapiSwagger = require('./plugins/hapi-swagger');
 const pluginHapiPagination = require('./plugins/hapi-pagination');
 const pluginHapiAuthJWT2 = require('./plugins/hapi-auth-jwt2');
 const server = new Hapi.Server();
+const models = require('./models')
 const schedule = require('node-schedule')
 // 配置服务器启动host与端口
 server.connection({
@@ -18,11 +19,12 @@ server.connection({
     }
 }
 });
-schedule.scheduleJob('0 3 * * ? ',()=>{
+schedule.scheduleJob('30 7 * * *',async ()=>{
   request({
     url:'https://www.saberc8.cn/users/resetRegister',
     method:'GET'
   },()=>{console.log('每天0点置空签到时间')})
+  // await models.luckDraws.find({openTime:new Date()})
 })
 const init = async () => {
   // 注册插件
