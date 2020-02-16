@@ -141,9 +141,12 @@ module.exports = [{
     tags: ['api', GROUP_NAME],
     description: '获取用户列表',
     auth: false, // 约定此接口不参与 JWT 的用户验证，会结合下面的 hapi-auth-jwt 来使用
-    query:{
-      skinChipNum:Joi.string().required().description('数量')
+    validate:{
+      query:{
+        skinChipNum:Joi.string().required().description('数量')
+      }
     }
+    
   },
 },
 {
