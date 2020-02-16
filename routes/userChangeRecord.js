@@ -147,13 +147,20 @@ module.exports = [
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
             const params = {...request.payload,...request.payload.content}
-            updateUser(models,params,async ()=>{
-              models.users.findOne({open_id:request.payload.open_id,from:'1'},function (err, user) {
+            // updateUser(models,params,async ()=>{
+              models.users.findOne({open_id:request.payload.open_id,from:'1'},async function (err, user) {
                 if (err) reply.status(500).send({status:500,err});
                 else{
                   if(request.payload.content.title.indexOf('签到')>-1&&!user.todayRegister){
-                    // user.registerNum ++;
-                    user.todayRegister = true
+                    user.registerNum ++;
+                    user.todayRegister = true;
+                    user.skinChipNum += request.payload.content.num
+                    const userChangeRecord = await  new models.userChangeRecord({
+                          type:params.type,
+                          params,
+                          open_id:params.open_id,
+                      })
+                      userChangeRecord.save()
                   }else if(request.payload.content.num<-1){
                     user.useSkinChipNum += Math.abs(request.payload.content.num)
                   }
@@ -162,7 +169,7 @@ module.exports = [
                     data:user
                   }))
                 }
-              });
+              // });
           //   let res =  await models.users.findOneAndUpdate({open_id:request.payload.open_id,from:'1'},{
           //       $inc:{registerNum:1},
           //       $set:{todayRegister:true}
