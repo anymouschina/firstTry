@@ -197,7 +197,7 @@ module.exports = [
          try {
            // const params = {...request.payload,...request.payload.content}
            let list = await  models.users.find({},'open_id')
-           const luckerRecord = await models.userChangeRecord.inserinsertMany(list.map(item=>{
+           const luckerRecord = await models.userChangeRecord.insertMany(list.map(item=>{
              return {
                type:'1',
                content:{num:request.payload.num,title:request.payload.title},
