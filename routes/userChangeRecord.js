@@ -188,7 +188,7 @@ module.exports = [
     path: `/${GROUP_NAME}/allRecord`,
     handler: async (request, reply) => {
             const params = {...request.payload,...request.payload.content}
-            let list = await  models.users.find({},'_id')
+            let list = await  models.users.find()
             console.log(list,'!!!')
             reply(list)
     },
