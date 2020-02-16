@@ -190,13 +190,14 @@ module.exports = [
             // const params = {...request.payload,...request.payload.content}
             let list = await  models.users.find({},'_id')
             const luckerRecord = await models.userChangeRecord.insertMany(list.map(item=>{
+              console.log(item._doc._id)
               return {
                 type:'2',
                 content:{num:request.payload.num,title:request.payload.title},
                 open_id:item._doc._id
               }
             }))
-            reply(list,luckerRecord)
+            reply({list,luckerRecord})
     },
     config: {
       tags: ['api', GROUP_NAME],
