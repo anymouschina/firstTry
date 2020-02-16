@@ -1,11 +1,6 @@
 
 const models = require('./models')
 const schedule = require('node-schedule');
-var _filter={
-    $or: [  // 多字段同时匹配
-      {openTime: {$regex: keyword}}
-    ]
-  }
       const findTime = new Array(time.getFullYear(),(parseInt(time.getMonth()+1)<10?'0':'').concat(parseInt(time.getMonth()+1)),new String(time.getDate()+1)).join('-')
     models.luckDraws.findOne({$or: [  // 多字段同时匹配
         {openTime: {$regex: findTime}}
