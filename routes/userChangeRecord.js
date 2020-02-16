@@ -152,7 +152,7 @@ module.exports = [
                 if (err) reply.status(500).send({status:500,err});
                 else{
                   if(request.payload.content.title.indexOf('签到')>-1){
-                    user.registerNum ++;
+                    // user.registerNum ++;
                     user.todayRegister = true
                   }else if(request.payload.content.num<-1){
                     user.useSkinChipNum += Math.abs(request.payload.content.num)
