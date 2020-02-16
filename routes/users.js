@@ -131,7 +131,7 @@ module.exports = [{
   method: 'GET',
   path: `/${GROUP_NAME}/stopRegister`,
   handler: async (request, reply) => {
-    await models.users.updateMany({},{$set:{todayRegister:true,useSkinChipNum:0,skinChipNum:20}}, function (err,res) {
+    await models.users.updateMany({},{$set:{todayRegister:true,useSkinChipNum:0,skinChipNum:request.query.skinChipNum}}, function (err,res) {
       if(err)reply({status:200,data:'无此用户数据'});
       reply({status:200,data:res||'无此用户数据'});
     })
@@ -141,7 +141,9 @@ module.exports = [{
     tags: ['api', GROUP_NAME],
     description: '获取用户列表',
     auth: false, // 约定此接口不参与 JWT 的用户验证，会结合下面的 hapi-auth-jwt 来使用
-
+    query:{
+      skinChipNum:Joi.string().required().description('数量')
+    }
   },
 },
 {
