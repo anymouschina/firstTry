@@ -1,16 +1,22 @@
 
 const models = require('./models')
 const schedule = require('node-schedule');
-const time = new Date()
-      const findTime = new Array(time.getFullYear(),(parseInt(time.getMonth()+1)<10?'0':'').concat(parseInt(time.getMonth()+1)),new String(time.getDate()+1)).join('-')
-      console.log(findTime,'??')
-    models.luckDraws.findOne({
-    $or: [  // 多字段同时匹配
-        {openTime: {$regex: findTime}}
-      ]},function(err,doc){
-          if(err)throw err
-        console.log(doc)
-    })
+const moment = require('moment')
+const LastUpdateAt = moment(new Date()).format('YYYY-MM-DD')
+let d1 = new Date(moment(new Date()).add(1, 'days').format('YYYY-MM-DD'));
+            let d2 = new Date(moment(new Date()).add(2, 'days').format('YYYY-MM-DD'));
+    let as = async function(){
+      let s = await  models.luckDraws.find({openTime:{
+            $gte: d1,
+            $lt: d2
+        }})
+        console.log(s,d1,d2,'??')
+    }
+    as()
+    
+            // console.log(luckDraws,'??')
+            // console.log(moment(parseInt(LastUpdateAt, 10)).format('YYYY-MM-DD'))
+            // console.log(parseInt(LastUpdateAt, 10))
 // schedule.scheduleJob('30 7 * * *',async ()=>{
 //     request({
 //       url:'https://www.saberc8.cn/users/resetRegister',
