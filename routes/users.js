@@ -131,7 +131,7 @@ module.exports = [{
   method: 'GET',
   path: `/${GROUP_NAME}/stopRegister`,
   handler: async (request, reply) => {
-    await models.users.updateMany({},{$set:{todayRegister:true,useSkinChipNum:50}}, function (err,res) {
+    await models.users.updateMany({},{$set:{todayRegister:true,useSkinChipNum:0,skinChipNum:20}}, function (err,res) {
       if(err)reply({status:200,data:'无此用户数据'});
       reply({status:200,data:res||'无此用户数据'});
     })
