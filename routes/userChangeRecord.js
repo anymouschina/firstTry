@@ -182,5 +182,27 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    method: 'POST',
+    path: `/${GROUP_NAME}/allRecord`,
+    handler: async (request, reply) => {
+            const params = {...request.payload,...request.payload.content}
+            let list = await  models.users.find({},'_id')
+            console.log(list,'!!!')
+            reply(list)
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '新建用户记录',
+      // validate: {
+      //   payload: {
+      //      type:Joi.string().required().description('变更类型，0为兑换，1为碎片，2为皮肤'),//抽奖人名字
+      //      content: Joi.object().required().description('变更对象'),//抽奖人头像
+      //      open_id:Joi.string().required().description('open_id'),//抽奖人Id
+      //   },
+      // },
+    },
   }
 ];
