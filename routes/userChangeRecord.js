@@ -194,16 +194,21 @@ module.exports = [
     method: 'POST',
     path: `/${GROUP_NAME}/allRecord`,
     handler: async (request, reply) => {
-            // const params = {...request.payload,...request.payload.content}
-            let list = await  models.users.find({},'open_id')
-            const luckerRecord = await models.userChangeRecord.inserinsertMany(list.map(item=>{
-              return {
-                type:'1',
-                content:{num:request.payload.num,title:request.payload.title},
-                open_id:item._doc.open_id
-              }
-            }))
-            reply({list,luckerRecord})
+         try {
+           // const params = {...request.payload,...request.payload.content}
+           let list = await  models.users.find({},'open_id')
+           const luckerRecord = await models.userChangeRecord.inserinsertMany(list.map(item=>{
+             return {
+               type:'1',
+               content:{num:request.payload.num,title:request.payload.title},
+               open_id:item._doc.open_id
+             }
+           }))
+           reply({list,luckerRecord})
+         } catch (error) {
+           console.log(error)
+         }
+           
     },
     config: {
       tags: ['api', GROUP_NAME],
