@@ -151,7 +151,7 @@ module.exports = [
               models.users.findOne({open_id:request.payload.open_id,from:'1'},function (err, user) {
                 if (err) reply.status(500).send({status:500,err});
                 else{
-                  if(request.payload.content.title.indexOf('签到')>-1){
+                  if(request.payload.content.title.indexOf('签到')>-1&&!user.todayRegister){
                     // user.registerNum ++;
                     user.todayRegister = true
                   }else if(request.payload.content.num<-1){
@@ -187,7 +187,7 @@ module.exports = [
     method: 'POST',
     path: `/${GROUP_NAME}/allRecord`,
     handler: async (request, reply) => {
-            const params = {...request.payload,...request.payload.content}
+            // const params = {...request.payload,...request.payload.content}
             let list = await  models.users.find()
             console.log(list,'!!!')
             reply(list)
