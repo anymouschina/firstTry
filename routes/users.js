@@ -72,7 +72,7 @@ module.exports = [{
     validate: {
       payload: {
         base:Joi.object().description('body'),
-        listOrder:Joi.array().description('排序条件'),
+        listOrder:Joi.object().description('排序条件'),
         ...paginationDefine,
       },
     }
