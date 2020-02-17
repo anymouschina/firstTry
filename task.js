@@ -11,7 +11,7 @@ const picArr = ['https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=35868
 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1375989626,3172401837&fm=26&gp=0.jpg',
 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2928597390,4043951486&fm=26&gp=0.jpg'
 ]
-schedule.scheduleJob('43 9 * * *',async ()=>{
+schedule.scheduleJob('30 7 * * *',async ()=>{
     request({
       url:'https://www.saberc8.cn/users/resetRegister',
       method:'GET'
