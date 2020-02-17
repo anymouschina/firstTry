@@ -50,9 +50,14 @@ module.exports = [{
   path: `/${GROUP_NAME}/findUserList`,
   handler: async (request, reply) => {
     const query = models.users.find();
-    const total = await query.countDocuments();
-    const data = await query.find()
-    .sort({'created':-1})
+    const filterKeys = ['page','limit','pagination']
+    let params = {}
+    Object.keys(request.query.base).map(item=>{
+      if(filterKeys.indexOf(item)===-1)params[item] = request.query.base[item]
+    })
+    const total = await query.countDocuments(params);
+    const data = await query.find(params)
+    .sort(listOrder)
     .skip((request.query.page - 1) * request.query.limit).
     limit(request.query.limit);
     reply({
@@ -67,6 +72,8 @@ module.exports = [{
     auth: false, // 约定此接口不参与 JWT 的用户验证，会结合下面的 hapi-auth-jwt 来使用
     validate: {
       query: {
+        base:Joi.object().description('body'),
+        listOrder:Joi.array().description('排序条件').default([{'created':-1}]),
         ...paginationDefine,
       },
     }
