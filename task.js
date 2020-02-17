@@ -18,30 +18,34 @@ schedule.scheduleJob('30 7 * * *',async ()=>{
     },()=>{console.log('每天7.30点置空签到时间')})
     let d1 = new Date(moment(new Date()).add(1, 'days').format('YYYY-MM-DD'));
     let d2 = new Date(moment(new Date()).add(2, 'days').format('YYYY-MM-DD'));
-    await models.luckDraws.findOne({openTime:{
+    await models.luckDraws.find({openTime:{
         $gte: d1,
         $lt: d2
-    }},function(err,doc){
-      request({
-        url:'https://www.saberc8.cn/luckDraws/finish?id='+doc._id,
-        method:'GET'
-      },()=>{
-        console.log('1111')
-          request({
-            url:'https://www.saberc8.cn/luckDraws/create',
-            method:'POST',
-            data:{
-                "title": "20碎片*5份",
-                "prize": {"num":5,"price":30},
-                "conditionType": "2",
-                "isFinish": false,
-                "openTime": new Date(moment(new Date()).add(5, 'days').format('YYYY-MM-DD')),
-                "pic": picArr[new Date().getDay()],
-                "peopleGroup": [
-                
-                ]
-              }
-          })
+    }}).then(
+      (res)=>{
+      res.map(doc=>{
+        request({
+          url:'https://www.saberc8.cn/luckDraws/finish?id='+doc._doc._id,
+          method:'GET'
+        },()=>{
+          console.log('1111')
+            request({
+              url:'https://www.saberc8.cn/luckDraws/create',
+              method:'POST',
+              data:{
+                  "title": "20碎片*5份",
+                  "prize": {"num":5,"price":30},
+                  "conditionType": "2",
+                  "isFinish": false,
+                  "openTime": new Date(moment(new Date()).add(5, 'days').format('YYYY-MM-DD')),
+                  "pic": picArr[new Date().getDay()],
+                  "peopleGroup": [
+                  
+                  ]
+                }
+            })
+        })
       })
+  
     })
   })
