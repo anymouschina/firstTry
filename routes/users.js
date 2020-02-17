@@ -46,20 +46,19 @@ async function userLogin(reply,from = 0,result = []){
   }
 }
 module.exports = [{
-  method: 'GET',
+  method: 'POST',
   path: `/${GROUP_NAME}/findUserList`,
   handler: async (request, reply) => {
-    const query = models.users.find();
     const filterKeys = ['page','limit','pagination']
     let params = {}
-    Object.keys(request.query.base).map(item=>{
-      if(filterKeys.indexOf(item)===-1)params[item] = request.query.base[item]
+    Object.keys(request.payload.base).map(item=>{
+      if(filterKeys.indexOf(item)===-1)params[item] = request.payload.base[item]
     })
-    const total = await query.countDocuments(params);
-    const data = await query.find(params)
-    .sort(listOrder)
-    .skip((request.query.page - 1) * request.query.limit).
-    limit(request.query.limit);
+    const total = await models.users.countDocuments(params);
+    const data = await models.users.find(params)
+    .sort(request.payload.listOrder||{'created':-1})
+    .skip((request.payload.page - 1) * request.payload.limit).
+    limit(request.payload.limit);
     reply({
       status:200,
       total:total,
@@ -71,9 +70,9 @@ module.exports = [{
     description: '获取用户列表',
     auth: false, // 约定此接口不参与 JWT 的用户验证，会结合下面的 hapi-auth-jwt 来使用
     validate: {
-      query: {
+      payload: {
         base:Joi.object().description('body'),
-        listOrder:Joi.array().description('排序条件').default([{'created':-1}]),
+        listOrder:Joi.array().description('排序条件'),
         ...paginationDefine,
       },
     }
