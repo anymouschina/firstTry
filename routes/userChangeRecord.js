@@ -157,7 +157,7 @@ module.exports = [
                     user.skinChipNum += request.payload.content.num
                     const userChangeRecord = await  new models.userChangeRecord({
                           type:params.type,
-                          params,
+                          content:request.payload.content,
                           open_id:params.open_id,
                       })
                       userChangeRecord.save()
