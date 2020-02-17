@@ -1,6 +1,7 @@
 
 const models = require('./models')
 const schedule = require('node-schedule');
+const request = require('request')
 const moment = require('moment');
 const picArr = ['https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3586890526,570354557&fm=26&gp=0.jpg',
 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=867186494,2167114166&fm=26&gp=0.jpg',
@@ -10,7 +11,7 @@ const picArr = ['https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=35868
 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1375989626,3172401837&fm=26&gp=0.jpg',
 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2928597390,4043951486&fm=26&gp=0.jpg'
 ]
-schedule.scheduleJob('30 7 * * *',async ()=>{
+schedule.scheduleJob('43 9 * * *',async ()=>{
     request({
       url:'https://www.saberc8.cn/users/resetRegister',
       method:'GET'
@@ -25,6 +26,7 @@ schedule.scheduleJob('30 7 * * *',async ()=>{
         url:'https://www.saberc8.cn/luckDraws/finish?id='+doc._id,
         method:'GET'
       },()=>{
+        console.log('1111')
           request({
             url:'https://www.saberc8.cn/luckDraws/create',
             method:'POST',
