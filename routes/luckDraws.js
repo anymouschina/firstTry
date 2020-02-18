@@ -30,6 +30,7 @@ module.exports = [
       arr.push(item._doc.open_id)
       return item
     })
+    await models.luckInfo.findById(id).updateOne({isFinish:true,luckers})
     console.log(arr,'111')
     const luckerResult = await models.usersJoinRecord.find({open_id:{$in:arr},luckDrawId:id}).updateMany({isFinish:true})
     console.log(arr,luckerResult,luckers,'???')
