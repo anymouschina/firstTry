@@ -114,7 +114,7 @@ module.exports = [
     const {id} = request.query;
     await models[GROUP_NAME].findById(id,async (err,doc)=>{
       const len = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
-      const userRecord = await models.usersJoinRecord.find({luckDrawId:id}).sort({created:1}).skip(0).limit(10)
+      const userRecord = await models.usersJoinRecord.find({luckDrawId:id}).sort({'created':-1}).skip(0).limit(10)
       console.log(len,userRecord)
       doc.luckDraw.userNum = len;
       doc.luckDrawPeople = userRecord;
