@@ -61,24 +61,39 @@ module.exports = [
     handler: async (request, reply) => {
     const {luckDrawId,user} = request.payload;
       const {nick_name,avatar_url,open_id} = user;
-      const joinRecord= new models.usersJoinRecord({
-        nick_name,
-        avatar_url,
-        open_id,
-        luckDrawId,
-        isFinish:false
-      })
-      
-      updateUser(models,{
-        title:'参与抽奖',
-        type:1,
-        num:1,
-        open_id:user.open_id
-      })
-      joinRecord.save(reply({
-        status:200,
-        data:joinRecord
-      }))
+      const isJoin  = await models.usersJoinRecord.find({open_id,luckDrawId})
+      if(isJoin.length===0){
+        const joinRecord= new models.usersJoinRecord({
+          nick_name,
+          avatar_url,
+          open_id,
+          luckDrawId,
+          isFinish:false
+        })
+        
+        updateUser(models,{
+          title:'参与抽奖',
+          type:1,
+          num:1,
+          open_id:user.open_id
+        })
+        joinRecord.save(reply({
+          status:200,
+          data:joinRecord
+        }))
+      }else{
+        reply({
+          status:200,
+          data:{
+            nick_name,
+            avatar_url,
+            open_id,
+            luckDrawId,
+            isFinish:false
+          }
+        })
+      }
+     
     },
     config: {
       tags: ['api', GROUP_NAME],
