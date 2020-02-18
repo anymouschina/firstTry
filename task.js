@@ -15,7 +15,7 @@ schedule.scheduleJob('30 7 * * *',async ()=>{
     request({
       url:'https://www.saberc8.cn/users/resetRegister',
       method:'GET'
-    },()=>{console.log('每天7.30点置空签到时间')})
+    },()=>{console.log('每天7.30点置空签到时间')
     let d1 = new Date(moment(new Date()).add(1, 'days').format('YYYY-MM-DD'));
     let d2 = new Date(moment(new Date()).add(2, 'days').format('YYYY-MM-DD'));
     await models.luckDraws.find({openTime:{
@@ -46,6 +46,7 @@ schedule.scheduleJob('30 7 * * *',async ()=>{
             })
         })
       })
-  
     })
+  })
+   
   })
