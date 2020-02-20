@@ -13,7 +13,7 @@ const picArr = ['https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=35868
 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2928597390,4043951486&fm=26&gp=0.jpg'
 ]
 try {
-  schedule.scheduleJob('57 13 * * *',async ()=>{
+  schedule.scheduleJob('30 7 * * *',async ()=>{
     request({
       // url:'http://localhost:3000/users/resetRegister',
       url:'https://www.saberc8.cn/users/resetRegister',

@@ -12,8 +12,8 @@ const config = {
     underscored: true,
   },
 };
-// mongoose.connect('mongodb://junmoxiao:junmoxiao@localhost/junmoxiao',{ useNewUrlParser: true,useUnifiedTopology: true });
-mongoose.connect('mongodb://localhost:27017');
+mongoose.connect('mongodb://junmoxiao:junmoxiao@localhost/junmoxiao',{ useNewUrlParser: true,useUnifiedTopology: true });
+// mongoose.connect('mongodb://localhost:27017');
 const con = mongoose.connection;
 con.on('error', console.error.bind(console, '连接数据库失败'));
 con.once('open',()=>{
