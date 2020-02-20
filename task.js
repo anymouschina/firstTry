@@ -1,6 +1,7 @@
 
 const models = require('./models')
 const schedule = require('node-schedule');
+const qs = require('qs')
 const request = require('request')
 const moment = require('moment');
 const picArr = ['https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3586890526,570354557&fm=26&gp=0.jpg',
@@ -11,28 +12,34 @@ const picArr = ['https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=35868
 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1375989626,3172401837&fm=26&gp=0.jpg',
 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2928597390,4043951486&fm=26&gp=0.jpg'
 ]
-schedule.scheduleJob('30 7 * * *',async ()=>{
+try {
+  schedule.scheduleJob('57 13 * * *',async ()=>{
     request({
+      // url:'http://localhost:3000/users/resetRegister',
       url:'https://www.saberc8.cn/users/resetRegister',
       method:'GET'
-    },()=>{console.log('每天7.30点置空签到时间')
-    let d1 = new Date(moment(new Date()).add(1, 'days').format('YYYY-MM-DD'));
-    let d2 = new Date(moment(new Date()).add(2, 'days').format('YYYY-MM-DD'));
+    },async()=>{console.log('每天7.30点置空签到时间')
+    let d1 = new Date(moment(new Date()).format('YYYY-MM-DD'));
+    let d2 = new Date(moment(new Date()).add(1, 'days').format('YYYY-MM-DD'));
     await models.luckDraws.find({openTime:{
         $gte: d1,
         $lt: d2
-    }}).then(
+    },isFinish:false}).then(
       (res)=>{
+        console.log(res,'今日的')
       res.map(doc=>{
         request({
           url:'https://www.saberc8.cn/luckDraws/finish?id='+doc._doc._id,
+          // url:'http://localhost:3000/luckDraws/finish?id='+doc._doc._id,
           method:'GET'
         },()=>{
           console.log('1111')
             request({
               url:'https://www.saberc8.cn/luckDraws/create',
+              // url:'http://localhost:3000/luckDraws/create',
               method:'POST',
-              data:{
+              headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({
                   "title": "20碎片*5份",
                   "prize": {"num":5,"price":30},
                   "conditionType": "2",
@@ -42,7 +49,9 @@ schedule.scheduleJob('30 7 * * *',async ()=>{
                   "peopleGroup": [
                   
                   ]
-                }
+                })
+            },(reply,res)=>{
+              console.log(reply,res,'创建结果')
             })
         })
       })
@@ -50,3 +59,6 @@ schedule.scheduleJob('30 7 * * *',async ()=>{
   })
    
   })
+} catch (error) {
+  console.log(error,'111')
+}

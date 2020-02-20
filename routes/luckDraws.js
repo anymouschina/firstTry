@@ -213,18 +213,23 @@ module.exports = [
             //   })
             //   })
             // }
-            const luckInfo = new models.luckInfo({
-              "luckDraw":obj,
-              "luckDrawPeople": [
-              ],
-              "luckers": [
-               
-              ],
-              "userLuckDraw": "你可以参与抽奖",
-              "_id": res._id
-            })
-            luckInfo.save()
-            reply({status:200,message:'新建成功'})
+            try {
+              const luckInfo = new models.luckInfo({
+                "luckDraw":obj,
+                "luckDrawPeople": [
+                ],
+                "luckers": [
+                 
+                ],
+                "userLuckDraw": "你可以参与抽奖",
+                "_id": res._id
+              })
+              luckInfo.save()
+              reply({status:200,message:'新建成功'})
+            } catch (error) {
+              reply(error)
+            }
+            
           }
       })
     },
