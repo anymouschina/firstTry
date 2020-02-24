@@ -2,15 +2,17 @@ const inert = require('inert');
 const vision = require('vision');
 const packageModule = require('package');
 const hapiSwagger = require('hapi-swagger');
-
+// const develop = process.env.NODE_ENV&&process.env.NODE_ENV=='development'
+const {isDevelop:develop} = require('../config');
+// console.log(develop,process.env.NODE_ENV.slice=='development','??')
 module.exports = [
   inert,
   vision,
   {
     register: hapiSwagger,
     options: {
-      'schemes': ['https'],
-      'host': 'www.saberc8.cn',
+      'schemes': develop?[]:['https'],
+      'host': develop?null:'www.saberc8.cn',
       info: {
         title: '接口文档',
         version: packageModule.version,

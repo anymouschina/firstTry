@@ -5,6 +5,8 @@ const config = {
   // port: env.PORT,
   host:'127.0.0.1',
   port:3000,
+  isDevelop:false,
+  // isDevelop:true,
   // jwtSecret:process.env.JWT_SECRET,
   jwtSecret:'junmoxiao',
   wxSecret:'ca008a164dfa01913a6ec8edbcbe2cf7',

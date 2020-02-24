@@ -28,32 +28,34 @@ try {
       (res)=>{
         console.log(res,'今日的')
       res.map(doc=>{
-        request({
-          url:'https://www.saberc8.cn/luckDraws/finish?id='+doc._doc._id,
-          // url:'http://localhost:3000/luckDraws/finish?id='+doc._doc._id,
-          method:'GET'
-        },()=>{
-          console.log('1111')
-            request({
-              url:'https://www.saberc8.cn/luckDraws/create',
-              // url:'http://localhost:3000/luckDraws/create',
-              method:'POST',
-              headers:{'Content-Type':'application/json'},
-              body:JSON.stringify({
-                  "title": "20碎片*5份",
-                  "prize": {"num":5,"price":30},
-                  "conditionType": "2",
-                  "isFinish": false,
-                  "openTime": new Date(moment(new Date()).add(5, 'days').format('YYYY-MM-DD')),
-                  "pic": picArr[new Date().getDay()],
-                  "peopleGroup": [
-                  
-                  ]
-                })
-            },(reply,res)=>{
-              console.log(reply,res,'创建结果')
-            })
-        })
+        if(doc._doc.conditionType==='2'){
+          if(doc._doc.prize.num!==1)request({
+            url:'https://www.saberc8.cn/luckDraws/finish?id='+doc._doc._id,
+            // url:'http://localhost:3000/luckDraws/finish?id='+doc._doc._id,
+            method:'GET'
+          },()=>{
+            console.log('1111')
+              request({
+                url:'https://www.saberc8.cn/luckDraws/create',
+                // url:'http://localhost:3000/luckDraws/create',
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    "title": "20碎片*5份",
+                    "prize": {"num":5,"price":30},
+                    "conditionType": "2",
+                    "isFinish": false,
+                    "openTime": new Date(moment(new Date()).add(5, 'days').format('YYYY-MM-DD')),
+                    "pic": picArr[new Date().getDay()],
+                    "peopleGroup": [
+                    
+                    ]
+                  })
+              },(reply,res)=>{
+                console.log(reply,res,'创建结果')
+              })
+          })
+        }
       })
     })
   })
