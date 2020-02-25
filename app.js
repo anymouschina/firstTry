@@ -10,7 +10,7 @@ const server = new Hapi.Server();
 // 配置服务器启动host与端口
 server.connection({
   port: 3000,
-  host: '127.0.0.1',
+  host: config.host,
   routes: {
     cors: {
         origin: ['*']

@@ -2,10 +2,42 @@ const Joi = require('joi');
 const { paginationDefine } = require('../utils/router-helper');
 const models = require('../models');
 const { env } = process;
+const {robotJson} = require('../config')
 const GROUP_NAME = 'luckDraws';
 // const request = require('request')
 // const schedule = require('node-schedule')
 module.exports = [
+  {
+    method: 'GET',
+    path: `/${GROUP_NAME}/insertRobot`,
+    handler: async (request, reply) => {
+        const {id} = request.query;
+        console.log(robotJson,'??')
+        try{
+        let list =  await models.usersJoinRecord.insertMany(robotJson.map(item=>{
+          return {
+            avatar_url:item,
+            open_id:'oGGiq5Z5wbMOPjVrtyBe3CdcHARI',
+            luckDrawId:id
+          }
+        }))
+        reply({status:200,data:list})
+      }catch(err){
+        console.log(err)
+      }
+        
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '查询内容',
+      validate: {
+        query:{
+          id:Joi.string().required().description('唯一标识'),
+        }
+      },
+    },
+  },
   {
     method: 'GET',
     path: `/${GROUP_NAME}/finish`,
@@ -110,8 +142,8 @@ module.exports = [
         const luckerRecord = await models.userChangeRecord.insertMany(arr.map(item=>{
           return {
             type:'2',
-            content:{...list._doc,num:list._doc.prize.price},
-            open_id:item
+            content:{...list._doc,num:list._doc.prize.num},
+            open_id:luckers[0].open_id
           }
         }))
         reply(luckerRecord)
@@ -126,13 +158,13 @@ module.exports = [
             avatar_url:luckers[0].avatar_url,
             open_id:luckers[0].open_id,
             luckDrawId:id,
-            title:list._doc.title
+            title:list._doc.title 
           }
         }))
         const luckerRecord = await models.userChangeRecord.insertMany(arr.map(item=>{
           return {
             type:'2',
-            content:{...list._doc,num:list._doc.prize.price},
+            content:{...list._doc,title:list._doc.title+'7日内不兑换作废，请及时联系客服',num:list._doc.prize.num},
             open_id:item
           }
         }))
