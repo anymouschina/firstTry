@@ -155,7 +155,7 @@ module.exports = [
         request.query.isRobot&&await models.usersJoinRecord.insertMany(arr.map(item=>{
           return {
             ...luckers,
-            avatar_url:luckers[0].avatar_url,
+            avatar_url:robotJson[Math.random()*robotJson.length%robotJson.length],
             open_id:luckers[0].open_id,
             luckDrawId:id,
             title:list._doc.title 
