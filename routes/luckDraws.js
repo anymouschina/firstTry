@@ -40,6 +40,78 @@ module.exports = [
   },
   {
     method: 'GET',
+    path: `/${GROUP_NAME}/finishAppoint`,
+    handler: async (request, reply) => {
+      try {
+        const {id,open_id} = request.query;
+    const list = await models[GROUP_NAME].findById(id)
+    await models[GROUP_NAME].findById(id).updateOne({isFinish:true})
+    const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
+    let num = 0;
+    if(total<list._doc.prize.num){
+      num = total
+    }else{
+      num = total - list._doc.prize.num
+    }
+    const random = Math.floor(Math.random()*num%num)
+    console.log(random,'1')
+    const luckers = await models.usersJoinRecord.find({luckDrawId:id,open_id:open_id})
+    console.log(luckers,'2')
+    let arr = []
+    luckers.map(item=>{
+      arr.push(item._doc.open_id)
+      return item
+    })
+    await models.luckInfo.findById(id).updateOne({isFinish:true,luckers})
+    console.log(arr,'111')
+    const luckerResult = await models.usersJoinRecord.find({open_id:{$in:arr},luckDrawId:id}).updateMany({isFinish:true})
+    console.log(arr,luckerResult,luckers,'???')
+    const luckerRecord = await models.userChangeRecord.insertMany(arr.map(item=>{
+      return {
+        type:'2',
+        content:{...list._doc,num:list._doc.prize.price},
+        open_id:item
+      }
+    }))
+    list._doc.conditionType==='2'&&await models.userChangeRecord.insertMany(arr.map(item=>{
+      return {
+        type:'1',
+        content:{...list._doc,num:list._doc.prize.price},
+        open_id:item
+      }
+    }))
+    // console.log(list._doc.prize.price,'数据',arr,'??')
+    // reply({arr,price:list._doc.prize.price})
+    await models.users.find({open_id:{$in:arr},from:'1'}).updateMany({$inc:{skinChipNum:list._doc.prize.price/2}},(err,res)=>{
+      if(err)throw err
+      else reply({list,res,luckerResult,luckerRecord})
+      
+    })
+      // reply({
+      //   status:200,
+      //   data:luckers,
+      //   random,
+      //   num:list._doc.prize.num
+      // })
+      } catch (e) {
+        console.log(e)
+      }
+    
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '查询内容',
+      validate: {
+        query:{
+          id:Joi.string().required().description('唯一标识'),
+          open_id:Joi.string().required().description('用户唯一标识')
+        }
+      },
+    },
+  },
+  {
+    method: 'GET',
     path: `/${GROUP_NAME}/finish`,
     handler: async (request, reply) => {
       try {
@@ -69,6 +141,13 @@ module.exports = [
     const luckerRecord = await models.userChangeRecord.insertMany(arr.map(item=>{
       return {
         type:'2',
+        content:{...list._doc,num:list._doc.prize.price},
+        open_id:item
+      }
+    }))
+    list._doc.conditionType==='2'&&await models.userChangeRecord.insertMany(arr.map(item=>{
+      return {
+        type:'1',
         content:{...list._doc,num:list._doc.prize.price},
         open_id:item
       }
