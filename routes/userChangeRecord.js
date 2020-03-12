@@ -183,6 +183,7 @@ module.exports = [
       description: '新建用户记录',
       validate: {
         payload: {
+           needDeal:Joi.boolean().description('需要人工处理'),
            type:Joi.string().required().description('变更类型，0为兑换，1为碎片，2为皮肤'),//抽奖人名字
            content: Joi.object().required().description('变更对象'),//抽奖人头像
            open_id:Joi.string().required().description('open_id'),//抽奖人Id

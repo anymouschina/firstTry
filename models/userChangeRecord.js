@@ -5,6 +5,7 @@ module.exports = (mongoose) => mongoose.model(
       type:String,//类型
       content:Object,//内容
       open_id:String,//用户标识
+      needDeal:Boolean,//是否需要人工处理
      },{timestamps: {
       createdAt: 'created',
       updatedAt: 'updated'
