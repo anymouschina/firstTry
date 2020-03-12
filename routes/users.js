@@ -11,7 +11,7 @@ function getLoginUrl(from){
   return from===3?'https://api.q.qq.com/sns/jscode2session':'https://api.weixin.qq.com/sns/jscode2session'
 }
 async function userLogin(reply,from = 0,result = []){
-  if(from == '1'){
+  if(from == '1'||from =='3'){
     const userJoin = await models.usersJoinRecord.find({open_id:result.openid,isFinish:false},'luckDrawId')
     let userJoinArr = []
     userJoin.map(item=>{
