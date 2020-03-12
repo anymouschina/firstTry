@@ -50,6 +50,7 @@ const config = {
   // host: env.HOST,
   // port: env.PORT,
   host:'127.0.0.1',
+  // host:'192.168.110.175',
   // host:'192.168.0.102',
   port:3000,
   isDevelop:false,

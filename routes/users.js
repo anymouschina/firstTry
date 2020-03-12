@@ -174,7 +174,9 @@ module.exports = [{
         grant_type: 'authorization_code',
       }
     });
+   
     const list = await models.users.find({open_id:response.data.openid,from})
+    console.log(response,'数据')
     reply({status:200,data:list[0]||'无此用户数据'});
   },
   config: {
@@ -278,7 +280,7 @@ module.exports = [{
     validate: {
       payload: {
         code: Joi.string().required().description('微信用户登录的临时code'),
-        from: Joi.number().required().description('小程序标识'),
+        from: Joi.required().description('小程序标识'),
         updateData:Joi.object().required().description('用户名称以及头像'),
         skinChipNum:Joi.number().description('皮肤碎片数目')
       },
