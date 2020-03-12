@@ -7,6 +7,9 @@ const config = [
     {
       appid:'wx536dfc5d38954079',
       secret:'ca008a164dfa01913a6ec8edbcbe2cf7'
+    },{
+      appid:'1110254021',
+      secret:'bgGjayrOJg9TW00R'
     }
     
   

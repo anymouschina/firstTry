@@ -218,7 +218,7 @@ module.exports = [{
     const { code } = req.payload;
     console.log(req.payload,appid,secret,'用户登录了')
     const response = await axios({
-      url: 'https://api.weixin.qq.com/sns/jscode2session',
+      url: from===3?'https://api.q.qq.com/sns/jscode2session':'https://api.weixin.qq.com/sns/jscode2session',
       method: 'GET',
       params: {
         appid,
