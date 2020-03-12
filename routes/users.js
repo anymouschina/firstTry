@@ -8,7 +8,7 @@ const models = require('../models')
 const decryptData = require('../utils/decrypt-data');
 const sercretObj = require('../appsercrets')
 function getLoginUrl(from){
-  return from===3?'https://api.q.qq.com/sns/jscode2session':'https://api.weixin.qq.com/sns/jscode2session'
+  return from=='3'?'https://api.q.qq.com/sns/jscode2session':'https://api.weixin.qq.com/sns/jscode2session'
 }
 async function userLogin(reply,from = 0,result = []){
   if(from == '1'||from =='3'){
