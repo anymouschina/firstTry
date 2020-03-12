@@ -10,10 +10,11 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}/findListPage`,
     handler: async (request, reply) => {
-     const {open_id,type} = request.query;
+     const {open_id,type,needDeal} = request.query;
      let params = {}
      if(open_id){params.open_id = open_id}
      if(type) params.type = type
+     if(needDeal)params.needDeal = needDeal
      const total = await models[GROUP_NAME].find(params).countDocuments();
      const list = await models[GROUP_NAME].find(params).sort({'created':-1}).skip((request.query.page - 1) * request.query.limit).limit(request.query.limit)
      const pages = total/request.query.limit
