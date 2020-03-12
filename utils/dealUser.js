@@ -7,7 +7,7 @@ async function updateUser(models,content,callback=()=>{}){
             content,
             open_id:content.open_id,
         })
-      const res =   await models.users.findOneAndUpdate({open_id:content.open_id,from:'1'},{
+      const res =   await models.users.findOneAndUpdate({open_id:content.open_id},{
              $inc:{skinChipNum:content.num}
         })
         console.log(1111)

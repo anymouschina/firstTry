@@ -263,7 +263,7 @@ module.exports = [{
       })
     }else{
       console.log('用户找到了')
-      models.users.findOneAndUpdate({open_id:openid,from},{
+      models.users.findOneAndUpdate({open_id:openid},{
         nick_name: userInfo.nickName,
         avatar_url: userInfo.pic,
         open_id: openid,
