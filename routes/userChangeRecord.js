@@ -148,7 +148,7 @@ module.exports = [
     handler: async (request, reply) => {
             const params = {...request.payload,...request.payload.content}
             updateUser(models,params,async ()=>{
-              models.users.findOne({open_id:request.payload.open_id,from:'1'},async function (err, user) {
+              models.users.findOne({open_id:request.payload.open_id},async function (err, user) {
                 if (err) reply.status(500).send({status:500,err});
                 else{
                   if(request.payload.content.title.indexOf('签到')>-1&&!user._doc.todayRegister){

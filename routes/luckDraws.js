@@ -82,7 +82,7 @@ module.exports = [
     }))
     // console.log(list._doc.prize.price,'数据',arr,'??')
     // reply({arr,price:list._doc.prize.price})
-    await models.users.find({open_id:{$in:arr},from:'1'}).updateMany({$inc:{skinChipNum:list._doc.prize.price/2}},(err,res)=>{
+    await models.users.find({open_id:{$in:arr}}).updateMany({$inc:{skinChipNum:list._doc.prize.price/2}},(err,res)=>{
       if(err)throw err
       else reply({list,res,luckerResult,luckerRecord})
       
@@ -154,7 +154,7 @@ module.exports = [
     }))
     // console.log(list._doc.prize.price,'数据',arr,'??')
     // reply({arr,price:list._doc.prize.price})
-    await models.users.find({open_id:{$in:arr},from:'1'}).updateMany({$inc:{skinChipNum:list._doc.prize.price/2}},(err,res)=>{
+    await models.users.find({open_id:{$in:arr}}).updateMany({$inc:{skinChipNum:list._doc.prize.price/2}},(err,res)=>{
       if(err)throw err
       else reply({list,res,luckerResult,luckerRecord})
       
