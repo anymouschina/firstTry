@@ -158,9 +158,7 @@ module.exports = [
                     user.todayRegister = true;
                     user.skinChipNum += request.payload.content.num
                     const userChangeRecord = await  new models.userChangeRecord({
-                          type:params.type,
-                          content:request.payload.content,
-                          open_id:params.open_id,
+                          ...params
                       })
                       userChangeRecord.save()
                   }else if(request.payload.content.num<-1){
