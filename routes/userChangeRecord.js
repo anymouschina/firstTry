@@ -31,6 +31,7 @@ module.exports = [
       description: '获取列表',
       validate: {
         query: {
+          needDeal:Joi.boolean().description('是否需要人工'),
           open_id:Joi.string().description('用户唯一标识/暂非必填'),
           type:Joi.string().description('类型'),
           ...paginationDefine,
