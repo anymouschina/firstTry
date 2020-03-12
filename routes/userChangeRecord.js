@@ -149,6 +149,13 @@ module.exports = [
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
             const params = {...request.payload,...request.payload.content}
+            if(request.payload.needDeal){
+              const userChangeRecord = await  new models.userChangeRecord({
+                ...request.payload,
+                type:'3'
+              })
+              userChangeRecord.save()
+            }
             updateUser(models,params,async ()=>{
               models.users.findOne({open_id:request.payload.open_id},async function (err, user) {
                 if (err) reply.status(500).send({status:500,err});
