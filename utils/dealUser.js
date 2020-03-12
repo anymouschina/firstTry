@@ -3,9 +3,7 @@ async function updateUser(models,content,callback=()=>{}){
     if(content.type==1&&content.title.indexOf('签到')===-1){
         console.log(1)
       const userChangeRecord = await  new models.userChangeRecord({
-            type:content.type,
-            content,
-            open_id:content.open_id,
+            ...content
         })
       const res =   await models.users.findOneAndUpdate({open_id:content.open_id},{
              $inc:{skinChipNum:content.num}
