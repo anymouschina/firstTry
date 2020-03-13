@@ -149,7 +149,7 @@ module.exports = [
     path: `/${GROUP_NAME}/finish`,
     handler: async (request, reply) => {
             const {id} = request.payload;
-           let res =  await models.users.findOneAndUpdate({_id:id},{
+           let res =  await models.users.findOneAndUpdate({id},{
                 $set:{type:'4'}
            })
            reply({
