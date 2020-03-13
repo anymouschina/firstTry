@@ -146,6 +146,30 @@ module.exports = [
   },
   {
     method: 'POST',
+    path: `/${GROUP_NAME}/finish`,
+    handler: async (request, reply) => {
+            const {id} = request.payload;
+           let res =  await models.users.findOneAndUpdate({_id:id},{
+                $inc:{type:1}
+           })
+           reply({
+             status:200,
+             data:res
+           })
+    },
+    config: {
+      tags: ['api', GROUP_NAME],
+      auth:false,
+      description: '新建用户记录',
+      validate: {
+        payload: {
+           id:Joi.string().required().description('类型为3的Id')
+        },
+      },
+    },
+  },
+  {
+    method: 'POST',
     path: `/${GROUP_NAME}/create`,
     handler: async (request, reply) => {
             const params = {...request.payload,...request.payload.content}
