@@ -150,7 +150,7 @@ module.exports = [
     handler: async (request, reply) => {
             const {id} = request.payload;
            let res =  await models.users.findOneAndUpdate({_id:id},{
-                $inc:{type:1}
+                $set:{type:'4'}
            })
            reply({
              status:200,
@@ -160,7 +160,7 @@ module.exports = [
     config: {
       tags: ['api', GROUP_NAME],
       auth:false,
-      description: '新建用户记录',
+      description: '完成待兑换的数据',
       validate: {
         payload: {
            id:Joi.string().required().description('类型为3的Id')
