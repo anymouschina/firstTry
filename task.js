@@ -42,7 +42,7 @@ try {
                 headers:{'Content-Type':'application/json'},
                 body:JSON.stringify({
                     "title": "20碎片*5份",
-                    "prize": {"num":5,"price":30},
+                    "prize": {"num":5,"price":20},
                     "conditionType": "2",
                     "isFinish": false,
                     "openTime": new Date(moment(new Date()).add(5, 'days').format('YYYY-MM-DD')),
