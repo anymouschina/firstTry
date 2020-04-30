@@ -198,6 +198,7 @@ module.exports = [
             open_id:item.open_id
           }
         }))
+        await models.luckInfo.findById(id).updateOne({isFinish:true,luckers:robot})
         await models.users.find({open_id:{$in:arr}}).updateMany({$inc:{skinChipNum:list._doc.prize.price/2}},(err,res)=>{
           if(err)throw err
           else reply({list,res,luckerResult,luckerRecord})
