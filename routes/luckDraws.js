@@ -189,84 +189,20 @@ module.exports = [
         const {id} = request.query;
         const list = await models[GROUP_NAME].findById(id)
         await models[GROUP_NAME].findById(id).updateOne({isFinish:true})
-        // const total = await models.usersJoinRecord.find({luckDrawId:id}).countDocuments()
-        // let num = 0;
-        // if(total<list._doc.prize.num){
-        //   num = total
-        // }else{
-        //   num = total - list._doc.prize.num
-        // }
-        // const random = Math.floor(Math.random()*num%num)
-        // console.log(random,'1')
-   
-        let imgArr = ['https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2916501249,3129074706&fm=26&gp=0.jpg',
-          'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=932884437,1547107105&fm=11&gp=0.jpg',
-          'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2237031016,2981674358&fm=26&gp=0.jpg',
-          'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=727099385,429145982&fm=11&gp=0.jpg',
-          'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3959491927,3358453985&fm=26&gp=0.jpg',
-          'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2348482782,2317180742&fm=26&gp=0.jpg',
-          'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2659284124,1130540525&fm=11&gp=0.jpg'
-        ]
-        let luckers = [
-          {
-            avatar_url: imgArr[new Date().getDay()],
-            open_id: "oGGiq5Z5wbMOPjVrtyBe3CdcHARI"
-          }
-        ]
-        let arr = ['oGGiq5Z5wbMOPjVrtyBe3CdcHARI']
-        if(!request.query.isRobot){
-          await  models.usersJoinRecord.random(async function(err,list){
-            luckers = [list]
-            await models.luckInfo.findById(id).updateOne({isFinish:true,luckers})
-        const luckerRecord = await models.userChangeRecord.insertMany(arr.map(item=>{
+        let robotId = 'oGGiq5Z5wbMOPjVrtyBe3CdcHARI'
+        const robot = await models.usersJoinRecord.find({luckDrawId:id,open_id:robotId}).sort({created:-1}).skip(random).limit(1)
+        const luckerRecord = await models.userChangeRecord.insertMany(robot.map(item=>{
           return {
             type:'2',
-            content:{...list._doc,num:list._doc.prize.num},
-            open_id:luckers[0].open_id
+            content:{...list._doc,num:list._doc.prize.price},
+            open_id:item.open_id
           }
         }))
-        reply(luckerRecord)
-          },{luckDrawId:id})
-        }else{
-
-          await models.luckInfo.findById(id).updateOne({isFinish:true,luckers})
-        console.log(arr,'111')
-        request.query.isRobot&&await models.usersJoinRecord.insertMany(arr.map(item=>{
-          return {
-            ...luckers,
-            avatar_url:robotJson[Math.random()*robotJson.length%robotJson.length],
-            open_id:luckers[0].open_id,
-            luckDrawId:id,
-            title:list._doc.title 
-          }
-        }))
-        const luckerRecord = await models.userChangeRecord.insertMany(arr.map(item=>{
-          return {
-            type:'2',
-            content:{...list._doc,title:list._doc.title+'7日内不兑换作废，请及时联系客服',num:list._doc.prize.num},
-            open_id:item
-          }
-        }))
-        reply(luckerRecord)
-        }
-        // luckers.map(item=>{
-        //   arr.push(item._doc.open_id)
-        //   return item
-        // })
-        
-        // console.log(list._doc.prize.price,'数据',arr,'??')
-        // reply({arr,price:list._doc.prize.price})
-        // await models.users.find({open_id:{$in:arr},from:'1'}).updateMany({$inc:{skinChipNum:list._doc.prize.price/2}},(err,res)=>{
-        //   if(err)throw err
-        //   else reply({list,res,luckerResult,luckerRecord})
+        await models.users.find({open_id:{$in:arr}}).updateMany({$inc:{skinChipNum:list._doc.prize.price/2}},(err,res)=>{
+          if(err)throw err
+          else reply({list,res,luckerResult,luckerRecord})
           
-        // })
-      // reply({
-      //   status:200,
-      //   data:luckers,
-      //   random,
-      //   num:list._doc.prize.num
-      // })
+        })
       } catch (e) {
         console.log(e)
       }
@@ -278,8 +214,7 @@ module.exports = [
       description: '查询内容',
       validate: {
         query:{
-          id:Joi.string().required().description('唯一标识'),
-          isRobot:Joi.boolean().description('是否机器人').default(true)
+          id:Joi.string().required().description('唯一标识')
         }
       },
     },
