@@ -30,7 +30,7 @@
     "mysql2": "^1.6.1",
     "package": "^1.0.1",
     "request": "^2.88.0",
-    "sequelize": "^4.44.3",
+    "sequelize": "^5.15.1",
     "superagent": "^5.1.0",
     "vision": "^4.1.1"
   },
